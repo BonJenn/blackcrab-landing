@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -6,6 +6,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <Preview />
+      <FeatureHighlights />
       <Features />
       <Shortcuts />
       <CTA />
@@ -23,6 +24,7 @@ function Nav() {
           <span className="font-semibold tracking-tight">blackcrab</span>
         </a>
         <nav className="hidden sm:flex items-center gap-7 text-sm text-muted">
+          <a href="#highlights" className="hover:text-foreground transition-colors">Highlights</a>
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
           <a href="#shortcuts" className="hover:text-foreground transition-colors">Shortcuts</a>
           <a href="https://github.com" className="hover:text-foreground transition-colors">GitHub</a>
@@ -87,130 +89,251 @@ function Preview() {
             ~/code/acme · blackcrab
           </span>
         </div>
-        <div className="grid grid-cols-12 min-h-[440px]">
-          <aside className="col-span-3 border-r border-border p-3 space-y-1 text-sm">
-            <div className="text-[11px] uppercase tracking-wider text-muted px-2 py-1">
-              Sessions
-            </div>
-            <SidebarItem active>refactor auth middleware</SidebarItem>
-            <SidebarItem>write migration for users</SidebarItem>
-            <SidebarItem>fix flaky e2e test</SidebarItem>
-            <SidebarItem>docs: grid shortcuts</SidebarItem>
-            <SidebarItem muted>explore vercel queues</SidebarItem>
-          </aside>
-          <div className="col-span-9 grid grid-cols-2 grid-rows-2 gap-px bg-border">
-            <GridTile title="auth middleware" status="streaming">
-              <CodeLine>- token.validate(req.session)</CodeLine>
-              <CodeLine dim>+ await sessions.verify(token)</CodeLine>
-              <CodeLine dim>+ if (!verified) throw Unauthorized()</CodeLine>
-            </GridTile>
-            <GridTile title="users migration" status="idle">
-              <CodeLine>ALTER TABLE users</CodeLine>
-              <CodeLine>  ADD COLUMN email_verified_at</CodeLine>
-              <CodeLine dim>  TIMESTAMP NULL;</CodeLine>
-            </GridTile>
-            <GridTile title="flaky e2e" status="waiting">
-              <CodeLine dim>&gt; running test:e2e</CodeLine>
-              <CodeLine>✓ login.spec.ts (4.2s)</CodeLine>
-              <CodeLine dim>… checkout.spec.ts</CodeLine>
-            </GridTile>
-            <GridTile title="grid shortcuts docs" status="idle">
-              <CodeLine># Keyboard</CodeLine>
-              <CodeLine dim>⌘1–⌘6   focus panel</CodeLine>
-              <CodeLine dim>⌘W      close panel</CodeLine>
-            </GridTile>
-          </div>
-        </div>
+        <Image
+          src="/hero.png"
+          alt="Blackcrab running four Claude Code sessions in a 2×2 grid"
+          width={3838}
+          height={2160}
+          priority
+          sizes="(min-width: 1024px) 1024px, 100vw"
+          className="w-full h-auto block"
+        />
       </div>
     </section>
   );
 }
 
-function SidebarItem({
-  children,
-  active,
-  muted,
-}: {
-  children: ReactNode;
-  active?: boolean;
-  muted?: boolean;
-}) {
+function FeatureHighlights() {
   return (
-    <div
-      className={`truncate rounded px-2 py-1.5 ${
-        active
-          ? "bg-accent/10 text-foreground border border-accent/30"
-          : muted
-            ? "text-muted/60"
-            : "text-muted hover:bg-white/[0.03]"
-      }`}
+    <section
+      id="highlights"
+      className="mx-auto max-w-6xl px-6 py-20 border-t border-border space-y-20 sm:space-y-28"
     >
-      {children}
-    </div>
+      <Highlight
+        eyebrow="Usage"
+        title="See token usage at a glance."
+        body="Every turn shows context used, output tokens, and cost in dollars. The sidebar rolls those up per session, so you always know what a run spent before you kick off another."
+        visual={<UsageCard />}
+      />
+      <Highlight
+        eyebrow="Git"
+        title="Switch branches and worktrees without leaving the window."
+        body="Spin up a worktree from any repo and scope a session to it — your main checkout stays clean while the agent works in isolation. Switch branches mid-session from a picker; Blackcrab tracks the remote and keeps everything straight."
+        visual={<BranchCard />}
+        flip
+      />
+      <Highlight
+        eyebrow="Terminal"
+        title="A real terminal, right where you need it."
+        body="A PTY-backed xterm.js drawer lives at the bottom of the app. Hit ⌘J to pop it open, run the thing you want to verify, and close it without losing state. Multiple tabs, resizable, same keybindings as your shell."
+        visual={<TerminalCard />}
+      />
+      <Highlight
+        eyebrow="Preview"
+        title="Browse local servers and the web, in-app."
+        body="A native preview pane renders your dev server and any URL you point it at. Watch the page re-render as the agent edits the code. No Alt-Tab, no losing your place."
+        visual={<PreviewCard />}
+        flip
+      />
+    </section>
   );
 }
 
-function GridTile({
+function Highlight({
+  eyebrow,
   title,
-  status,
-  children,
+  body,
+  visual,
+  flip,
 }: {
+  eyebrow: string;
   title: string;
-  status: "streaming" | "idle" | "waiting";
-  children: ReactNode;
+  body: string;
+  visual: React.ReactNode;
+  flip?: boolean;
 }) {
-  const dot =
-    status === "streaming"
-      ? "bg-accent animate-pulse"
-      : status === "waiting"
-        ? "bg-yellow-400/80"
-        : "bg-muted/50";
   return (
-    <div className="bg-background p-3 flex flex-col gap-2">
-      <div className="flex items-center gap-2 text-xs font-mono text-muted">
-        <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />
-        <span className="truncate">{title}</span>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className={flip ? "lg:order-2" : undefined}>
+        <span className="text-xs font-mono uppercase tracking-wider text-accent">
+          {eyebrow}
+        </span>
+        <h3 className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight">
+          {title}
+        </h3>
+        <p className="mt-4 text-muted text-lg leading-relaxed">{body}</p>
       </div>
-      <div className="font-mono text-[12px] leading-relaxed space-y-0.5">
-        {children}
+      <div className={flip ? "lg:order-1" : undefined}>{visual}</div>
+    </div>
+  );
+}
+
+function HighlightFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="rounded-xl border border-border bg-[#0c0c0c] overflow-hidden shadow-[0_10px_40px_-20px_rgba(255,90,61,0.3)]">
+      {children}
+    </div>
+  );
+}
+
+function UsageCard() {
+  return (
+    <HighlightFrame>
+      <div className="p-5 space-y-4 font-mono text-[12px]">
+        <div className="flex items-center justify-between text-muted">
+          <span>refactor auth middleware</span>
+          <span className="text-accent">streaming</span>
+        </div>
+        <div className="space-y-2">
+          <div className="flex justify-between text-muted">
+            <span>context</span>
+            <span className="text-foreground">128,412 / 200,000</span>
+          </div>
+          <div className="h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+            <div className="h-full w-[64%] bg-accent" />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3 pt-2 border-t border-border">
+          <Stat label="in" value="126.2k" />
+          <Stat label="out" value="2,184" />
+          <Stat label="cost" value="$0.47" accent />
+        </div>
+      </div>
+    </HighlightFrame>
+  );
+}
+
+function Stat({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
+  return (
+    <div>
+      <div className="text-[10px] uppercase tracking-wider text-muted/70">
+        {label}
+      </div>
+      <div className={`mt-1 ${accent ? "text-accent" : "text-foreground"}`}>
+        {value}
       </div>
     </div>
   );
 }
 
-function CodeLine({ children, dim }: { children: ReactNode; dim?: boolean }) {
+function BranchCard() {
+  const branches: Array<[string, string, boolean?]> = [
+    ["main", "origin/main", false],
+    ["auth-middleware", "worktree · wt-auth", true],
+    ["users-migration", "worktree · wt-mig", false],
+    ["flaky-e2e-fix", "local only", false],
+  ];
   return (
-    <div className={dim ? "text-muted/70" : "text-foreground/90"}>
-      {children}
-    </div>
+    <HighlightFrame>
+      <div className="px-4 py-3 border-b border-border flex items-center gap-2 font-mono text-xs text-muted">
+        <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+        <span>acme · switch branch</span>
+      </div>
+      <div className="p-2 font-mono text-[12px]">
+        {branches.map(([name, sub, active]) => (
+          <div
+            key={name}
+            className={`flex items-center justify-between rounded px-3 py-2 ${
+              active ? "bg-accent/10 border border-accent/30" : ""
+            }`}
+          >
+            <span className={active ? "text-foreground" : "text-muted"}>
+              {name}
+            </span>
+            <span className="text-muted/70 text-[11px]">{sub}</span>
+          </div>
+        ))}
+      </div>
+    </HighlightFrame>
+  );
+}
+
+function TerminalCard() {
+  return (
+    <HighlightFrame>
+      <div className="px-4 py-2 border-b border-border flex items-center gap-2 text-xs font-mono text-muted">
+        <span>zsh</span>
+        <span className="opacity-50">·</span>
+        <span>pnpm</span>
+        <span className="opacity-50">·</span>
+        <span className="text-accent">bun run dev</span>
+        <span className="ml-auto text-[11px]">⌘J</span>
+      </div>
+      <div className="p-4 font-mono text-[12px] leading-relaxed space-y-1">
+        <div className="text-muted">
+          <span className="text-accent">~/code/acme</span> $ bun run dev
+        </div>
+        <div className="text-muted/80">$ next dev --turbopack</div>
+        <div className="text-foreground/90">▲ Next.js 16.2.4 (Turbopack)</div>
+        <div className="text-muted">- Local: http://localhost:3000</div>
+        <div className="text-accent">✓ Ready in 186ms</div>
+        <div className="text-foreground/90">
+          <span className="text-accent">▍</span>
+        </div>
+      </div>
+    </HighlightFrame>
+  );
+}
+
+function PreviewCard() {
+  return (
+    <HighlightFrame>
+      <div className="px-4 py-2 border-b border-border flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+        <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
+        <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+        <div className="ml-2 flex-1 rounded bg-white/[0.04] border border-border/80 px-3 py-1 text-[11px] font-mono text-muted truncate">
+          http://localhost:3000
+        </div>
+        <span className="text-[11px] font-mono text-muted">↻</span>
+      </div>
+      <div className="p-5 space-y-3">
+        <div className="h-2 w-24 rounded bg-white/[0.08]" />
+        <div className="h-6 w-3/4 rounded bg-white/[0.06]" />
+        <div className="h-3 w-2/3 rounded bg-white/[0.04]" />
+        <div className="grid grid-cols-3 gap-2 pt-3">
+          <div className="h-14 rounded bg-accent/15 border border-accent/30" />
+          <div className="h-14 rounded bg-white/[0.04]" />
+          <div className="h-14 rounded bg-white/[0.04]" />
+        </div>
+      </div>
+    </HighlightFrame>
   );
 }
 
 function Features() {
   const items = [
     {
+      title: "Command palette",
+      body: "⌘K opens fuzzy search across sessions and every turn in your transcript history. Trigger any action — toggle grid, open terminal, cycle theme — without leaving the keyboard.",
+    },
+    {
       title: "Tileable grid",
-      body: "Pin up to six sessions in one window. Each tile holds its own session, its own scroll, its own composer.",
+      body: "Pin up to six sessions in one window. Each tile has its own session, scroll, and composer. ⌘1–⌘6 focuses; ⌘⇧D duplicates; drag to reorder.",
     },
     {
-      title: "Local-first sessions",
-      body: "Transcripts are plain JSONL on disk. No server, no sync layer. You own the history and the backups.",
+      title: "Local-first transcripts",
+      body: "Every session is plain JSONL on disk. Searchable, exportable to markdown, backup-friendly. No server, no sync layer, no lock-in.",
     },
     {
-      title: "Markdown + syntax highlight",
-      body: "Fenced code blocks render with highlight.js. GFM tables, task lists, and inline code all work.",
+      title: "Drag-and-drop attachments",
+      body: "Drop files, images, or screenshots straight onto the composer. Multi-attachment support with an inline list you can edit before sending.",
     },
     {
-      title: "Built-in terminal",
-      body: "An xterm.js pane lives alongside the transcript so you can verify the agent's suggestions without leaving the app.",
-    },
-    {
-      title: "Keyboard-first",
-      body: "⌘K opens the session palette. ⌘J jumps between panels. ⌘1–⌘6 focus grid tiles. Mouse optional.",
+      title: "Per-session model and permissions",
+      body: "Switch Claude models or flip permission mode on a single tile without disturbing the others. One window, many setups.",
     },
     {
       title: "Native, not a webview wrapper",
-      body: "Built on Tauri — small binary, OS menus, notifications, and file dialogs that behave like every other desktop app.",
+      body: "Built on Tauri — small binary, OS menus, real file dialogs, and desktop notifications when a long-running turn finishes.",
     },
   ];
   return (
