@@ -5,7 +5,7 @@
   --foreground: #ededed;
   --muted: #8a8a8a;
   --border: #1f1f1f;
-  --accent: #ff5a3d;
+  --accent: #e94545;
 }
 
 @theme inline {
@@ -23,6 +23,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 90, 61, 0.12), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(255, 90, 61, 0.06), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(233, 69, 69, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(233, 69, 69, 0.06), transparent);
 }

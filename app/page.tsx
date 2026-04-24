@@ -80,7 +80,7 @@ function Hero() {
 function Preview() {
   return (
     <section className="mx-auto max-w-6xl px-6 pb-24">
-      <div className="rounded-xl border border-border bg-[#0c0c0c] overflow-hidden shadow-[0_20px_80px_-20px_rgba(255,90,61,0.25)]">
+      <div className="rounded-xl border border-border bg-[#0c0c0c] overflow-hidden shadow-[0_20px_80px_-20px_rgba(233,69,69,0.25)]">
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
@@ -170,7 +170,7 @@ function Highlight({
 
 function HighlightFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-border bg-[#0c0c0c] overflow-hidden shadow-[0_10px_40px_-20px_rgba(255,90,61,0.3)]">
+    <div className="rounded-xl border border-border bg-[#0c0c0c] overflow-hidden shadow-[0_10px_40px_-20px_rgba(233,69,69,0.3)]">
       {children}
     </div>
   );
