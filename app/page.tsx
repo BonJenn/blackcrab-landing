@@ -92,7 +92,7 @@ function Preview() {
         <Image
           src="/hero.png"
           alt="Blackcrab running four Claude Code sessions in a 2×2 grid"
-          width={3838}
+          width={3834}
           height={2160}
           priority
           sizes="(min-width: 1024px) 1024px, 100vw"
