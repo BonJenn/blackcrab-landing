@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blackcrab Landing
 
-## Getting Started
+Next.js landing site for Blackcrab.
 
-First, run the development server:
+## Development
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Downloads
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The primary macOS download button points to:
 
-## Learn More
+```text
+/download/macos
+```
 
-To learn more about Next.js, take a look at the following resources:
+That route queries the latest GitHub Release for `BonJenn/blackcrab`, finds the
+first `.dmg` asset, and redirects the user to the asset's GitHub download URL.
+If no `.dmg` is available, it redirects to the latest release page.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This keeps the landing page URL stable across app versions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Analytics
 
-## Deploy on Vercel
+The site uses Vercel Analytics.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Download buttons call:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```ts
+track("download_clicked", {
+  platform: "macos",
+  source: "landing",
+});
+```
+
+Use Vercel Analytics to count landing-page download clicks. Use GitHub Releases
+asset `download_count` to count actual installer downloads:
+
+```sh
+gh api repos/BonJenn/blackcrab/releases \
+  --jq '.[] | {tag: .tag_name, assets: [.assets[] | {name, downloads: .download_count}]}'
+```
+
+Those numbers will not always match. A click can fail, bots may download
+assets, and users may download directly from GitHub without visiting the site.
+
+## Deployment
+
+Deploy this project on Vercel. The download route uses the public GitHub API and
+does not require a token.

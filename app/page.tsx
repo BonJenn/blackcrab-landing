@@ -1,4 +1,9 @@
 import Image from "next/image";
+import { DownloadLink } from "./DownloadLink";
+
+const APP_REPO_URL = "https://github.com/BonJenn/blackcrab";
+const RELEASES_URL = "https://github.com/BonJenn/blackcrab/releases/latest";
+const MAC_DOWNLOAD_URL = "/download/macos";
 
 export default function Home() {
   return (
@@ -27,7 +32,7 @@ function Nav() {
           <a href="#highlights" className="hover:text-foreground transition-colors">Highlights</a>
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
           <a href="#shortcuts" className="hover:text-foreground transition-colors">Shortcuts</a>
-          <a href="https://github.com" className="hover:text-foreground transition-colors">GitHub</a>
+          <a href={APP_REPO_URL} className="hover:text-foreground transition-colors">GitHub</a>
         </nav>
         <a
           href="#download"
@@ -59,14 +64,15 @@ function Hero() {
           Local-first. Keyboard-driven. Zero glue code between you and the agent.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-2">
-          <a
-            href="#download"
+          <DownloadLink
+            href={MAC_DOWNLOAD_URL}
+            platform="macos"
             className="rounded-md bg-accent text-white px-5 py-2.5 text-sm font-medium hover:bg-accent/90 transition"
           >
             Download for macOS
-          </a>
+          </DownloadLink>
           <a
-            href="https://github.com/BonJenn/blackcrab"
+            href={APP_REPO_URL}
             className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
           >
             View source
@@ -417,18 +423,19 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            A universal macOS build is ~8 MB. Windows and Linux builds are on
-            the releases page.
+            Download the latest macOS build. Windows and Linux builds are
+            published on the releases page when available.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#"
+            <DownloadLink
+              href={MAC_DOWNLOAD_URL}
+              platform="macos"
               className="rounded-md bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:opacity-90 transition"
             >
               Download .dmg
-            </a>
+            </DownloadLink>
             <a
-              href="https://github.com"
+              href={RELEASES_URL}
               className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
             >
               All releases
@@ -450,10 +457,10 @@ function Footer() {
         </div>
         <div className="flex items-center gap-6">
           <span className="font-mono text-xs">v0.1 · macOS, Windows, Linux</span>
-          <a href="https://github.com" className="hover:text-foreground transition">
+          <a href={APP_REPO_URL} className="hover:text-foreground transition">
             GitHub
           </a>
-          <a href="#" className="hover:text-foreground transition">
+          <a href={RELEASES_URL} className="hover:text-foreground transition">
             Changelog
           </a>
           <span>© {new Date().getFullYear()}</span>
