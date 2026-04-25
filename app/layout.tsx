@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blackcrab — A native desktop GUI for Claude Code",
+  title: "Blackcrab - A Claude Code GUI",
   description:
     "Run multiple Claude Code sessions side-by-side in a native desktop grid. Local-first, fast, keyboard-driven.",
 };
