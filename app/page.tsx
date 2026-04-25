@@ -66,7 +66,7 @@ function Hero() {
             Download for macOS
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/BonJenn/blackcrab"
             className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
           >
             View source
