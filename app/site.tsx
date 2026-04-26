@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export const APP_REPO_URL = "https://github.com/BonJenn/blackcrab";
@@ -71,9 +72,15 @@ function CrabMark() {
   return (
     <span
       aria-hidden
-      className="inline-flex h-5 w-5 items-center justify-center rounded-[5px] bg-accent/15 border border-accent/30 text-accent text-[11px] font-bold"
+      className="inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-[5px] border border-accent/30 bg-accent/15"
     >
-      B
+      <Image
+        src="/blackcrab_logo.png"
+        alt=""
+        width={20}
+        height={20}
+        className="h-full w-full object-cover"
+      />
     </span>
   );
 }
