@@ -16,17 +16,24 @@ export function Nav() {
           <CrabMark />
           <span className="font-semibold tracking-tight">blackcrab</span>
         </Link>
-        <nav className="hidden sm:flex items-center gap-7 text-sm text-white">
+        <nav className="hidden md:flex items-center gap-7 text-sm text-white">
           <Link href="/#highlights" className="hover:text-white/75 transition-colors">Highlights</Link>
           <Link href="/#features" className="hover:text-white/75 transition-colors">Features</Link>
           <Link href="/#shortcuts" className="hover:text-white/75 transition-colors">Shortcuts</Link>
+          <Link href="/blog" className="hover:text-white/75 transition-colors">Blog</Link>
           <Link href="/docs" className="hover:text-white/75 transition-colors">Docs</Link>
           <a href={APP_REPO_URL} className="hover:text-white/75 transition-colors">GitHub</a>
         </nav>
         <div className="flex items-center gap-2">
           <Link
+            href="/blog"
+            className="md:hidden text-sm font-medium text-white hover:text-white/75 transition-colors"
+          >
+            Blog
+          </Link>
+          <Link
             href="/docs"
-            className="sm:hidden text-sm font-medium text-white hover:text-white/75 transition-colors"
+            className="md:hidden text-sm font-medium text-white hover:text-white/75 transition-colors"
           >
             Docs
           </Link>
@@ -55,12 +62,15 @@ export function Footer() {
           <Link href="/docs" className="hover:text-foreground transition">
             Docs
           </Link>
+          <Link href="/blog" className="hover:text-foreground transition">
+            Blog
+          </Link>
           <a href={APP_REPO_URL} className="hover:text-foreground transition">
             GitHub
           </a>
-          <a href={RELEASES_URL} className="hover:text-foreground transition">
+          <Link href="/changelog" className="hover:text-foreground transition">
             Changelog
-          </a>
+          </Link>
           <span>© {new Date().getFullYear()}</span>
         </div>
       </div>
