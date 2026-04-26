@@ -72,7 +72,7 @@ function CrabMark() {
   return (
     <span
       aria-hidden
-      className="inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-[5px] border border-accent/30 bg-accent/15"
+      className="inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-[5px]"
     >
       <Image
         src="/blackcrab_logo.png"
