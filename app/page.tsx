@@ -401,8 +401,8 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download the latest macOS build. Windows and Linux builds are
-            published on the releases page when available.
+            Download the latest macOS build. Windows and Linux are not supported
+            desktop targets yet.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink

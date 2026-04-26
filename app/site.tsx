@@ -51,7 +51,7 @@ export function Footer() {
           <span>blackcrab</span>
         </div>
         <div className="flex flex-wrap items-center gap-6">
-          <span className="font-mono text-xs">v0.1 · macOS, Windows, Linux</span>
+          <span className="font-mono text-xs">v0.1 · macOS-first</span>
           <Link href="/docs" className="hover:text-foreground transition">
             Docs
           </Link>

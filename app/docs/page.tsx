@@ -194,8 +194,7 @@ claude auth login --claudeai`}</code>
                 </li>
                 <li>
                   macOS is the currently tested desktop experience. Windows and
-                  Linux release artifacts may exist, but they are not the primary
-                  target yet.
+                  Linux are not supported desktop targets yet.
                 </li>
                 <li>
                   The app depends on a working local Claude Code installation and
