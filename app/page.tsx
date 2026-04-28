@@ -1,11 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { DownloadLink } from "./DownloadLink";
 import {
   APP_REPO_URL,
   Footer,
   MAC_DOWNLOAD_URL,
   Nav,
-  RELEASES_URL,
 } from "./site";
 
 export default function Home() {
@@ -412,12 +412,12 @@ function CTA() {
             >
               Download .dmg
             </DownloadLink>
-            <a
-              href={RELEASES_URL}
+            <Link
+              href="/releases"
               className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
             >
               All releases
-            </a>
+            </Link>
           </div>
         </div>
       </div>

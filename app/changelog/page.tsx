@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer, Nav, RELEASES_URL } from "../site";
+import { Footer, Nav } from "../site";
 import { changelogEntries, type ChangelogEntry } from "../blog/posts";
 
 export const metadata: Metadata = {
@@ -27,12 +27,12 @@ export default function ChangelogPage() {
               currently being tightened up.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 lg:grid">
-              <a
-                href={RELEASES_URL}
+              <Link
+                href="/releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
               >
-                GitHub releases
-              </a>
+                Release downloads
+              </Link>
               <Link
                 href="/blog"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
