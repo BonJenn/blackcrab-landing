@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
-import { Footer, GITHUB_RELEASES_URL, MAC_DOWNLOAD_URL, Nav } from "../site";
+import {
+  Footer,
+  GITHUB_RELEASES_URL,
+  LINUX_DOWNLOAD_URL,
+  MAC_DOWNLOAD_URL,
+  Nav,
+  WINDOWS_DOWNLOAD_URL,
+} from "../site";
 import { DownloadLink } from "../DownloadLink";
 
 const RELEASES_API =
   "https://api.github.com/repos/BonJenn/blackcrab/releases?per_page=20";
+const LATEST_RELEASE_API =
+  "https://api.github.com/repos/BonJenn/blackcrab/releases/latest";
 
 type GitHubReleaseAsset = {
   id?: number;
@@ -29,8 +38,12 @@ type ReleaseAsset = {
   name: string;
   url: string;
   sizeLabel: string | null;
-  isDmg: boolean;
+  platform: DownloadPlatform | "other";
+  downloadLabel: string;
+  sortPriority: number;
 };
+
+type DownloadPlatform = "macos" | "windows" | "linux";
 
 type Release = {
   id: string;
@@ -75,7 +88,21 @@ export default async function ReleasesPage() {
                 platform="macos"
                 className="rounded-md bg-accent text-white px-4 py-2 text-sm font-medium hover:bg-accent/90 transition text-center"
               >
-                Download latest
+                macOS .dmg
+              </DownloadLink>
+              <DownloadLink
+                href={WINDOWS_DOWNLOAD_URL}
+                platform="windows"
+                className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
+              >
+                Windows .exe
+              </DownloadLink>
+              <DownloadLink
+                href={LINUX_DOWNLOAD_URL}
+                platform="linux"
+                className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
+              >
+                Linux AppImage
               </DownloadLink>
               <a
                 href={GITHUB_RELEASES_URL}
@@ -113,29 +140,88 @@ export default async function ReleasesPage() {
 
 async function getReleases(): Promise<Release[]> {
   try {
-    const headers: Record<string, string> = {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "blackcrab_landing",
-    };
+    const [latestRelease, releases] = await Promise.all([
+      fetchLatestRelease(),
+      fetchReleases(),
+    ]);
+    const mergedReleases = new Map<string, GitHubRelease>();
 
-    if (process.env.GITHUB_TOKEN) {
-      headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    if (latestRelease) {
+      mergedReleases.set(releaseKey(latestRelease), latestRelease);
     }
 
-    const response = await fetch(RELEASES_API, {
-      headers,
-      next: { revalidate: 300 },
-    });
+    for (const release of releases) {
+      const key = releaseKey(release);
 
-    if (!response.ok) {
-      return [];
+      if (!mergedReleases.has(key)) {
+        mergedReleases.set(key, release);
+      }
     }
 
-    const releases = (await response.json()) as GitHubRelease[];
-    return releases.map(normalizeRelease);
+    return Array.from(mergedReleases.values())
+      .sort(sortGitHubReleases)
+      .map(normalizeRelease);
   } catch {
     return [];
   }
+}
+
+async function fetchLatestRelease() {
+  const response = await fetch(LATEST_RELEASE_API, {
+    headers: getGitHubHeaders(),
+    next: { revalidate: 300 },
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  return (await response.json()) as GitHubRelease;
+}
+
+async function fetchReleases() {
+  const response = await fetch(RELEASES_API, {
+    headers: getGitHubHeaders(),
+    next: { revalidate: 300 },
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  return (await response.json()) as GitHubRelease[];
+}
+
+function getGitHubHeaders() {
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "blackcrab_landing",
+  };
+
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  return headers;
+}
+
+function releaseKey(release: GitHubRelease) {
+  return String(release.id ?? release.tag_name ?? release.html_url);
+}
+
+function sortGitHubReleases(a: GitHubRelease, b: GitHubRelease) {
+  return releaseTime(b) - releaseTime(a);
+}
+
+function releaseTime(release: GitHubRelease) {
+  const value = release.published_at ?? release.created_at;
+
+  if (!value) {
+    return 0;
+  }
+
+  const time = new Date(value).getTime();
+  return Number.isNaN(time) ? 0 : time;
 }
 
 function normalizeRelease(release: GitHubRelease): Release {
@@ -164,21 +250,85 @@ function normalizeAsset(asset: GitHubReleaseAsset): ReleaseAsset | null {
     return null;
   }
 
+  const downloadMeta = getDownloadMeta(asset.name);
+
   return {
     id: String(asset.id ?? asset.browser_download_url),
     name: asset.name,
     url: asset.browser_download_url,
     sizeLabel: formatBytes(asset.size),
-    isDmg: asset.name.toLowerCase().endsWith(".dmg"),
+    platform: downloadMeta.platform,
+    downloadLabel: downloadMeta.label,
+    sortPriority: downloadMeta.priority,
   };
 }
 
 function sortAssets(a: ReleaseAsset, b: ReleaseAsset) {
-  if (a.isDmg !== b.isDmg) {
-    return a.isDmg ? -1 : 1;
+  const platformDiff = platformOrder(a.platform) - platformOrder(b.platform);
+
+  if (platformDiff !== 0) {
+    return platformDiff;
+  }
+
+  if (a.sortPriority !== b.sortPriority) {
+    return b.sortPriority - a.sortPriority;
   }
 
   return a.name.localeCompare(b.name);
+}
+
+function getDownloadMeta(assetName: string): {
+  platform: ReleaseAsset["platform"];
+  label: string;
+  priority: number;
+} {
+  const name = assetName.toLowerCase();
+
+  if (name.endsWith(".dmg")) {
+    return { platform: "macos", label: "Download macOS .dmg", priority: 30 };
+  }
+
+  if (name.endsWith(".app.tar.gz")) {
+    return { platform: "macos", label: "Download macOS app archive", priority: 10 };
+  }
+
+  if (name.endsWith("-setup.exe") || name.endsWith(".exe")) {
+    return { platform: "windows", label: "Download Windows .exe", priority: 30 };
+  }
+
+  if (name.endsWith(".msi")) {
+    return { platform: "windows", label: "Download Windows .msi", priority: 20 };
+  }
+
+  if (name.endsWith(".appimage")) {
+    return { platform: "linux", label: "Download Linux AppImage", priority: 30 };
+  }
+
+  if (name.endsWith(".deb")) {
+    return { platform: "linux", label: "Download Linux .deb", priority: 20 };
+  }
+
+  if (name.endsWith(".rpm")) {
+    return { platform: "linux", label: "Download Linux .rpm", priority: 10 };
+  }
+
+  return { platform: "other", label: assetName, priority: 0 };
+}
+
+function platformOrder(platform: ReleaseAsset["platform"]) {
+  if (platform === "macos") {
+    return 0;
+  }
+
+  if (platform === "windows") {
+    return 1;
+  }
+
+  if (platform === "linux") {
+    return 2;
+  }
+
+  return 3;
 }
 
 function extractNotes(body: string | null | undefined) {
@@ -262,10 +412,10 @@ function ReleaseCard({
   latest?: boolean;
 }) {
   const visibleAssets = release.assets.filter(isVisibleDownloadAsset);
-  const primaryAsset =
-    visibleAssets.find((asset) => asset.isDmg) ?? visibleAssets[0];
+  const primaryAssets = getPrimaryDownloadAssets(visibleAssets);
+  const primaryAssetIds = new Set(primaryAssets.map((asset) => asset.id));
   const secondaryAssets = visibleAssets.filter(
-    (asset) => asset.id !== primaryAsset?.id,
+    (asset) => !primaryAssetIds.has(asset.id),
   );
 
   return (
@@ -287,10 +437,15 @@ function ReleaseCard({
         ))}
       </ul>
 
-      <div className="mt-6 flex flex-wrap gap-3">
-        {primaryAsset ? (
-          <DownloadAssetLink asset={primaryAsset} primary />
-        ) : null}
+      {primaryAssets.length > 0 ? (
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {primaryAssets.map((asset) => (
+            <DownloadAssetLink key={asset.id} asset={asset} primary />
+          ))}
+        </div>
+      ) : null}
+
+      <div className="mt-4 flex flex-wrap gap-3">
         <a
           href={release.url}
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
@@ -322,6 +477,16 @@ function isVisibleDownloadAsset(asset: ReleaseAsset) {
   return !name.endsWith(".sig") && name !== "latest.json";
 }
 
+function getPrimaryDownloadAssets(assets: ReleaseAsset[]) {
+  return (["macos", "windows", "linux"] as DownloadPlatform[])
+    .map((platform) =>
+      assets
+        .filter((asset) => asset.platform === platform)
+        .sort((a, b) => b.sortPriority - a.sortPriority)[0],
+    )
+    .filter((asset): asset is ReleaseAsset => Boolean(asset));
+}
+
 function DownloadAssetLink({
   asset,
   primary = false,
@@ -334,12 +499,12 @@ function DownloadAssetLink({
       href={asset.url}
       className={
         primary
-          ? "rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90 transition"
+          ? "rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90 transition text-center"
           : "rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition min-w-0"
       }
     >
-      <span className="break-all">
-        {asset.isDmg ? "Download macOS .dmg" : asset.name}
+      <span className={primary ? "break-words" : "break-all"}>
+        {primary ? asset.downloadLabel : asset.name}
       </span>
       {asset.sizeLabel ? (
         <span className={primary ? "ml-2 opacity-70" : "ml-2 text-muted"}>
@@ -366,7 +531,21 @@ function EmptyReleases() {
           platform="macos"
           className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90 transition"
         >
-          Download latest
+          macOS .dmg
+        </DownloadLink>
+        <DownloadLink
+          href={WINDOWS_DOWNLOAD_URL}
+          platform="windows"
+          className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
+        >
+          Windows .exe
+        </DownloadLink>
+        <DownloadLink
+          href={LINUX_DOWNLOAD_URL}
+          platform="linux"
+          className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
+        >
+          Linux AppImage
         </DownloadLink>
         <a
           href={GITHUB_RELEASES_URL}

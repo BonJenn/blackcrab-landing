@@ -4,6 +4,8 @@ import Link from "next/link";
 export const APP_REPO_URL = "https://github.com/BonJenn/blackcrab";
 export const GITHUB_RELEASES_URL = "https://github.com/BonJenn/blackcrab/releases";
 export const MAC_DOWNLOAD_URL = "/download/macos";
+export const WINDOWS_DOWNLOAD_URL = "/download/windows";
+export const LINUX_DOWNLOAD_URL = "/download/linux";
 export const PRIVACY_URL = "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
 export const SECURITY_URL = "https://github.com/BonJenn/blackcrab/blob/main/SECURITY.md";
 export const ISSUES_URL = "https://github.com/BonJenn/blackcrab/issues";
@@ -61,7 +63,7 @@ export function Footer() {
           <span>blackcrab</span>
         </div>
         <div className="flex flex-wrap items-center gap-6">
-          <span className="font-mono text-xs">v0.1 · macOS-first</span>
+          <span className="font-mono text-xs">v0.1 · desktop builds</span>
           <Link href="/docs" className="hover:text-foreground transition">
             Docs
           </Link>
