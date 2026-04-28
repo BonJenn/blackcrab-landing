@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const APP_REPO_URL = "https://github.com/BonJenn/blackcrab";
-export const RELEASES_URL = "https://github.com/BonJenn/blackcrab/releases/latest";
+export const GITHUB_RELEASES_URL = "https://github.com/BonJenn/blackcrab/releases";
 export const MAC_DOWNLOAD_URL = "/download/macos";
 export const PRIVACY_URL = "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
 export const SECURITY_URL = "https://github.com/BonJenn/blackcrab/blob/main/SECURITY.md";
@@ -23,6 +23,7 @@ export function Nav() {
           <Link href="/#shortcuts" className="hover:text-white/75 transition-colors">Shortcuts</Link>
           <Link href="/blog" className="hover:text-white/75 transition-colors">Blog</Link>
           <Link href="/docs" className="hover:text-white/75 transition-colors">Docs</Link>
+          <Link href="/releases" className="hover:text-white/75 transition-colors">Releases</Link>
           <a href={DISCUSSIONS_URL} className="hover:text-white/75 transition-colors">Community</a>
           <a href={APP_REPO_URL} className="hover:text-white/75 transition-colors">GitHub</a>
         </nav>
@@ -66,6 +67,9 @@ export function Footer() {
           </Link>
           <Link href="/blog" className="hover:text-foreground transition">
             Blog
+          </Link>
+          <Link href="/releases" className="hover:text-foreground transition">
+            Releases
           </Link>
           <a href={DISCUSSIONS_URL} className="hover:text-foreground transition">
             Discussions
