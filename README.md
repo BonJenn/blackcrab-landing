@@ -13,15 +13,18 @@ Open `http://localhost:3000`.
 
 ## Downloads
 
-The primary macOS download button points to:
+The platform download buttons point to stable redirect routes:
 
 ```text
 /download/macos
+/download/windows
+/download/linux
 ```
 
-That route queries the latest GitHub Release for `BonJenn/blackcrab`, finds the
-first `.dmg` asset, and redirects the user to the asset's GitHub download URL.
-If no `.dmg` is available, it redirects to the latest release page.
+Each route queries the latest GitHub Release for `BonJenn/blackcrab`, finds the
+best installer for that platform, and redirects the user to the asset's GitHub
+download URL. If no matching asset is available, it redirects to the latest
+release page.
 
 This keeps the landing page URL stable across app versions.
 
@@ -33,7 +36,7 @@ Download buttons call:
 
 ```ts
 track("download_clicked", {
-  platform: "macos",
+  platform: "macos" | "windows" | "linux",
   source: "landing",
 });
 ```

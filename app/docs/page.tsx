@@ -79,7 +79,7 @@ claude auth login --claudeai`}</code>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
                 <RequirementCard
                   title="Released app"
-                  body="Blackcrab is currently macOS-first and expects the Claude Code CLI to be installed and signed in on the same machine."
+                  body="Blackcrab publishes desktop installers for macOS, Windows, and Linux. It expects the Claude Code CLI to be installed and signed in on the same machine."
                 />
                 <RequirementCard
                   title="Local development"
@@ -206,8 +206,9 @@ claude auth login --claudeai`}</code>
                   details to change.
                 </li>
                 <li>
-                  macOS is the currently tested desktop experience. Windows and
-                  Linux are not supported desktop targets yet.
+                  macOS, Windows, and Linux installers are published from the
+                  release workflow. Windows and Linux builds are newer and may
+                  need extra validation across distributions and machine setups.
                 </li>
                 <li>
                   The app depends on a working local Claude Code installation and

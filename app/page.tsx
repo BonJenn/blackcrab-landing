@@ -4,8 +4,10 @@ import { DownloadLink } from "./DownloadLink";
 import {
   APP_REPO_URL,
   Footer,
+  LINUX_DOWNLOAD_URL,
   MAC_DOWNLOAD_URL,
   Nav,
+  WINDOWS_DOWNLOAD_URL,
 } from "./site";
 
 export default function Home() {
@@ -48,6 +50,20 @@ function Hero() {
             className="rounded-md bg-accent text-white px-5 py-2.5 text-sm font-medium hover:bg-accent/90 transition"
           >
             Download for macOS
+          </DownloadLink>
+          <DownloadLink
+            href={WINDOWS_DOWNLOAD_URL}
+            platform="windows"
+            className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
+          >
+            Windows
+          </DownloadLink>
+          <DownloadLink
+            href={LINUX_DOWNLOAD_URL}
+            platform="linux"
+            className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
+          >
+            Linux
           </DownloadLink>
           <a
             href={APP_REPO_URL}
@@ -401,8 +417,7 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download the latest macOS build. Windows and Linux are not supported
-            desktop targets yet.
+            Download the latest desktop build for macOS, Windows, or Linux.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink
@@ -410,7 +425,21 @@ function CTA() {
               platform="macos"
               className="rounded-md bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:opacity-90 transition"
             >
-              Download .dmg
+              macOS .dmg
+            </DownloadLink>
+            <DownloadLink
+              href={WINDOWS_DOWNLOAD_URL}
+              platform="windows"
+              className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
+            >
+              Windows .exe
+            </DownloadLink>
+            <DownloadLink
+              href={LINUX_DOWNLOAD_URL}
+              platform="linux"
+              className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
+            >
+              Linux AppImage
             </DownloadLink>
             <Link
               href="/releases"

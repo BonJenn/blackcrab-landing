@@ -1,5 +1,5 @@
 import { redirectToLatestDownload } from "../latest";
 
 export async function GET() {
-  return redirectToLatestDownload("macos");
+  return redirectToLatestDownload("linux");
 }
