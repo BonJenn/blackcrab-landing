@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import {
+  DISCUSSIONS_URL,
   Footer,
   ISSUES_URL,
   Nav,
@@ -178,12 +179,24 @@ claude auth login --claudeai`}</code>
                   body="Installers and updater artifacts are published through GitHub Releases. If the in-app update fails, download the latest release manually."
                 />
               </div>
-              <a
-                href={ISSUES_URL}
-                className="mt-5 inline-flex rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
-              >
-                Open a GitHub issue
-              </a>
+              <p className="mt-5 text-sm text-muted leading-relaxed">
+                Use Discussions for setup questions, ideas, and general help.
+                Use Issues for reproducible bugs.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href={DISCUSSIONS_URL}
+                  className="rounded-md bg-accent text-white px-4 py-2 text-sm font-medium hover:bg-accent/90 transition"
+                >
+                  Ask in Discussions
+                </a>
+                <a
+                  href={ISSUES_URL}
+                  className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
+                >
+                  Open a GitHub issue
+                </a>
+              </div>
             </DocSection>
 
             <DocSection id="known-limitations" number="05" title="Known limitations">

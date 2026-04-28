@@ -7,6 +7,7 @@ export const MAC_DOWNLOAD_URL = "/download/macos";
 export const PRIVACY_URL = "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
 export const SECURITY_URL = "https://github.com/BonJenn/blackcrab/blob/main/SECURITY.md";
 export const ISSUES_URL = "https://github.com/BonJenn/blackcrab/issues";
+export const DISCUSSIONS_URL = "https://github.com/BonJenn/blackcrab/discussions";
 
 export function Nav() {
   return (
@@ -22,6 +23,7 @@ export function Nav() {
           <Link href="/#shortcuts" className="hover:text-white/75 transition-colors">Shortcuts</Link>
           <Link href="/blog" className="hover:text-white/75 transition-colors">Blog</Link>
           <Link href="/docs" className="hover:text-white/75 transition-colors">Docs</Link>
+          <a href={DISCUSSIONS_URL} className="hover:text-white/75 transition-colors">Community</a>
           <a href={APP_REPO_URL} className="hover:text-white/75 transition-colors">GitHub</a>
         </nav>
         <div className="flex items-center gap-2">
@@ -65,6 +67,9 @@ export function Footer() {
           <Link href="/blog" className="hover:text-foreground transition">
             Blog
           </Link>
+          <a href={DISCUSSIONS_URL} className="hover:text-foreground transition">
+            Discussions
+          </a>
           <a href={APP_REPO_URL} className="hover:text-foreground transition">
             GitHub
           </a>
