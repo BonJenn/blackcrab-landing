@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { trackDownload } from "../lib/tracking";
 
 const LATEST_RELEASE_API =
   "https://api.github.com/repos/BonJenn/blackcrab/releases/latest";
@@ -13,6 +14,7 @@ type ReleaseAsset = {
 };
 
 type GitHubRelease = {
+  tag_name?: string;
   assets?: ReleaseAsset[];
 };
 
@@ -32,6 +34,9 @@ export async function redirectToLatestDownload(platform: DownloadPlatform) {
 
     const release = (await res.json()) as GitHubRelease;
     const preferred = selectPlatformAsset(release.assets ?? [], platform);
+    const version = release.tag_name ?? "unknown";
+
+    await trackDownload(platform, version);
 
     return NextResponse.redirect(
       preferred?.browser_download_url ?? RELEASES_FALLBACK,
