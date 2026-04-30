@@ -2,15 +2,18 @@
 
 import type { ReactNode } from "react";
 import { track } from "@vercel/analytics";
+import { trackGoogleEvent } from "./lib/googleAnalytics";
 
 export function DownloadLink({
   href,
   platform,
+  source = "landing",
   children,
   className,
 }: {
   href: string;
   platform: string;
+  source?: string;
   children: ReactNode;
   className?: string;
 }) {
@@ -19,10 +22,15 @@ export function DownloadLink({
       href={href}
       className={className}
       onClick={() => {
-        track("download_clicked", {
+        const eventParams = {
           platform,
-          source: "landing",
+          source,
+        };
+
+        track("download_clicked", {
+          ...eventParams,
         });
+        trackGoogleEvent("download_clicked", eventParams);
       }}
     >
       {children}

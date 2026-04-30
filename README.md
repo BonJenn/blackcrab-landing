@@ -30,19 +30,25 @@ This keeps the landing page URL stable across app versions.
 
 ## Analytics
 
-The site uses Vercel Analytics.
+The site uses Vercel Analytics and Google Analytics 4. Production defaults to
+the Blackcrab GA4 stream, and this environment variable can override it:
+
+```text
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
 
 Download buttons call:
 
 ```ts
-track("download_clicked", {
+download_clicked({
   platform: "macos" | "windows" | "linux",
-  source: "landing",
+  source: "landing" | "releases",
 });
 ```
 
-Use Vercel Analytics to count landing-page download clicks. Use GitHub Releases
-asset `download_count` to count actual installer downloads:
+Use Vercel Analytics, Google Analytics, or the Neon admin page to count website
+download clicks. Use GitHub Releases asset `download_count` to count actual
+installer downloads:
 
 ```sh
 gh api repos/BonJenn/blackcrab/releases \
