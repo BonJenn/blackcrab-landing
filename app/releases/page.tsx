@@ -86,6 +86,7 @@ export default async function ReleasesPage() {
               <DownloadLink
                 href={MAC_DOWNLOAD_URL}
                 platform="macos"
+                source="releases"
                 className="rounded-md bg-accent text-white px-4 py-2 text-sm font-medium hover:bg-accent/90 transition text-center"
               >
                 macOS .dmg
@@ -93,6 +94,7 @@ export default async function ReleasesPage() {
               <DownloadLink
                 href={WINDOWS_DOWNLOAD_URL}
                 platform="windows"
+                source="releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
               >
                 Windows .exe
@@ -100,6 +102,7 @@ export default async function ReleasesPage() {
               <DownloadLink
                 href={LINUX_DOWNLOAD_URL}
                 platform="linux"
+                source="releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
               >
                 Linux AppImage
@@ -529,6 +532,7 @@ function EmptyReleases() {
         <DownloadLink
           href={MAC_DOWNLOAD_URL}
           platform="macos"
+          source="releases"
           className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90 transition"
         >
           macOS .dmg
@@ -536,6 +540,7 @@ function EmptyReleases() {
         <DownloadLink
           href={WINDOWS_DOWNLOAD_URL}
           platform="windows"
+          source="releases"
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
         >
           Windows .exe
@@ -543,6 +548,7 @@ function EmptyReleases() {
         <DownloadLink
           href={LINUX_DOWNLOAD_URL}
           platform="linux"
+          source="releases"
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
         >
           Linux AppImage
