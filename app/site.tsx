@@ -20,9 +20,6 @@ export function Nav() {
           <span className="font-semibold tracking-tight">blackcrab</span>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-white">
-          <Link href="/#highlights" className="hover:text-white/75 transition-colors">Highlights</Link>
-          <Link href="/#features" className="hover:text-white/75 transition-colors">Features</Link>
-          <Link href="/#shortcuts" className="hover:text-white/75 transition-colors">Shortcuts</Link>
           <Link href="/blog" className="hover:text-white/75 transition-colors">Blog</Link>
           <Link href="/docs" className="hover:text-white/75 transition-colors">Docs</Link>
           <Link href="/releases" className="hover:text-white/75 transition-colors">Releases</Link>
@@ -63,7 +60,7 @@ export function Footer() {
           <span>blackcrab</span>
         </div>
         <div className="flex flex-wrap items-center gap-6">
-          <span className="font-mono text-xs">v0.1 · desktop builds</span>
+          <span className="font-mono text-xs">v0.1.2 · desktop builds</span>
           <Link href="/docs" className="hover:text-foreground transition">
             Docs
           </Link>

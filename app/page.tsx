@@ -40,8 +40,9 @@ function Hero() {
           <span className="text-accent">Claude Code</span>
         </h1>
         <p className="text-lg sm:text-xl text-muted leading-relaxed max-w-2xl">
-          Run multiple Claude Code sessions side-by-side in a tileable grid.
-          Local-first. Keyboard-driven. Zero glue code between you and the agent.
+          Run, resume, search, and verify Claude Code sessions from one native
+          workspace with a grid, terminal, preview pane, usage dashboards, and
+          local transcript history.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <DownloadLink
@@ -110,30 +111,36 @@ function FeatureHighlights() {
       className="mx-auto max-w-6xl px-6 py-20 border-t border-border space-y-20 sm:space-y-28"
     >
       <Highlight
+        eyebrow="Sessions"
+        title="Your Claude Code history becomes a workspace."
+        body="Blackcrab indexes saved Claude Code JSONL files, groups sessions by project, and lets you resume, rename, archive, delete, search, and export conversations without digging through ~/.claude/projects."
+        visual={<SessionCard />}
+      />
+      <Highlight
         eyebrow="Usage"
-        title="See token usage at a glance."
-        body="Every turn shows context used, output tokens, and cost in dollars. The sidebar rolls those up per session, so you always know what a run spent before you kick off another."
+        title="See usage before it surprises you."
+        body="Every session tracks context, output tokens, and estimated cost. The usage dashboard rolls that up by day, month, project, model, and session, with CSV/JSON export and optional monthly budgets."
         visual={<UsageCard />}
+        flip
       />
       <Highlight
         eyebrow="Git"
-        title="Switch branches and worktrees without leaving the window."
-        body="Spin up a worktree from any repo and scope a session to it — your main checkout stays clean while the agent works in isolation. Switch branches mid-session from a picker; Blackcrab tracks the remote and keeps everything straight."
+        title="Keep parallel agent work out of each other's way."
+        body="Pin up to six live sessions, start new panels from the same repo, and let Blackcrab create git worktrees when a panel needs its own checkout. A branch picker keeps the current repo state visible in the header."
         visual={<BranchCard />}
-        flip
       />
       <Highlight
-        eyebrow="Terminal"
-        title="A real terminal, right where you need it."
-        body="A PTY-backed xterm.js drawer lives at the bottom of the app. Hit ⌘J to pop it open, run the thing you want to verify, and close it without losing state. Multiple tabs, resizable, same keybindings as your shell."
+        eyebrow="Verification"
+        title="Terminal and preview stay attached to the task."
+        body="A PTY-backed terminal drawer, native side preview, local URL detection, and transcript link routing keep verification in the same window. Run the server, watch the page, and jump back to the agent without losing context."
         visual={<TerminalCard />}
+        flip
       />
       <Highlight
-        eyebrow="Preview"
-        title="Browse local servers and the web, in-app."
-        body="A native preview pane renders your dev server and any URL you point it at. Watch the page re-render as the agent edits the code. No Alt-Tab, no losing your place."
-        visual={<PreviewCard />}
-        flip
+        eyebrow="Computer use"
+        title="Hand off GUI tasks when text is not enough."
+        body="Open an interactive Claude Code computer-use session, send a prepared handoff from the composer, and keep the sidecar terminal visible with /mcp controls when a task needs browser or desktop interaction."
+        visual={<ComputerUseCard />}
       />
     </section>
   );
@@ -173,6 +180,44 @@ function HighlightFrame({ children }: { children: React.ReactNode }) {
     <div className="rounded-xl border border-border bg-[#0c0c0c] overflow-hidden shadow-[0_10px_40px_-20px_rgba(233,69,69,0.3)]">
       {children}
     </div>
+  );
+}
+
+function SessionCard() {
+  const sessions: Array<[string, string, string, boolean?]> = [
+    ["release updater", "blackcrab", "needs attention", true],
+    ["usage dashboard", "blackcrab", "streaming", false],
+    ["landing blog", "blackcrab_landing", "ready", false],
+    ["windows installer", "blackcrab", "archived", false],
+  ];
+  return (
+    <HighlightFrame>
+      <div className="px-4 py-3 border-b border-border flex items-center justify-between font-mono text-xs text-muted">
+        <span>sessions</span>
+        <span className="text-accent">⌘K search</span>
+      </div>
+      <div className="p-2 font-mono text-[12px]">
+        {sessions.map(([title, project, state, active]) => (
+          <div
+            key={title}
+            className={`rounded px-3 py-2.5 ${
+              active ? "bg-accent/10 border border-accent/30" : ""
+            }`}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <span className={active ? "text-foreground" : "text-muted"}>
+                {title}
+              </span>
+              <span className="text-muted/70 text-[11px]">{state}</span>
+            </div>
+            <div className="mt-1 flex items-center justify-between text-[11px] text-muted/60">
+              <span>{project}</span>
+              <span>ctx 64k · out 1.9k</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </HighlightFrame>
   );
 }
 
@@ -279,30 +324,39 @@ function TerminalCard() {
           <span className="text-accent">▍</span>
         </div>
       </div>
+      <div className="border-t border-border px-4 py-2 text-[11px] font-mono text-muted flex items-center gap-2">
+        <span className="text-accent">preview</span>
+        <span className="truncate">http://localhost:3000</span>
+        <span className="ml-auto">auto-open</span>
+      </div>
     </HighlightFrame>
   );
 }
 
-function PreviewCard() {
+function ComputerUseCard() {
   return (
     <HighlightFrame>
-      <div className="px-4 py-2 border-b border-border flex items-center gap-2">
-        <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-        <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-        <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-        <div className="ml-2 flex-1 rounded bg-white/[0.04] border border-border/80 px-3 py-1 text-[11px] font-mono text-muted truncate">
-          http://localhost:3000
-        </div>
-        <span className="text-[11px] font-mono text-muted">↻</span>
+      <div className="px-4 py-3 border-b border-border flex items-center justify-between font-mono text-xs text-muted">
+        <span>computer-use</span>
+        <span className="text-accent">GUI</span>
       </div>
-      <div className="p-5 space-y-3">
-        <div className="h-2 w-24 rounded bg-white/[0.08]" />
-        <div className="h-6 w-3/4 rounded bg-white/[0.06]" />
-        <div className="h-3 w-2/3 rounded bg-white/[0.04]" />
-        <div className="grid grid-cols-3 gap-2 pt-3">
-          <div className="h-14 rounded bg-accent/15 border border-accent/30" />
-          <div className="h-14 rounded bg-white/[0.04]" />
-          <div className="h-14 rounded bg-white/[0.04]" />
+      <div className="p-4 font-mono text-[12px] leading-relaxed space-y-2">
+        <div className="rounded border border-accent/30 bg-accent/10 px-3 py-2 text-foreground">
+          Hand off current task to computer use
+        </div>
+        <div className="text-muted">
+          &gt; open /mcp and enable built-in computer-use
+        </div>
+        <div className="text-muted">
+          &gt; type prepared handoff into the interactive session
+        </div>
+        <div className="flex gap-2 pt-1">
+          <span className="rounded border border-border px-2 py-1 text-muted">
+            open /mcp
+          </span>
+          <span className="rounded border border-border px-2 py-1 text-accent">
+            type handoff
+          </span>
         </div>
       </div>
     </HighlightFrame>
@@ -312,28 +366,76 @@ function PreviewCard() {
 function Features() {
   const items = [
     {
-      title: "Command palette",
-      body: "⌘K opens fuzzy search across sessions and every turn in your transcript history. Trigger any action — toggle grid, open terminal, cycle theme — without leaving the keyboard.",
+      title: "Global command palette",
+      body: "⌘K searches sessions, transcript text, and commands. Open settings, enter grid mode, check updates, jump to attention sessions, or launch dashboards from one picker.",
     },
     {
-      title: "Tileable grid",
-      body: "Pin up to six sessions in one window. Each tile has its own session, scroll, and composer. ⌘1–⌘6 focuses; ⌘⇧D duplicates; drag to reorder.",
+      title: "Tileable session grid",
+      body: "Pin up to six live Claude Code panels. Each tile has its own subprocess, transcript, composer, model, permission state, scroll position, and focus shortcut.",
     },
     {
-      title: "Local-first transcripts",
-      body: "Every session is plain JSONL on disk. Searchable, exportable to markdown, backup-friendly. No server, no sync layer, no lock-in.",
+      title: "Session library",
+      body: "Resume saved Claude Code sessions by title, project, model, date, or transcript hit. Rename, archive, delete, and export conversations as Markdown.",
     },
     {
-      title: "Drag-and-drop attachments",
-      body: "Drop files, images, or screenshots straight onto the composer. Multi-attachment support with an inline list you can edit before sending.",
+      title: "Project dashboard",
+      body: "Scan projects by active sessions, attention count, tokens, estimated cost, and recent activity, then open a session or start a new one from the project view.",
     },
     {
-      title: "Per-session model and permissions",
-      body: "Switch Claude models or flip permission mode on a single tile without disturbing the others. One window, many setups.",
+      title: "Local analytics",
+      body: "Track tokens and estimated spend over 7, 30, 90 days, or all time. Break usage down by project, model, month, and recent sessions, then export CSV or JSON.",
     },
     {
-      title: "Native, not a webview wrapper",
-      body: "Built on Tauri — small binary, OS menus, real file dialogs, and desktop notifications when a long-running turn finishes.",
+      title: "Usage budgets",
+      body: "Set monthly dollar or token budgets and get local warnings when current-month usage crosses the threshold.",
+    },
+    {
+      title: "Structured transcripts",
+      body: "Tool calls, diffs, command output, thinking blocks, permission prompts, stderr, diagnostics, and streaming text render as inspectable transcript blocks.",
+    },
+    {
+      title: "Git-aware panels",
+      body: "See the active branch, switch branches from the header, detect dirty worktrees, and isolate new grid panels with Claude Code's worktree mode.",
+    },
+    {
+      title: "Terminal drawer",
+      body: "Open a PTY-backed terminal with ⌘J, keep multiple tabs alive, resize the drawer, rename tabs, and verify work without leaving the app.",
+    },
+    {
+      title: "Native preview",
+      body: "Open local servers and external URLs in a side preview. Blackcrab can auto-detect localhost links from output and route transcript links into the preview.",
+    },
+    {
+      title: "Computer-use handoff",
+      body: "Launch an interactive Claude Code computer-use session or hand off the current composer task through the GUI action with /mcp helpers.",
+    },
+    {
+      title: "Composer attachments",
+      body: "Drop files, images, or screenshots onto the composer, manage multiple attachments inline, and type @ for file-path autocomplete.",
+    },
+    {
+      title: "Claude setup flow",
+      body: "Run setup checks, open the token setup path, store a Claude Code OAuth token in macOS Keychain, and avoid stale API-key conflicts in spawned sessions.",
+    },
+    {
+      title: "Models and permissions",
+      body: "Set defaults for new sessions, override model or permission mode per active session, and approve, deny, or retry permission prompts in context.",
+    },
+    {
+      title: "Attention management",
+      body: "Filter the sidebar to sessions that need attention, jump to the next one, and use notifications when a long turn finishes.",
+    },
+    {
+      title: "Desktop updates",
+      body: "The Tauri updater checks GitHub release artifacts, can install available updates, and reports anonymous updater health when analytics are enabled.",
+    },
+    {
+      title: "Local-first privacy",
+      body: "Core workflow data stays on disk with Claude Code. Optional app and updater analytics never include prompts, transcripts, paths, files, or tokens.",
+    },
+    {
+      title: "Custom workspace settings",
+      body: "Choose startup project, sidebar grouping, theme, auto-open preview, update checks, notifications, analytics sharing, and grid worktree behavior.",
     },
   ];
   return (
@@ -343,17 +445,17 @@ function Features() {
     >
       <div className="max-w-2xl mb-14">
         <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-          Built for the way you actually use Claude Code.
+          The full Blackcrab surface.
         </h2>
         <p className="mt-4 text-muted text-lg">
-          One tab per task gets old fast. Blackcrab is the tool you reach for
-          when you&apos;re running three agents in parallel and still want to stay
-          in flow.
+          The app is a local control surface for Claude Code: session history,
+          live panels, verification tools, git context, usage reporting, and the
+          setup details that make a desktop agent workflow reliable.
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
         {items.map((f) => (
-          <div key={f.title} className="bg-background p-6 min-h-[160px]">
+          <div key={f.title} className="bg-background p-6 min-h-[178px]">
             <h3 className="font-medium mb-2">{f.title}</h3>
             <p className="text-sm text-muted leading-relaxed">{f.body}</p>
           </div>
@@ -366,10 +468,14 @@ function Features() {
 function Shortcuts() {
   const rows: Array<[string, string]> = [
     ["⌘K", "Open session palette / search transcripts"],
-    ["⌘J", "Cycle focus between panels"],
+    ["⌘,", "Open settings"],
+    ["⌘J", "Toggle integrated terminal"],
     ["⌘1 – ⌘6", "Focus grid tile N"],
-    ["⌘W", "Close focused panel"],
+    ["⌘⇧W", "Close focused grid panel"],
     ["⌘⇧D", "Duplicate panel (same session, new tile)"],
+    ["⌘⇧A", "Show attention sessions only"],
+    ["⌘⇧N", "Open next attention session"],
+    ["⌘⇧I", "Open diagnostics"],
     ["⌘F", "Find in transcript"],
     ["⌘↵", "Send message"],
   ];
@@ -381,11 +487,11 @@ function Shortcuts() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         <div>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-            Keyboard vocabulary.
+            Keyboard-first when the mouse would slow you down.
           </h2>
           <p className="mt-4 text-muted text-lg">
-            If you live in a terminal, you&apos;ll feel at home. Every core
-            action has a binding, and the palette covers the rest.
+            The app keeps common actions close to the home row, and the command
+            palette covers the rest.
           </p>
         </div>
         <div className="rounded-xl border border-border divide-y divide-border">
@@ -417,7 +523,7 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download the latest desktop build for macOS, Windows, or Linux.
+            Download the latest v0.1.2 desktop build for macOS, Windows, or Linux.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink
