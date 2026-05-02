@@ -47,8 +47,17 @@ download_clicked({
 ```
 
 Use Vercel Analytics, Google Analytics, or the Neon admin page to count website
-download clicks. Use GitHub Releases asset `download_count` to count actual
-installer downloads:
+download clicks. The download redirect routes also write `download_redirect`
+events to Neon when `DATABASE_URL` is configured.
+
+Apply the SQL migrations in `supabase/migrations` to the Neon database. The
+admin dashboard is available at:
+
+```text
+/admin?key=ADMIN_SECRET
+```
+
+Use GitHub Releases asset `download_count` to count actual installer downloads:
 
 ```sh
 gh api repos/BonJenn/blackcrab/releases \
@@ -58,7 +67,55 @@ gh api repos/BonJenn/blackcrab/releases \
 Those numbers will not always match. A click can fail, bots may download
 assets, and users may download directly from GitHub without visiting the site.
 
+### App and updater events
+
+The desktop app can report anonymous product events to:
+
+```text
+POST /api/events
+```
+
+Accepted event types:
+
+```text
+app_launch
+update_check
+update_started
+update_completed
+update_failed
+```
+
+Recommended payloads:
+
+```json
+{
+  "event_type": "app_launch",
+  "platform": "macos",
+  "current_version": "v0.1.0",
+  "anonymous_install_id": "locally-generated-uuid"
+}
+```
+
+```json
+{
+  "event_type": "update_completed",
+  "platform": "macos",
+  "from_version": "v0.1.0",
+  "to_version": "v0.1.1",
+  "anonymous_install_id": "locally-generated-uuid"
+}
+```
+
+`anonymous_install_id` is hashed before storage. The endpoint does not store IP
+addresses. If `EVENT_INGEST_SECRET` is set, clients must send it as either a
+Bearer token or `X-Blackcrab-Events-Key` header.
+
+The Neon admin page reports download redirects, update funnel counts, completed
+updates by target version and version path, and active installs by version from
+the latest `app_launch` event per anonymous install in the last 30 days.
+
 ## Deployment
 
 Deploy this project on Vercel. The download route uses the public GitHub API and
-does not require a token.
+does not require a token. Set `DATABASE_URL`, `ADMIN_SECRET`, and optionally
+`INSTALL_ID_SALT` and `EVENT_INGEST_SECRET` for Neon-backed analytics.
