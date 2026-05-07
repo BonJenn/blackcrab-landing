@@ -25,6 +25,60 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "blackcrab-0-1-3-steadier-sessions-cleaner-transcripts",
+    title: "Blackcrab 0.1.3: steadier sessions and cleaner transcripts",
+    dek: "A focused quality release for the workflows people touch every day: switching between conversations, reading long transcripts, and keeping local Claude Code sessions connected reliably.",
+    category: "Release notes",
+    displayDate: "May 2026",
+    readTime: "4 min read",
+    tags: ["Release", "Sessions", "Transcripts"],
+    sections: [
+      {
+        heading: "A focused quality release",
+        paragraphs: [
+          "Blackcrab 0.1.3 is not a broad feature drop. It is the kind of update that makes the existing app feel calmer under real use.",
+          "The release tightens conversation switching, makes transcripts easier to scan, cleans up Claude session startup, and adds anonymous update health events so future releases can be measured more clearly.",
+        ],
+      },
+      {
+        heading: "Conversations keep their place",
+        paragraphs: [
+          "The biggest fix is conversation continuity across mode switches. When you move from grid mode into a single conversation, then back to the grid, the app now keeps better track of which backend panel owns each conversation and which transcript should receive new events.",
+          "That matters most when a response is still running. Earlier builds could leave the grid showing an older snapshot, or cause the next single-mode open to hit a warning that the session was already being used somewhere else. Blackcrab now tracks panel ownership and transcript state more deliberately so active sessions can continue without fighting over the same saved conversation file.",
+        ],
+      },
+      {
+        heading: "Transcripts are easier to scan",
+        paragraphs: [
+          "Long Claude Code sessions can get noisy fast. Tool calls, command output, thinking blocks, file reads, patches, and permission flow all compete with the actual conversation.",
+          "In 0.1.3, transcript blocks use more compact drawers. Tool output folds by default when it is not an error, while failures stay visible. Summaries show useful context such as paths, command descriptions, line counts, task counts, and whether a background command is involved.",
+          "The goal is simple: you should be able to skim a session, find the important parts, and expand the raw details only when you need them.",
+        ],
+      },
+      {
+        heading: "Claude session startup is cleaner",
+        paragraphs: [
+          "This release also tightens how Blackcrab prepares Claude Code sessions. The app refreshes Claude auth state before spawning a session, while avoiding direct injection of keychain access tokens into spawned processes.",
+          "That keeps session startup aligned with the local Claude Code CLI and reduces the amount of credential handling Blackcrab needs to do itself.",
+        ],
+      },
+      {
+        heading: "Update health is now measurable",
+        paragraphs: [
+          "Blackcrab can now send anonymous app and updater events to the landing site's analytics endpoint. These events cover app launches, update checks, update starts, completed updates, and update failures.",
+          "The setting is visible in Settings and can be turned off. The privacy docs and README were updated to explain what is sent and why: the data is meant to help understand whether releases are installing successfully, not to inspect local sessions or Claude traffic.",
+        ],
+      },
+      {
+        heading: "Upgrade notes",
+        paragraphs: [
+          "There are no manual migration steps for 0.1.3. Users on 0.1.2 should be able to install the update normally through the app or download a fresh installer from GitHub Releases.",
+          "As usual for an early desktop build, the release is still macOS-first, with GitHub Actions also producing Windows and Linux artifacts for testing.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "what-changed-in-blackcrab-0-1-1-and-0-1-2",
     title: "What changed in Blackcrab 0.1.1 and 0.1.2",
     dek: "The first two updates after the initial preview focused on making Blackcrab more reliable as a daily Claude Code workspace: better attention signals, safer handoffs, usage dashboards, project reporting, faster search, and signed update artifacts.",
@@ -183,8 +237,21 @@ export const blogPosts: BlogPost[] = [
 
 export const changelogEntries: ChangelogEntry[] = [
   {
-    version: "v0.1.2",
+    version: "v0.1.3",
     label: "Current preview",
+    displayDate: "May 2026",
+    summary:
+      "A focused quality release with steadier conversation switching, cleaner transcript reading, and published installers for macOS, Windows, and Linux.",
+    changes: [
+      "Conversation continuity is improved across grid and single-session mode switches.",
+      "Transcript tool calls and thinking blocks use compact drawers, with noisy output folded by default.",
+      "Claude session startup refreshes auth state without injecting keychain access tokens into spawned processes.",
+      "Anonymous app and updater events can help measure release health and can be disabled in Settings.",
+    ],
+  },
+  {
+    version: "v0.1.2",
+    label: "Usage update",
     displayDate: "May 2026",
     summary:
       "A usage and project visibility release for tracking token spend, session activity, and saved Claude Code work across projects.",
