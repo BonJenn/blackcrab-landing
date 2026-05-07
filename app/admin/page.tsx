@@ -34,7 +34,7 @@ export default async function AdminPage({
             Admin
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-            Download analytics
+            Product analytics
           </h1>
         </header>
 
@@ -61,15 +61,24 @@ export default async function AdminPage({
 function Dashboard({ stats }: { stats: DownloadStats }) {
   return (
     <div className="space-y-10">
-      <StatCard label="Total downloads" value={stats.total} />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <StatCard
+          label="Download redirects"
+          value={stats.total_download_redirects ?? stats.total}
+        />
+        <StatCard
+          label="Active installs, 30 days"
+          value={stats.active_installs_total ?? 0}
+        />
+      </div>
 
       {stats.daily_last_30 && stats.daily_last_30.length > 0 && (
-        <Section title="Last 30 days">
+        <Section title="Download redirects, last 30 days">
           <TrendChart rows={stats.daily_last_30} />
         </Section>
       )}
 
-      <Section title="By platform">
+      <Section title="Download redirects by platform">
         <Table
           headers={["Platform", "Downloads"]}
           rows={Object.entries(PLATFORMS).map(([key, label]) => [
@@ -79,7 +88,7 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
         />
       </Section>
 
-      <Section title="By version">
+      <Section title="Download redirects by version">
         {!stats.by_version || stats.by_version.length === 0 ? (
           <Empty />
         ) : (
@@ -90,7 +99,7 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
         )}
       </Section>
 
-      <Section title="By platform + version">
+      <Section title="Download redirects by platform + version">
         {!stats.by_combo || stats.by_combo.length === 0 ? (
           <Empty />
         ) : (
@@ -99,6 +108,94 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
             rows={stats.by_combo.map((r) => [
               PLATFORMS[r.platform] ?? r.platform,
               r.version,
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Update funnel">
+        {!stats.update_funnel || stats.update_funnel.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={["Event", "Count"]}
+            rows={stats.update_funnel.map((r) => [
+              formatEventType(r.event_type),
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Update checks by version path">
+        {!stats.update_checks || stats.update_checks.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={["Current version", "Latest version", "Checks"]}
+            rows={stats.update_checks.map((r) => [
+              r.from_version,
+              r.to_version,
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Completed updates by target version">
+        {!stats.updates_completed_by_version ||
+        stats.updates_completed_by_version.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={["Target version", "Completed updates"]}
+            rows={stats.updates_completed_by_version.map((r) => [
+              r.version,
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Completed updates by version path">
+        {!stats.updates_completed_by_combo ||
+        stats.updates_completed_by_combo.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={["From version", "To version", "Completed updates"]}
+            rows={stats.updates_completed_by_combo.map((r) => [
+              r.from_version,
+              r.to_version,
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Active installs by version, 30 days">
+        {!stats.active_by_version || stats.active_by_version.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={["Version", "Active installs"]}
+            rows={stats.active_by_version.map((r) => [
+              r.version,
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="All events by type">
+        {!stats.events_by_type || stats.events_by_type.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={["Event", "Count"]}
+            rows={stats.events_by_type.map((r) => [
+              formatEventType(r.event_type),
               String(r.count),
             ])}
           />
@@ -231,4 +328,11 @@ function Empty() {
       No data yet.
     </p>
   );
+}
+
+function formatEventType(eventType: string) {
+  return eventType
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
