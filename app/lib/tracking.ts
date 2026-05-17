@@ -28,6 +28,43 @@ type VersionPairCount = {
   count: number;
 };
 type EventTypeCount = { event_type: EventType; count: number };
+type UpdateCheckDetail = {
+  platform: string;
+  from_version: string;
+  detected_version: string;
+  available: string;
+  manual: string;
+  count: number;
+};
+type UpdateFailureDetail = {
+  platform: string;
+  current_version: string;
+  from_version: string;
+  to_version: string;
+  stage: string;
+  manual: string;
+  error: string;
+  count: number;
+  first_seen: string | Date;
+  last_seen: string | Date;
+};
+type RecentUpdateFailure = {
+  created_at: string | Date;
+  platform: string | null;
+  current_version: string | null;
+  from_version: string | null;
+  to_version: string | null;
+  stage: string | null;
+  manual: string | null;
+  error: string | null;
+};
+type UpdateOutcomeByInstall = {
+  to_version: string;
+  install_targets: number;
+  started_installs: number;
+  completed_installs: number;
+  failed_installs: number;
+};
 
 export type DownloadStats = {
   total: number;
@@ -43,6 +80,11 @@ export type DownloadStats = {
   updates_completed_by_combo: VersionPairCount[] | null;
   active_installs_total: number;
   active_by_version: VersionCount[] | null;
+  update_checks_detailed?: UpdateCheckDetail[] | null;
+  update_failures?: UpdateFailureDetail[] | null;
+  recent_update_failures?: RecentUpdateFailure[] | null;
+  update_outcomes_by_install?: UpdateOutcomeByInstall[] | null;
+  detail_rollups_available?: boolean;
 };
 
 export async function trackDownload(platform: string, version: string) {
@@ -108,10 +150,141 @@ export async function getDownloadStats(): Promise<DownloadStats | null> {
 
   try {
     const rows = await sql`SELECT get_event_stats()`;
-    return rows[0]?.get_event_stats as DownloadStats ?? null;
-  } catch {
+    const stats = rows[0]?.get_event_stats as DownloadStats | undefined;
+    if (!stats) return null;
+
+    const detailResults = await Promise.allSettled([
+      sql`
+        SELECT
+          coalesce(platform, 'unknown') AS platform,
+          coalesce(from_version, version, 'unknown') AS from_version,
+          coalesce(to_version, 'none detected') AS detected_version,
+          CASE metadata->>'available'
+            WHEN 'true' THEN 'available'
+            WHEN 'false' THEN 'none'
+            ELSE 'unknown'
+          END AS available,
+          CASE metadata->>'manual'
+            WHEN 'true' THEN 'manual'
+            WHEN 'false' THEN 'automatic'
+            ELSE 'unknown'
+          END AS manual,
+          count(*)::int AS count
+        FROM events
+        WHERE event_type = 'update_check'
+        GROUP BY 1, 2, 3, 4, 5
+        ORDER BY count DESC, platform, from_version, detected_version
+      `,
+      sql`
+        SELECT
+          coalesce(platform, 'unknown') AS platform,
+          coalesce(version, from_version, 'unknown') AS current_version,
+          coalesce(from_version, 'unknown') AS from_version,
+          coalesce(to_version, 'none') AS to_version,
+          coalesce(metadata->>'stage', 'unknown') AS stage,
+          CASE metadata->>'manual'
+            WHEN 'true' THEN 'manual'
+            WHEN 'false' THEN 'automatic'
+            ELSE 'unknown'
+          END AS manual,
+          coalesce(metadata->>'error', 'unknown') AS error,
+          count(*)::int AS count,
+          min(created_at) AS first_seen,
+          max(created_at) AS last_seen
+        FROM events
+        WHERE event_type = 'update_failed'
+        GROUP BY 1, 2, 3, 4, 5, 6, 7
+        ORDER BY count DESC, last_seen DESC
+      `,
+      sql`
+        SELECT
+          created_at,
+          platform,
+          coalesce(version, from_version) AS current_version,
+          from_version,
+          to_version,
+          metadata->>'stage' AS stage,
+          CASE metadata->>'manual'
+            WHEN 'true' THEN 'manual'
+            WHEN 'false' THEN 'automatic'
+            ELSE NULL
+          END AS manual,
+          metadata->>'error' AS error
+        FROM events
+        WHERE event_type = 'update_failed'
+        ORDER BY created_at DESC
+        LIMIT 20
+      `,
+      sql`
+        WITH update_events AS (
+          SELECT
+            install_hash,
+            coalesce(to_version, 'none/unknown') AS to_version,
+            bool_or(event_type = 'update_started') AS started,
+            bool_or(event_type = 'update_completed') AS completed,
+            bool_or(event_type = 'update_failed') AS failed
+          FROM events
+          WHERE event_type IN (
+            'update_started',
+            'update_completed',
+            'update_failed'
+          )
+            AND install_hash IS NOT NULL
+          GROUP BY install_hash, coalesce(to_version, 'none/unknown')
+        )
+        SELECT
+          to_version,
+          count(*)::int AS install_targets,
+          count(*) FILTER (WHERE started)::int AS started_installs,
+          count(*) FILTER (WHERE completed)::int AS completed_installs,
+          count(*) FILTER (WHERE failed)::int AS failed_installs
+        FROM update_events
+        GROUP BY 1
+        ORDER BY install_targets DESC, to_version
+      `,
+    ]);
+    const [
+      updateChecksDetailed,
+      updateFailures,
+      recentUpdateFailures,
+      updateOutcomesByInstall,
+    ] = detailResults;
+
+    return {
+      ...stats,
+      detail_rollups_available: detailResults.every(
+        (result) => result.status === "fulfilled",
+      ),
+      update_checks_detailed: settledRows<UpdateCheckDetail>(
+        "update check details",
+        updateChecksDetailed,
+      ),
+      update_failures: settledRows<UpdateFailureDetail>(
+        "update failure details",
+        updateFailures,
+      ),
+      recent_update_failures: settledRows<RecentUpdateFailure>(
+        "recent update failures",
+        recentUpdateFailures,
+      ),
+      update_outcomes_by_install: settledRows<UpdateOutcomeByInstall>(
+        "update outcomes by install-target",
+        updateOutcomesByInstall,
+      ),
+    };
+  } catch (error) {
+    console.error("Failed to load aggregate analytics stats", error);
     return null;
   }
+}
+
+function settledRows<T>(
+  label: string,
+  result: PromiseSettledResult<unknown>,
+): T[] | null {
+  if (result.status === "fulfilled") return result.value as T[];
+  console.error(`Failed to load ${label}`, result.reason);
+  return null;
 }
 
 function cleanText(value: string | null | undefined, maxLength = 80) {

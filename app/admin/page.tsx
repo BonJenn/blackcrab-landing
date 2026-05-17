@@ -59,6 +59,21 @@ export default async function AdminPage({
 }
 
 function Dashboard({ stats }: { stats: DownloadStats }) {
+  const successfulUpdateChecks = countUpdateEvent(stats, "update_check");
+  const updateStarts = countUpdateEvent(stats, "update_started");
+  const updateCompletions = countUpdateEvent(stats, "update_completed");
+  const updateFailures = countUpdateEvent(stats, "update_failed");
+  const checkFailures = countUpdateFailures(stats, "check");
+  const installFailures = countUpdateFailures(stats, "install");
+  const hasFailureDetails = stats.update_failures != null;
+  const otherFailures = Math.max(
+    0,
+    updateFailures - checkFailures - installFailures,
+  );
+  const updateCheckAttempts = hasFailureDetails
+    ? successfulUpdateChecks + checkFailures
+    : successfulUpdateChecks;
+
   return (
     <div className="space-y-10">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -71,6 +86,58 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
           value={stats.active_installs_total ?? 0}
         />
       </div>
+
+      <Section title="Update health summary">
+        {hasFailureDetails ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <StatCard label="Check attempts" value={updateCheckAttempts} />
+            <StatCard
+              label="Successful checks"
+              value={successfulUpdateChecks}
+            />
+            <StatCard label="Check failures" value={checkFailures} />
+            <StatCard label="Install starts" value={updateStarts} />
+            <StatCard label="Completed installs" value={updateCompletions} />
+            <StatCard label="Install failures" value={installFailures} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              label="Successful checks"
+              value={successfulUpdateChecks}
+            />
+            <StatCard label="Install starts" value={updateStarts} />
+            <StatCard label="Completed installs" value={updateCompletions} />
+            <StatCard label="Failed events" value={updateFailures} />
+          </div>
+        )}
+        {stats.detail_rollups_available === false && (
+          <div className="mt-4">
+            <Notice color="yellow">
+              Detailed update rollups were not fully available. The aggregate
+              counts are still loaded from the database stats function.
+            </Notice>
+          </div>
+        )}
+        {checkFailures > 0 && installFailures === 0 && otherFailures === 0 && (
+          <div className="mt-4">
+            <Notice color="yellow">
+              Recorded update failures are check-stage failures, not failed
+              installs. No install failure has been recorded yet.
+            </Notice>
+          </div>
+        )}
+        {otherFailures > 0 && (
+          <div className="mt-4">
+            <Notice color="yellow">
+              {otherFailures} update failure
+              {otherFailures === 1 ? "" : "s"} did not include a recognized
+              stage. Inspect the failure table before treating them as check or
+              install failures.
+            </Notice>
+          </div>
+        )}
+      </Section>
 
       {stats.daily_last_30 && stats.daily_last_30.length > 0 && (
         <Section title="Download redirects, last 30 days">
@@ -114,7 +181,7 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
         )}
       </Section>
 
-      <Section title="Update funnel">
+      <Section title="Update event funnel">
         {!stats.update_funnel || stats.update_funnel.length === 0 ? (
           <Empty />
         ) : (
@@ -129,15 +196,114 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
       </Section>
 
       <Section title="Update checks by version path">
-        {!stats.update_checks || stats.update_checks.length === 0 ? (
+        {!stats.update_checks_detailed ||
+        stats.update_checks_detailed.length === 0 ? (
           <Empty />
         ) : (
           <Table
-            headers={["Current version", "Latest version", "Checks"]}
-            rows={stats.update_checks.map((r) => [
+            headers={[
+              "Platform",
+              "Current version",
+              "Detected update",
+              "Available",
+              "Trigger",
+              "Checks",
+            ]}
+            rows={stats.update_checks_detailed.map((r) => [
+              formatNullablePlatform(r.platform),
+              r.from_version,
+              r.detected_version,
+              r.available,
+              r.manual,
+              String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Update failures by stage + error">
+        {!stats.update_failures || stats.update_failures.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={[
+              "Platform",
+              "Current",
+              "From",
+              "Target",
+              "Stage",
+              "Trigger",
+              "Error",
+              "First seen",
+              "Last seen",
+              "Events",
+            ]}
+            rows={stats.update_failures.map((r) => [
+              PLATFORMS[r.platform] ?? r.platform,
+              r.current_version,
               r.from_version,
               r.to_version,
+              r.stage,
+              r.manual,
+              r.error,
+              formatTimestamp(r.first_seen),
+              formatTimestamp(r.last_seen),
               String(r.count),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Recent update failures">
+        {!stats.recent_update_failures ||
+        stats.recent_update_failures.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            accentLastColumn={false}
+            headers={[
+              "When",
+              "Platform",
+              "Current",
+              "From",
+              "Target",
+              "Stage",
+              "Trigger",
+              "Error",
+            ]}
+            rows={stats.recent_update_failures.map((r) => [
+              formatTimestamp(r.created_at),
+              formatNullablePlatform(r.platform),
+              formatNullable(r.current_version),
+              formatNullable(r.from_version),
+              formatNullable(r.to_version),
+              formatNullable(r.stage),
+              formatNullable(r.manual),
+              formatNullable(r.error),
+            ])}
+          />
+        )}
+      </Section>
+
+      <Section title="Update outcomes by unique install-target">
+        {!stats.update_outcomes_by_install ||
+        stats.update_outcomes_by_install.length === 0 ? (
+          <Empty />
+        ) : (
+          <Table
+            headers={[
+              "Target version",
+              "Install targets",
+              "Started",
+              "Completed",
+              "Failed",
+            ]}
+            rows={stats.update_outcomes_by_install.map((r) => [
+              r.to_version,
+              String(r.install_targets),
+              String(r.started_installs),
+              String(r.completed_installs),
+              String(r.failed_installs),
             ])}
           />
         )}
@@ -200,6 +366,24 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
             ])}
           />
         )}
+      </Section>
+
+      <Section title="Data notes">
+        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-6 text-white/60">
+          <p>
+            Successful checks are emitted only after the desktop updater returns
+            from <code className="font-mono text-white/80">check()</code>.
+            Failed check attempts are stored as{" "}
+            <code className="font-mono text-white/80">update_failed</code>{" "}
+            events with <code className="font-mono text-white/80">stage</code>{" "}
+            set to <code className="font-mono text-white/80">check</code>.
+          </p>
+          <p className="mt-3">
+            Install outcomes are grouped by anonymous install and target
+            version, so repeat events from the same install-target pair count
+            once in that table.
+          </p>
+        </div>
       </Section>
     </div>
   );
@@ -264,7 +448,15 @@ function Section({
   );
 }
 
-function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
+function Table({
+  headers,
+  rows,
+  accentLastColumn = true,
+}: {
+  headers: string[];
+  rows: string[][];
+  accentLastColumn?: boolean;
+}) {
   return (
     <div className="overflow-x-auto rounded-xl border border-white/10">
       <table className="w-full text-sm">
@@ -289,8 +481,8 @@ function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
               {row.map((cell, j) => (
                 <td
                   key={j}
-                  className={`px-4 py-3 tabular-nums ${
-                    j === row.length - 1
+                  className={`max-w-[28rem] break-words px-4 py-3 align-top tabular-nums ${
+                    accentLastColumn && j === row.length - 1
                       ? "text-[#e5663a] font-medium"
                       : "text-white/80"
                   }`}
@@ -335,4 +527,40 @@ function formatEventType(eventType: string) {
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+}
+
+function countUpdateEvent(stats: DownloadStats, eventType: string) {
+  return (
+    stats.update_funnel?.find((row) => row.event_type === eventType)?.count ?? 0
+  );
+}
+
+function countUpdateFailures(stats: DownloadStats, stage: string) {
+  return (
+    stats.update_failures?.reduce(
+      (total, row) => total + (row.stage === stage ? row.count : 0),
+      0,
+    ) ?? 0
+  );
+}
+
+function formatTimestamp(value: string | Date | null | undefined) {
+  if (!value) return "unknown";
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return date.toLocaleString("en", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+function formatNullable(value: string | null | undefined) {
+  return value && value.trim() ? value : "unknown";
+}
+
+function formatNullablePlatform(value: string | null | undefined) {
+  const platform = formatNullable(value);
+  return PLATFORMS[platform] ?? platform;
 }
