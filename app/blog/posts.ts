@@ -25,6 +25,72 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "blackcrab-0-2-0-power-user-interface",
+    title: "Blackcrab 0.2.0: a sharper interface for power users",
+    dek: "A design-focused release that makes the desktop workspace denser, more keyboard-friendly, and more predictable in smaller windows while keeping the local Claude Code workflow intact.",
+    category: "Release notes",
+    displayDate: "May 2026",
+    readTime: "5 min read",
+    tags: ["Release", "Interface", "Power users"],
+    sections: [
+      {
+        heading: "A quieter shell for heavier work",
+        paragraphs: [
+          "Blackcrab 0.2.0 is mostly about the surface you live in while Claude Code is running. The app now uses a tighter, more minimal shell with less repeated chrome, a clearer command entry point, and a status bar that carries the details you need without turning the top of the app into a control panel.",
+          "The direction is deliberately closer to a focused editor than a marketing dashboard: compact rows, predictable controls, useful status, and fewer visual interruptions between sessions.",
+        ],
+      },
+      {
+        heading: "Density modes are now first-class",
+        paragraphs: [
+          "This release adds three layout densities: comfortable, compact, and focus. Compact is the default for a denser power-user workspace. Comfortable gives the interface more air. Focus hides the sidebar and tightens the shell for working inside one active conversation.",
+          "Density can be changed from Settings, the command palette, or the bottom status bar. The top-bar density control was removed so the setting is still available without being repeated in two places.",
+        ],
+        bullets: [
+          "Comfortable mode for a roomier transcript and controls.",
+          "Compact mode for everyday power-user density.",
+          "Focus mode for a reduced single-session workspace.",
+          "Command palette entries for cycling or selecting density directly.",
+        ],
+      },
+      {
+        heading: "Navigation is faster from the keyboard",
+        paragraphs: [
+          "The command palette is now easier to reach from the main shell, and it includes commands for opening the next or previous recent session. That makes session switching less dependent on the sidebar when you already know you are moving through recent work.",
+          "Blackcrab also adds recent-session keyboard navigation with Command-Shift-[ and Command-Shift-] on macOS, with the equivalent Control modifier on other platforms.",
+        ],
+      },
+      {
+        heading: "Status moved where it belongs",
+        paragraphs: [
+          "The bottom status bar now carries the active session id, current project folder, branch state, selected model, permission mode, context tokens, estimated cost, tool count, attention queue, diagnostics, and layout density. The goal is to make the running state visible without competing with the transcript.",
+          "This is especially useful when multiple sessions are active. The app can show what is connected, what is running, and what needs attention while leaving the main pane for the conversation and tool output.",
+        ],
+      },
+      {
+        heading: "Windowed mode behaves better",
+        paragraphs: [
+          "A smaller but important fix: the app should no longer clip off the right side of the UI when it is not fullscreen. The sidebar collapses at narrower widths, the preview pane has responsive width caps, and compact labels keep the status area from forcing horizontal overflow.",
+          "That matters on laptops and split-screen desktops, where a power-user tool has to work in the actual window size people give it, not only in a perfect fullscreen layout.",
+        ],
+      },
+      {
+        heading: "Authentication startup is safer",
+        paragraphs: [
+          "This release also includes the Claude authentication fix from the 0.2.0 branch. When normal Claude Code CLI authentication is available, Blackcrab now avoids passing stale Anthropic credential override environment variables into spawned Claude processes.",
+          "That should reduce the recurring 401 failure mode where an old token overrides a valid local CLI login when starting or continuing sessions.",
+        ],
+      },
+      {
+        heading: "Upgrade notes",
+        paragraphs: [
+          "Blackcrab 0.2.0 ships signed updater artifacts and fresh installers for macOS, Windows, and Linux through GitHub Releases. Existing users should be able to update through the app once the updater check sees the published release.",
+          "There are no manual migration steps for this release. If the updater does not appear immediately, downloading a fresh installer from the releases page is still safe.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "blackcrab-0-1-3-steadier-sessions-cleaner-transcripts",
     title: "Blackcrab 0.1.3: steadier sessions and cleaner transcripts",
     dek: "A focused quality release for the workflows people touch every day: switching between conversations, reading long transcripts, and keeping local Claude Code sessions connected reliably.",
@@ -237,8 +303,22 @@ export const blogPosts: BlogPost[] = [
 
 export const changelogEntries: ChangelogEntry[] = [
   {
-    version: "v0.1.3",
+    version: "v0.2.0",
     label: "Current preview",
+    displayDate: "May 2026",
+    summary:
+      "A design-focused release with a denser power-user shell, first-class density modes, faster recent-session navigation, safer Claude auth startup, and better behavior in smaller windows.",
+    changes: [
+      "Added comfortable, compact, and focus density modes, available from Settings, the command palette, and the status bar.",
+      "Refreshed the app shell with a command chip, denser transcript layout, and a more informative bottom status bar.",
+      "Added keyboard and command palette navigation for opening the next or previous recent session.",
+      "Fixed right-side clipping in non-fullscreen windows with responsive sidebar, preview, and status layout behavior.",
+      "Claude sessions now prefer normal CLI authentication over stale credential override environment variables.",
+    ],
+  },
+  {
+    version: "v0.1.3",
+    label: "Quality update",
     displayDate: "May 2026",
     summary:
       "A focused quality release with steadier conversation switching, cleaner transcript reading, and published installers for macOS, Windows, and Linux.",

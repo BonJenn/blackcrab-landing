@@ -60,7 +60,7 @@ export function Footer() {
           <span>blackcrab</span>
         </div>
         <div className="flex flex-wrap items-center gap-6">
-          <span className="font-mono text-xs">v0.1.3 · desktop builds</span>
+          <span className="font-mono text-xs">v0.2.0 · desktop builds</span>
           <Link href="/docs" className="hover:text-foreground transition">
             Docs
           </Link>

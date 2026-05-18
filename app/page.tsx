@@ -523,7 +523,7 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download the latest v0.1.3 desktop build for macOS, Windows, or Linux.
+            Download the latest v0.2.0 desktop build for macOS, Windows, or Linux.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink
