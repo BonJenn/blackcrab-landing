@@ -25,6 +25,54 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "blackcrab-0-3-0-mobile-companion",
+    title: "Blackcrab 0.3.0: a calmer desktop, and your sessions in your pocket",
+    dek: "The biggest release yet: a round of desktop features that make long days of Claude Code work easier to navigate, plus the host side of Blackcrab Remote — a companion mobile app coming soon to iPhone and Android.",
+    category: "Release notes",
+    displayDate: "June 2026",
+    readTime: "6 min read",
+    tags: ["Release", "Mobile", "Remote"],
+    sections: [
+      {
+        heading: "A more capable desktop",
+        paragraphs: [
+          "Blackcrab 0.3.0 folds in a batch of desktop improvements aimed at the parts of the app you touch all day: finding conversations, reading long transcripts, and keeping local Claude Code sessions connected reliably.",
+          "There are also quieter fixes that matter in daily use. Resuming an older conversation no longer fails when its original model has been retired, and scrolling through a long transcript is smooth instead of jumpy, including in smaller non-fullscreen windows.",
+        ],
+        bullets: [
+          "Read-only session view with live tailing, so you can follow a running session without taking it over.",
+          "A diagnostics console that records recent errors in one place.",
+          "An expanded command palette with keyword search across your sessions and more actions.",
+          "Saved grid layouts you can recall from the command palette.",
+          "Backup and restore for local app data — settings, layouts, usage history, drafts, and per-session overrides; transcripts and secrets stay out.",
+          "Clearer handling when a conversation is already open somewhere else, instead of two writers fighting over one file.",
+        ],
+      },
+      {
+        heading: "Coming soon: Blackcrab Remote for iPhone and Android",
+        paragraphs: [
+          "The headline of 0.3.0 isn't on the desktop at all. Blackcrab Remote, a companion mobile app, is coming soon to iPhone and Android — and the host side that makes it work ships in this desktop release.",
+          "Your Claude Code sessions live on your computer, but you shouldn't have to be sitting at it to keep an eye on them or nudge them along. Blackcrab Remote connects your phone to your desktop so you can do exactly that. A conversation that's actively running in another window is flagged and left alone, so the phone never collides with a live session.",
+          "Blackcrab Remote is heading to TestFlight first, with the App Store and Google Play to follow. We'll share links as soon as they're live.",
+        ],
+        bullets: [
+          "Pair in seconds by scanning a QR code from the desktop (or pasting a short payload). Connections are end-to-end encrypted, work directly over local Wi-Fi, and fall back to an encrypted relay when you're away.",
+          "See every session as a chat list, with unread indicators and recent activity first.",
+          "Read transcripts beautifully: formatted text — headings, bold, lists, code blocks — with the model's tool calls shown as clean, terminal-style cards instead of raw text.",
+          "Reply and steer from anywhere: send a follow-up, stop a runaway turn, or approve and deny permission prompts, with an instant 'thinking' indicator while the model works.",
+          "Start a new session in any of your projects from the phone, or jump back into a past conversation — the desktop resumes it for you.",
+          "Pick up where you left off on either device, with a synced read cursor and a 'new messages' divider showing exactly where you stopped.",
+        ],
+      },
+      {
+        heading: "Upgrade notes",
+        paragraphs: [
+          "There are no manual migration steps for 0.3.0. Existing users can update through the app or download a fresh installer from GitHub Releases. As with earlier builds, the release is macOS-first, with Windows and Linux artifacts produced by CI.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "blackcrab-0-2-0-power-user-interface",
     title: "Blackcrab 0.2.0: a sharper interface for power users",
     dek: "A design-focused release that makes the desktop workspace denser, more keyboard-friendly, and more predictable in smaller windows while keeping the local Claude Code workflow intact.",
@@ -303,8 +351,22 @@ export const blogPosts: BlogPost[] = [
 
 export const changelogEntries: ChangelogEntry[] = [
   {
-    version: "v0.2.0",
+    version: "v0.3.0",
     label: "Current preview",
+    displayDate: "June 2026",
+    summary:
+      "The biggest release yet: read-only session views, a diagnostics console, an expanded command palette, saved layouts, backup and restore, plus the host side of Blackcrab Remote — a companion mobile app coming soon to iPhone and Android.",
+    changes: [
+      "Read-only session view with live tailing, and a diagnostics console that records recent errors.",
+      "Expanded command palette with keyword search, saved grid layouts, and backup/restore for local app data.",
+      "Clearer single-writer conflict handling; resuming no longer fails on retired model ids; smoother transcript scrolling.",
+      "Blackcrab Remote (coming soon to iPhone and Android): encrypted pairing over LAN with relay fallback, live sessions, formatted transcripts with tool cards, and send/stop/approve from the phone.",
+      "Start new sessions and continue past ones from the phone, with a synced 'where you left off' read cursor across devices.",
+    ],
+  },
+  {
+    version: "v0.2.0",
+    label: "Interface update",
     displayDate: "May 2026",
     summary:
       "A design-focused release with a denser power-user shell, first-class density modes, faster recent-session navigation, safer Claude auth startup, and better behavior in smaller windows.",
@@ -376,11 +438,11 @@ export const changelogEntries: ChangelogEntry[] = [
     label: "In progress",
     displayDate: "Planned",
     summary:
-      "Near-term work is focused on tightening the first-run experience and making local verification smoother.",
+      "Near-term work is focused on shipping Blackcrab Remote to the app stores and tightening the first-run experience.",
     changes: [
+      "Blackcrab Remote on TestFlight, then the App Store and Google Play.",
       "Clearer setup checks for Claude Code installation and authentication.",
-      "Better release notes around packaging, updates, and platform support.",
-      "More practical devlog posts from building the desktop workflow.",
+      "More practical devlog posts from building the desktop and mobile workflow.",
     ],
   },
 ];
