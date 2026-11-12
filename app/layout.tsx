@@ -33,9 +33,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Blackcrab - A Claude Code GUI",
+  title: "Blackcrab - A desktop workspace for coding agents",
   description:
-    "Run multiple Claude Code sessions side-by-side in a native desktop grid. Local-first, fast, keyboard-driven.",
+    "Manage coding agents, projects, Git, terminals and approvals. Blackcrab 0.4.0 brings a full managed workspace and background service to Apple-silicon Macs.",
 };
 
 export default function RootLayout({
