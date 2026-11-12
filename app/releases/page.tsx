@@ -89,7 +89,7 @@ export default async function ReleasesPage() {
                 source="releases"
                 className="rounded-md bg-accent text-white px-4 py-2 text-sm font-medium hover:bg-accent/90 transition text-center"
               >
-                macOS .dmg
+                Apple-silicon .dmg
               </DownloadLink>
               <DownloadLink
                 href={WINDOWS_DOWNLOAD_URL}
@@ -97,7 +97,7 @@ export default async function ReleasesPage() {
                 source="releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
               >
-                Windows .exe
+                Windows (previous release)
               </DownloadLink>
               <DownloadLink
                 href={LINUX_DOWNLOAD_URL}
@@ -105,7 +105,7 @@ export default async function ReleasesPage() {
                 source="releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
               >
-                Linux AppImage
+                Linux (previous release)
               </DownloadLink>
               <a
                 href={GITHUB_RELEASES_URL}
@@ -288,7 +288,7 @@ function getDownloadMeta(assetName: string): {
   const name = assetName.toLowerCase();
 
   if (name.endsWith(".dmg")) {
-    return { platform: "macos", label: "Download macOS .dmg", priority: 30 };
+    return { platform: "macos", label: name.includes("aarch64") ? "Download Apple-silicon .dmg" : "Download macOS .dmg", priority: 30 };
   }
 
   if (name.endsWith(".app.tar.gz")) {
@@ -477,7 +477,7 @@ function ReleaseCard({
 
 function isVisibleDownloadAsset(asset: ReleaseAsset) {
   const name = asset.name.toLowerCase();
-  return !name.endsWith(".sig") && name !== "latest.json";
+  return !name.endsWith(".sig") && name !== "latest.json" && name !== "blackcrab-managed-payloads.zip";
 }
 
 function getPrimaryDownloadAssets(assets: ReleaseAsset[]) {
@@ -535,7 +535,7 @@ function EmptyReleases() {
           source="releases"
           className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90 transition"
         >
-          macOS .dmg
+          Apple-silicon .dmg
         </DownloadLink>
         <DownloadLink
           href={WINDOWS_DOWNLOAD_URL}
@@ -543,7 +543,7 @@ function EmptyReleases() {
           source="releases"
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
         >
-          Windows .exe
+          Windows (previous release)
         </DownloadLink>
         <DownloadLink
           href={LINUX_DOWNLOAD_URL}
@@ -551,7 +551,7 @@ function EmptyReleases() {
           source="releases"
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
         >
-          Linux AppImage
+          Linux (previous release)
         </DownloadLink>
         <a
           href={GITHUB_RELEASES_URL}

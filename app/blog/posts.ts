@@ -24,6 +24,46 @@ export type ChangelogEntry = {
 };
 
 export const blogPosts: BlogPost[] = [
+{
+  "slug": "blackcrab-0-4-0-managed-mac-workspace",
+  "title": "Blackcrab 0.4.0: a full workspace and background service for Mac",
+  "dek": "An Apple-silicon release that packages the managed desktop and its background service alongside the existing local session interface.",
+  "category": "Release notes",
+  "displayDate": "November 12, 2026",
+  "readTime": "3 min read",
+  "tags": [
+    "Release",
+    "macOS",
+    "Managed workspaces"
+  ],
+  "sections": [
+    {
+      "heading": "One Mac app, a fuller workspace",
+      "paragraphs": [
+        "Blackcrab 0.4.0 brings the full managed desktop workspace and background-service host into the Mac download. The existing local session interface remains available alongside managed projects and agent threads."
+      ],
+      "bullets": [
+        "Packaged project, Git, terminal, approval and agent workflow interfaces.",
+        "Background-service setup and controls, with desktop attachment and reconnection.",
+        "Blackcrab-owned account, hosted-app and remote connection configuration."
+      ]
+    },
+    {
+      "heading": "Upgrading on Apple silicon",
+      "paragraphs": [
+        "This release targets Apple-silicon Macs (M-series). Use the Mac download button or the app updater when 0.4.0 appears. The app identity and updater key are preserved.",
+        "Keep existing app data and saved sessions. Back up important work before testing the new managed workspace and service controls. Intel Mac, Windows and Linux users can still find the previous builds on the releases page."
+      ]
+    },
+    {
+      "heading": "What is still being tested",
+      "paragraphs": [
+        "Version 0.4.0 is being published for owner testing. Automated checks and signature/notarization verification do not replace the manual launch, service lifecycle and upgrade-retention tests that follow publication. Full remote and notification validation is still ongoing.",
+        "Blackcrab Remote is in private iOS TestFlight testing. This Mac release does not publish a new mobile build or open public App Store access."
+      ]
+    }
+  ]
+},
   {
     slug: "blackcrab-0-3-0-mobile-companion",
     title: "Blackcrab 0.3.0: a calmer desktop, and your sessions in your pocket",
@@ -350,9 +390,22 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.0",
+  "label": "Apple-silicon Mac release",
+  "displayDate": "November 12, 2026",
+  "summary": "Full managed desktop workspace and background service, packaged with the existing Mac app for owner testing.",
+  "changes": [
+    "Packaged managed projects, agent threads, Git, terminals and approval interfaces.",
+    "Background-service setup, desktop attachment and reconnection controls.",
+    "Blackcrab-owned account and remote connection configuration.",
+    "Existing app identity and updater key retained; manual lifecycle and upgrade testing follows publication.",
+    "Apple-silicon Mac only. Previous releases remain available for Intel Macs, Windows and Linux."
+  ]
+},
   {
     version: "v0.3.0",
-    label: "Current preview",
+    label: "Previous release",
     displayDate: "June 2026",
     summary:
       "The biggest release yet: read-only session views, a diagnostics console, an expanded command palette, saved layouts, backup and restore, plus the host side of Blackcrab Remote — a companion mobile app coming soon to iPhone and Android.",
