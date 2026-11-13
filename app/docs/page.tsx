@@ -73,7 +73,7 @@ export default function DocsPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
                 <RequirementCard
                   title="Released app"
-                  body="Blackcrab 0.4.2 targets Apple-silicon Macs. Previous builds remain available for Intel Macs, Windows and Linux. Complete the setup for the agent provider you choose."
+                  body="Blackcrab 0.4.3 targets Apple-silicon Macs. Previous builds remain available for Intel Macs, Windows and Linux. Complete the setup for the agent provider you choose."
                 />
                 <RequirementCard
                   title="Local development"
@@ -209,7 +209,7 @@ export default function DocsPage() {
                   details to change.
                 </li>
                 <li>
-                  Version 0.4.2 is for Apple-silicon Macs. Full desktop/mobile
+                  Version 0.4.3 is for Apple-silicon Macs. Full desktop/mobile
                   remote parity and notifications remain under validation;
                   this release includes no new iOS build.
                 </li>

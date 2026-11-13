@@ -25,6 +25,48 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-3-workspace-fixes",
+  "title": "Blackcrab 0.4.3: clearer messages and reachable pane controls",
+  "dek": "An Apple-silicon Mac update for permission attribution, imported monitor messages, and split-pane controls.",
+  "category": "Release notes",
+  "displayDate": "November 13, 2026",
+  "readTime": "2 min read",
+  "tags": [
+    "Release",
+    "macOS",
+    "Fixes"
+  ],
+  "sections": [
+    {
+      "heading": "Keep pane controls within reach",
+      "paragraphs": [
+        "Move and close buttons now keep their own space alongside side-panel controls. Each pane positions its controls within that pane, including the rightmost pane and layouts with several rows."
+      ]
+    },
+    {
+      "heading": "Read imported monitor events without the XML",
+      "paragraphs": [
+        "Recognized monitor notifications in older imported Claude conversations appear as collapsible Background updates. Expand a row to read the event, or open Original notification to inspect the exact stored text. Conversation history is preserved.",
+        "New pasted XML and messages that do not match the known imported format keep their existing presentation."
+      ]
+    },
+    {
+      "heading": "Attribute Mac permissions to Blackcrab",
+      "paragraphs": [
+        "The background service now identifies Blackcrab as its responsible application for macOS permission attribution. Existing service registrations update their metadata during an explicit service start or restart after the service has stopped.",
+        "If Blackcrab says the service needs a restart for this change, wait for agents to finish and use Restart background service. Workspace history, settings and identity are retained."
+      ]
+    },
+    {
+      "heading": "Platform availability",
+      "paragraphs": [
+        "Apple-silicon Mac users can update through Blackcrab or download the 0.4.3 DMG. Keep existing app data when installing.",
+        "Windows and Linux full-workspace packages are still in development. Their previous 0.3.0 downloads remain available; this Mac update does not replace them. No new iOS TestFlight build is included, and full remote parity remains under validation."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-2-one-workspace",
   "title": "Blackcrab 0.4.2: one workspace from launch",
   "dek": "The new workspace opens automatically, with Blackcrab branding and a repaired background-service helper.",
@@ -469,6 +511,19 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.3",
+  "label": "Mac workspace fixes",
+  "displayDate": "November 13, 2026",
+  "summary": "Improve permission attribution, imported monitor message presentation, and pane toolbar access.",
+  "changes": [
+    "Associate the Mac background service with Blackcrab for permission attribution; existing registrations update on an explicit stopped start/restart.",
+    "Show recognized imported monitor events as collapsible Background updates with original text available.",
+    "Keep each pane’s move and close buttons reachable alongside side-panel controls.",
+    "Preserve existing workspace history, settings and identity.",
+    "Apple-silicon Mac only; Windows/Linux full-workspace packages remain in development and TestFlight is unchanged."
+  ]
+},
 {
   "version": "v0.4.2",
   "label": "One Mac workspace",

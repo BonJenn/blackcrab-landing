@@ -37,7 +37,7 @@ function Hero() {
         </h1>
         <p className="text-lg sm:text-xl text-muted leading-relaxed max-w-2xl">
           Manage projects, agent threads, Git, terminals, and approvals in one
-          Mac workspace. Blackcrab 0.4.2 opens directly into the new interface,
+          Mac workspace. Blackcrab 0.4.3 opens directly into the new interface,
           with automatic background-service setup and recovery controls.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -124,8 +124,8 @@ function Features() {
         </h2>
         <p className="mt-4 text-muted text-lg">
           Projects, agents, source control and terminals share the new desktop
-          interface. Version 0.4.2 removes the older Claude/Codex views while
-          preserving existing data on disk.
+          interface. Version 0.4.3 improves pane controls and imported monitor
+          messages while preserving existing data on disk.
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
@@ -153,7 +153,7 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download Blackcrab 0.4.2 for Apple-silicon Macs. Intel Mac, Windows and Linux builds remain available in previous releases.
+            Download Blackcrab 0.4.3 for Apple-silicon Macs. Intel Mac, Windows and Linux builds remain available in previous releases.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink

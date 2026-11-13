@@ -14,7 +14,19 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current publication checkpoint — 2026-11-13
+## Current preparation — 0.4.3, not yet published
+
+The owner requested the next Mac update. This branch prepares 0.4.3 release copy
+for permission attribution, imported monitor events and pane controls. Do not
+merge/deploy until the verified v0.4.3 installer is PUBLIC in BonJenn/blackcrab.
+The app release PR is #286; source/build state is in the sibling
+workspace-043-plan.json and workspace-043-delivery directory. Actual signed
+installer and native candidate validation are pending. Windows/Linux remain on
+previous 0.3.0 downloads; full-workspace platform packages are still in development.
+TestFlight is unchanged. Keep historical articles intact and do not claim full
+parity or that native permission prompts were validated before evidence exists.
+
+## Published baseline — 2026-11-13
 
 Mac v0.4.2 is public/stable/latest in BonJenn/blackcrab at
 cb586b1f4832714e624c4a328b777ef321670fd3. Actual signed/notarized installer, embedded
