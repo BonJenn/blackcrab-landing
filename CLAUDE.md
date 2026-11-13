@@ -14,6 +14,31 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
+## Current publication checkpoint — 2026-11-13
+
+Mac v0.4.2 is public/stable/latest in BonJenn/blackcrab at
+cb586b1f4832714e624c4a328b777ef321670fd3. Actual signed/notarized installer, embedded
+helper, payloads, version and updater verification passed. Anonymous Mac downloads
+passed. Preserve its public tag/assets; do not repeat the old private-draft workflow.
+
+Website PR14 merged at 7b4cf8594001ff0b236508bcbf911446f0523051. Production deployment
+dpl_GmaW6yasnWX5PmwCWWMvG9eoeemi is READY and serves www.blackcrab.app. Anonymous
+home, 0.4.2 blog article, changelog, releases and docs/mobile anchor checks passed.
+The apex redirects to the www site. /download/macos resolves to the public 0.4.2
+Apple-silicon DMG; Windows and Linux retain verified 0.3.0 fallback assets.
+
+This release includes the sole workspace, correct Blackcrab version/labels, external
+drive picker shortcuts and pane-specific image drops. Some host-generated diagnostic
+copy remains, disclosed in the release notes. No new iOS build or full parity is
+claimed; TestFlight 1.0.0 (4) is unchanged. Owner UI/lifecycle testing follows
+publication. Do not restore the old interface or advertise unverified completion.
+
+Local evidence (may be absent on another machine):
+/Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/workspace-final-042-delivery/website-production-verification.json
+and publication-result.json/public-download-verification.json in the same directory.
+Older checkpoints below retain historical context and do not authorize restarting
+completed builds or withholding this already-published release.
+
 The owner authorized publishing Mac version 0.4.0, website downloads, blog and
 release notes on 2026-11-12. Publish the verified GitHub release in
 BonJenn/blackcrab first; merge/deploy this announcement only once its actual Mac
