@@ -25,37 +25,37 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
-  "slug": "blackcrab-0-4-2-full-desktop-startup",
-  "title": "Blackcrab 0.4.2: repairing Full desktop startup",
-  "dek": "A background-service startup fix and a visible Full desktop action in the main Mac interface.",
+  "slug": "blackcrab-0-4-2-one-workspace",
+  "title": "Blackcrab 0.4.2: one workspace from launch",
+  "dek": "The new workspace opens automatically, with Blackcrab branding and a repaired background-service helper.",
   "category": "Release notes",
   "displayDate": "November 12, 2026",
   "readTime": "2 min read",
   "tags": [
     "Release",
     "macOS",
-    "Fixes"
+    "Workspace"
   ],
   "sections": [
     {
-      "heading": "Repairing the startup failure",
+      "heading": "Open straight into your workspace",
       "paragraphs": [
-        "Testing 0.4.1 showed that Full desktop could still be unavailable. We reproduced two problems: setup errors were hidden behind an unavailable message, and macOS rejected the background-service helper after it was copied out of the main app bundle.",
-        "Version 0.4.2 packages a dedicated signed helper. Starting an inactive service updates that helper while retaining the workspace configuration and identity."
+        "Blackcrab now opens directly into the new workspace for projects, agents, Git and terminals. The older Claude/Codex interface has been removed, so there is no separate Full desktop button to find.",
+        "Startup prepares the background service and opens the workspace automatically. If startup fails, recovery controls show the error and offer a retry. Service controls and app updates remain available from the Blackcrab app menu."
       ]
     },
     {
-      "heading": "Opening the full workspace",
+      "heading": "Service startup and Blackcrab branding",
       "paragraphs": [
-        "Choose Full desktop from the main Claude or Codex toolbar. The dialog puts background-service setup beside Open full desktop. Follow the service setup instructions, then open the workspace.",
-        "If setup or startup fails, the dialog keeps the action available for retry and shows the relevant instructions. There is no need to delete conversations or change cache permissions."
+        "Version 0.4.1 could fail because macOS rejected a service helper copied out of the main app bundle. Version 0.4.2 packages a dedicated signed helper and updates an inactive service while retaining its configuration and identity.",
+        "Onboarding, environment selection and account screens now use Blackcrab names and artwork. Existing conversations and workspace data remain on disk."
       ]
     },
     {
       "heading": "Updating your Mac",
       "paragraphs": [
-        "Apple-silicon Mac users can update through Blackcrab or download the 0.4.2 DMG. Keep existing app data when installing the update. Older Intel Mac, Windows and Linux builds remain available on the releases page.",
-        "This update addresses desktop startup. Full desktop/mobile remote parity is still being validated, and no new iOS TestFlight build is included."
+        "Apple-silicon Mac users can update through Blackcrab or download the 0.4.2 DMG. Keep existing app data when installing. Older Intel Mac, Windows and Linux builds remain available on the releases page.",
+        "Full desktop/mobile remote parity is still being validated. This release does not include a new iOS TestFlight build."
       ]
     }
   ]
@@ -464,14 +464,15 @@ export const blogPosts: BlogPost[] = [
 export const changelogEntries: ChangelogEntry[] = [
 {
   "version": "v0.4.2",
-  "label": "Apple-silicon Mac service startup fix",
+  "label": "One Mac workspace",
   "displayDate": "November 12, 2026",
-  "summary": "Repairs background-service helper packaging and puts Full desktop setup in the main interface.",
+  "summary": "Open directly into the new workspace, with automatic service setup, recovery controls and Blackcrab branding.",
   "changes": [
-    "Package a dedicated signed service helper instead of copying the main app executable outside its bundle.",
-    "Update an inactive service helper while preserving workspace configuration and identity.",
-    "Add Full desktop to the Claude and Codex main toolbars with service setup beside it.",
-    "Retain actionable startup instructions and manual retry after an error.",
+    "Remove the older Claude/Codex interface and launch the managed workspace automatically.",
+    "Keep service controls and signed updates available from the app menu.",
+    "Package a dedicated signed service helper and preserve existing workspace identity and data.",
+    "Replace remaining T3 branding in onboarding, environment selection and account screens.",
+    "Show actionable startup errors and a retry path.",
     "Apple-silicon Mac only; no new iOS, Windows or Linux build."
   ]
 },

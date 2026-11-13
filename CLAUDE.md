@@ -44,12 +44,17 @@ Do not announce completed parity or a new TestFlight build. Keep the published
 0.4.0 assets and previous-platform downloads intact.
 
 
-## 0.4.2 service startup repair
+## 0.4.2 sole-workspace delivery
 
-The 0.4.1 failure is reproduced: copying the signed main app executable into the
-service directory loses its signed Info.plist. Blackcrab PR273 adds a dedicated
-signed helper and a visible desktop entry. Version 0.4.2 is being built as a draft
-for actual runtime validation. Keep this website update local/unpublished until
-its real installer is verified and public. Do not describe overall parity as
-finished or invent native acceptance. The active desktop plan is
-/Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/desktop-patch-042-plan.json.
+The owner requested removal of the older interface. Blackcrab PR275 merged to
+stage d9b5601d424e9808ee2c8dcac5bf42f8cf97d137 after all nine checks passed.
+It launches the new workspace automatically, retains startup recovery/service
+controls and signed updates, and replaces remaining onboarding/account branding.
+The dedicated signed helper from PR273 remains part of this release.
+The first private 0.4.2 candidate predates this instruction and is superseded.
+A replacement installer is building; keep this website update unpublished until
+that exact installer is verified and public. Do not announce complete parity.
+The active desktop plan is
+/Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/desktop-default-042-plan.json.
+The homepage must describe the new workspace; do not restore the old grid image,
+legacy shortcuts or usage-dashboard claims. Historical release posts stay intact.
