@@ -33,3 +33,12 @@ and npm run build. Review the Vercel preview against the exact PR commit. After
 production deployment, check home, blog article, changelog, releases and the Mac
 download redirect. Confirm the target version and architecture, and previous
 Windows/Linux fallback. Keep release notes in the app repository consistent.
+
+## 0.4.1 corrective publication
+
+The startup patch continues the owner-authorized 0.4 release/test workflow.
+Prepare its blog, changelog and download copy, but merge/deploy only after the
+verified v0.4.1 Mac installer is public. The corrected runtime-marker detection
+is tested; the work-Mac resolution remains unconfirmed until owner testing.
+Do not announce completed parity or a new TestFlight build. Keep the published
+0.4.0 assets and previous-platform downloads intact.

@@ -523,7 +523,7 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download Blackcrab 0.4.0 for Apple-silicon Macs. Intel Mac, Windows and Linux builds remain available in previous releases.
+            Download Blackcrab 0.4.1 for Apple-silicon Macs. Intel Mac, Windows and Linux builds remain available in previous releases.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink
