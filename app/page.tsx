@@ -34,15 +34,15 @@ function Hero() {
           Power to the prompter
         </span>
         <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight leading-[1.05]">
-          A native desktop GUI
+          A desktop workspace
           <br />
           <span className="text-muted">for </span>
-          <span className="text-accent">Claude Code</span>
+          <span className="text-accent">coding agents</span>
         </h1>
         <p className="text-lg sm:text-xl text-muted leading-relaxed max-w-2xl">
-          Run, resume, search, and verify Claude Code sessions from one native
-          workspace with a grid, terminal, preview pane, usage dashboards, and
-          local transcript history.
+          Manage projects, agent threads, Git, terminals, and approvals in one
+          Mac workspace. Blackcrab 0.4.0 adds a full managed desktop and background
+          service alongside the existing local Claude Code session interface.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <DownloadLink
@@ -50,21 +50,21 @@ function Hero() {
             platform="macos"
             className="rounded-md bg-accent text-white px-5 py-2.5 text-sm font-medium hover:bg-accent/90 transition"
           >
-            Download for macOS
+            Download for Apple silicon
           </DownloadLink>
           <DownloadLink
             href={WINDOWS_DOWNLOAD_URL}
             platform="windows"
             className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
           >
-            Windows
+            Windows (previous)
           </DownloadLink>
           <DownloadLink
             href={LINUX_DOWNLOAD_URL}
             platform="linux"
             className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
           >
-            Linux
+            Linux (previous)
           </DownloadLink>
           <a
             href={APP_REPO_URL}
@@ -523,7 +523,7 @@ function CTA() {
             Try Blackcrab.
           </h2>
           <p className="mt-3 text-muted text-lg">
-            Download the latest v0.2.0 desktop build for macOS, Windows, or Linux.
+            Download Blackcrab 0.4.0 for Apple-silicon Macs. Intel Mac, Windows and Linux builds remain available in previous releases.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <DownloadLink
@@ -531,21 +531,21 @@ function CTA() {
               platform="macos"
               className="rounded-md bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:opacity-90 transition"
             >
-              macOS .dmg
+              Apple-silicon .dmg
             </DownloadLink>
             <DownloadLink
               href={WINDOWS_DOWNLOAD_URL}
               platform="windows"
               className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
             >
-              Windows .exe
+              Windows (previous release)
             </DownloadLink>
             <DownloadLink
               href={LINUX_DOWNLOAD_URL}
               platform="linux"
               className="rounded-md border border-border hover:border-foreground/40 px-5 py-2.5 text-sm font-medium transition"
             >
-              Linux AppImage
+              Linux (previous release)
             </DownloadLink>
             <Link
               href="/releases"
