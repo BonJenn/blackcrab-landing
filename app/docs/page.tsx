@@ -188,7 +188,21 @@ export default function DocsPage() {
               </div>
             </DocSection>
 
-            <DocSection id="known-limitations" number="05" title="Known limitations">
+            <DocSection id="mobile" number="05" title="Blackcrab Remote for iPhone and iPad">
+              <p className="text-muted leading-relaxed">
+                Blackcrab Remote is currently an invite-only iOS beta distributed
+                through TestFlight. Invited testers can install it from their
+                TestFlight invitation. A public App Store download is not yet available.
+              </p>
+              <p className="mt-4 text-muted leading-relaxed">
+                The mobile app connects to an authorized Blackcrab environment.
+                Keep the host Mac running and use Settings → Sharing &amp; access
+                in the desktop workspace to configure access. Remote workflows
+                and notifications remain under validation during the beta.
+              </p>
+            </DocSection>
+
+            <DocSection id="known-limitations" number="06" title="Known limitations">
               <ul className="space-y-3 text-muted leading-relaxed list-disc pl-5">
                 <li>
                   Blackcrab is pre-1.0 software. Expect behavior and packaging
@@ -227,6 +241,7 @@ const docLinks: Array<[string, string]> = [
   ["Requirements", "#requirements"],
   ["Privacy and security", "#privacy-security"],
   ["Troubleshooting", "#troubleshooting"],
+  ["Blackcrab Remote", "#mobile"],
   ["Known limitations", "#known-limitations"],
 ];
 

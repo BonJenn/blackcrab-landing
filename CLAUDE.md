@@ -59,3 +59,13 @@ The active desktop plan is
 /Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/desktop-default-042-plan.json.
 The homepage must describe the new workspace; do not restore the old grid image,
 legacy shortcuts or usage-dashboard claims. Historical release posts stay intact.
+
+## Owner polish before 0.4.2 publication — 2026-11-13
+
+The Mac was unlocked and the owner confirmed the sole workspace works. Its private
+candidate is superseded by final branding/version, external-volume picker and
+pane-drop changes (Blackcrab PR277–279). Keep this site unpublished until the
+replacement signed installer is public. The new workspace mobile information link
+lands at /docs#mobile; preserve that anchor and its truthful invite-only TestFlight
+status. The current plan is the sibling workspace-polish-042-plan.json. No new
+mobile build is implied by this Mac release.
