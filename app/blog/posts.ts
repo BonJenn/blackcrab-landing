@@ -25,6 +25,42 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-1-desktop-startup",
+  "title": "Blackcrab 0.4.1: Full desktop startup detection and clearer errors",
+  "dek": "An Apple-silicon Mac patch for an incorrect unavailable status, with more useful startup errors when a desktop cannot open.",
+  "category": "Release notes",
+  "displayDate": "November 12, 2026",
+  "readTime": "2 min read",
+  "tags": [
+    "Release",
+    "macOS",
+    "Fixes"
+  ],
+  "sections": [
+    {
+      "heading": "Checking the installed desktop directly",
+      "paragraphs": [
+        "After the 0.4.0 release, owner testing found that Full desktop could remain unavailable even when both bundled packages were present. Version 0.4.1 asks the native app directly whether the desktop is available, removing a JavaScript runtime-marker check that could incorrectly report a missing package.",
+        "Automated tests reproduce and cover that detection regression. Confirmation that this resolves the reported work-Mac failure still depends on testing the update on that Mac."
+      ]
+    },
+    {
+      "heading": "Useful details when startup fails",
+      "paragraphs": [
+        "Settings now retains specific package, storage and lock errors, including native command failures. If Full desktop is still unavailable after updating, copy the complete status and error text from Settings → Full desktop.",
+        "Existing sessions, the app identity, the updater key and the bundled workspace and service payloads are preserved. This patch does not require deleting app data or changing cache permissions."
+      ]
+    },
+    {
+      "heading": "Updating and testing",
+      "paragraphs": [
+        "Apple-silicon Mac users can update through Blackcrab or download the new DMG. Open Settings → Full desktop → Open full desktop to try the workspace. Previous Intel Mac, Windows and Linux builds remain available on the releases page.",
+        "This corrective release continues owner testing of the 0.4 Mac release. Manual service lifecycle and upgrade testing, and full desktop/mobile remote parity, remain unfinished. No new iOS TestFlight build is included."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-0-managed-mac-workspace",
   "title": "Blackcrab 0.4.0: a full workspace and background service for Mac",
   "dek": "An Apple-silicon release that packages the managed desktop and its background service alongside the existing local session interface.",
@@ -390,6 +426,18 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.1",
+  "label": "Apple-silicon Mac startup patch",
+  "displayDate": "November 12, 2026",
+  "summary": "Corrects a Full desktop availability check and preserves actionable startup errors. Work-Mac resolution remains subject to owner testing.",
+  "changes": [
+    "Query native desktop availability even when a JavaScript runtime marker is missing.",
+    "Show specific package, storage, lock and native-command errors in Settings.",
+    "Preserve existing app data, updater identity and bundled workspace/service payloads.",
+    "Apple-silicon Mac patch; no new iOS TestFlight build. Manual lifecycle and upgrade testing continues."
+  ]
+},
 {
   "version": "v0.4.0",
   "label": "Apple-silicon Mac release",
