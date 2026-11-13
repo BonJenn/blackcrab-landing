@@ -42,3 +42,30 @@ verified v0.4.1 Mac installer is public. The corrected runtime-marker detection
 is tested; the work-Mac resolution remains unconfirmed until owner testing.
 Do not announce completed parity or a new TestFlight build. Keep the published
 0.4.0 assets and previous-platform downloads intact.
+
+
+## 0.4.2 sole-workspace delivery
+
+The owner requested removal of the older interface. Blackcrab PR275 merged to
+stage d9b5601d424e9808ee2c8dcac5bf42f8cf97d137 after all nine checks passed.
+It launches the new workspace automatically, retains startup recovery/service
+controls and signed updates, and replaces remaining onboarding/account branding.
+The dedicated signed helper from PR273 remains part of this release.
+The first private 0.4.2 candidate predates this instruction and is superseded.
+The replacement installer built and passed package/signature/notarization and
+updater verification. Native UI testing is pending while the build Mac is locked.
+Keep this website update unpublished until that exact installer is public. Do not announce complete parity.
+The active desktop plan is
+/Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/desktop-default-042-plan.json.
+The homepage must describe the new workspace; do not restore the old grid image,
+legacy shortcuts or usage-dashboard claims. Historical release posts stay intact.
+
+## Owner polish before 0.4.2 publication — 2026-11-13
+
+The Mac was unlocked and the owner confirmed the sole workspace works. Its private
+candidate is superseded by final branding/version, external-volume picker and
+pane-drop changes (Blackcrab PR277–279). Keep this site unpublished until the
+replacement signed installer is public. The new workspace mobile information link
+lands at /docs#mobile; preserve that anchor and its truthful invite-only TestFlight
+status. The current plan is the sibling workspace-polish-042-plan.json. No new
+mobile build is implied by this Mac release.

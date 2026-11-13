@@ -25,6 +25,49 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-2-one-workspace",
+  "title": "Blackcrab 0.4.2: one workspace from launch",
+  "dek": "The new workspace opens automatically, with Blackcrab branding and a repaired background-service helper.",
+  "category": "Release notes",
+  "displayDate": "November 13, 2026",
+  "readTime": "2 min read",
+  "tags": [
+    "Release",
+    "macOS",
+    "Workspace"
+  ],
+  "sections": [
+    {
+      "heading": "Open straight into your workspace",
+      "paragraphs": [
+        "Blackcrab now opens directly into the new workspace for projects, agents, Git and terminals. The older Claude/Codex interface has been removed, so there is no separate Full desktop button to find.",
+        "Startup prepares the background service and opens the workspace automatically. If startup fails, recovery controls show the error and offer a retry. Service controls and app updates remain available from the Blackcrab app menu."
+      ]
+    },
+    {
+      "heading": "Service startup and Blackcrab branding",
+      "paragraphs": [
+        "Version 0.4.1 could fail because macOS rejected a service helper copied out of the main app bundle. Version 0.4.2 packages a dedicated signed helper and updates an inactive service while retaining its configuration and identity.",
+        "Onboarding, environment selection, account screens and settings now use Blackcrab names and artwork. The workspace displays the Blackcrab release version, and the pink Appearance theme is named Rose. Existing conversations and workspace data remain on disk."
+      ]
+    },
+    {
+      "heading": "Find drives and drop images into the right conversation",
+      "paragraphs": [
+        "The project folder picker now offers Home, External drives and Computer shortcuts on Macs. External drives opens the selected computer’s mounted volumes directly, including when that computer is remote, so you do not need to know or type the hidden mount path.",
+        "In pane mode, images dropped into a conversation now go to that pane instead of the rightmost one. Keyboard commands continue to follow the focused conversation."
+      ]
+    },
+    {
+      "heading": "Updating your Mac",
+      "paragraphs": [
+        "Apple-silicon Mac users can update through Blackcrab or download the 0.4.2 DMG. Keep existing app data when installing. Older Intel Mac, Windows and Linux builds remain available on the releases page.",
+        "Full desktop/mobile remote parity is still being validated. Some background-service diagnostics retain upstream terminology and will be cleaned up in a follow-up. This release does not include a new iOS TestFlight build."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-1-desktop-startup",
   "title": "Blackcrab 0.4.1: Full desktop startup detection and clearer errors",
   "dek": "An Apple-silicon Mac patch for an incorrect unavailable status, with more useful startup errors when a desktop cannot open.",
@@ -426,6 +469,22 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.2",
+  "label": "One Mac workspace",
+  "displayDate": "November 13, 2026",
+  "summary": "Open directly into the new workspace, with automatic service setup, recovery controls and Blackcrab branding.",
+  "changes": [
+    "Remove the older Claude/Codex interface and launch the managed workspace automatically.",
+    "Keep service controls and signed updates available from the app menu.",
+    "Package a dedicated signed service helper and preserve existing workspace identity and data.",
+    "Use Blackcrab product copy and the correct release version throughout workspace settings.",
+    "Add Home, External drives and Computer shortcuts to the Mac project picker.",
+    "Keep dropped images in their intended conversation pane, with keyboard commands following focus.",
+    "Show actionable startup errors and a retry path.",
+    "Apple-silicon Mac only; no new iOS, Windows or Linux build."
+  ]
+},
 {
   "version": "v0.4.1",
   "label": "Apple-silicon Mac startup patch",

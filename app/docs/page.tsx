@@ -29,8 +29,8 @@ export default function DocsPage() {
             </h1>
             <p className="mt-4 text-muted leading-relaxed">
               The short version of what you need before downloading Blackcrab
-              and what to check if the local Claude Code bridge does not start
-              cleanly.
+              and what to check if the workspace or background service does not
+              start cleanly.
             </p>
             <nav className="mt-6 hidden lg:grid gap-2 text-sm text-muted">
               {docLinks.map(([label, href]) => (
@@ -45,32 +45,26 @@ export default function DocsPage() {
             <DocSection id="getting-started" number="01" title="Getting started">
               <ol className="space-y-4 text-muted leading-relaxed list-decimal pl-5">
                 <li>
-                  Install and authenticate Claude Code before opening Blackcrab.
-                  <pre className="mt-3 overflow-x-auto rounded-lg border border-border bg-[#0c0c0c] p-4 text-sm text-foreground">
-                    <code>{`npm install -g @anthropic-ai/claude-code
-claude auth login --claudeai`}</code>
-                  </pre>
-                  <p className="mt-3">
-                    Anthropic Console billing users can use the Claude Code
-                    console login flow instead.
-                  </p>
+                  Download the Apple-silicon Mac installer, move Blackcrab to
+                  Applications, and open it.
                 </li>
                 <li>
-                  Download the latest Blackcrab installer from GitHub Releases,
-                  then launch the app.
+                  Blackcrab prepares the background service and opens the new
+                  workspace automatically. If startup fails, use the recovery
+                  screen to inspect the error and retry.
                 </li>
                 <li>
-                  Confirm the setup screen shows Claude Code as installed and
-                  authenticated.
+                  Follow the workspace setup steps to connect an available agent
+                  provider. Provider sign-in and usage billing remain separate
+                  from the Blackcrab app.
                 </li>
                 <li>
-                  Pick a working directory, start a new session, or resume an
-                  existing session from the sidebar.
+                  Choose a project directory and create or open an agent thread.
+                  Git, terminals and approvals are available in the workspace.
                 </li>
                 <li>
-                  Use grid mode for up to six live panels, open local preview
-                  URLs in the side webview, and export finished sessions as
-                  Markdown.
+                  Use the Blackcrab app menu for background-service controls and
+                  app updates. Keep existing app data when upgrading.
                 </li>
               </ol>
             </DocSection>
@@ -79,15 +73,15 @@ claude auth login --claudeai`}</code>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
                 <RequirementCard
                   title="Released app"
-                  body="Blackcrab 0.4.0 targets Apple-silicon Macs. Previous builds remain available for Intel Macs, Windows and Linux. Local Claude Code sessions require the CLI to be installed and signed in."
+                  body="Blackcrab 0.4.2 targets Apple-silicon Macs. Previous builds remain available for Intel Macs, Windows and Linux. Complete the setup for the agent provider you choose."
                 />
                 <RequirementCard
                   title="Local development"
-                  body="Building from source requires Node.js 20 or newer, Rust stable with Cargo, and the Tauri 2 system dependencies for your target platform."
+                  body="Use the pinned toolchain and build instructions in the repository. The Mac release combines a native launcher, an Electron workspace and a background-service host."
                 />
                 <RequirementCard
                   title="Experience level"
-                  body="The project is early and aimed at people already comfortable with Claude Code, local repositories, shells, and developer tools."
+                  body="The project is early and aimed at people comfortable with coding agents, local repositories, shells and developer tools."
                 />
               </div>
             </DocSection>
@@ -95,29 +89,24 @@ claude auth login --claudeai`}</code>
             <DocSection id="privacy-security" number="03" title="Privacy and security">
               <ul className="space-y-3 text-muted leading-relaxed list-disc pl-5">
                 <li>
-                  Blackcrab is a local app. It does not operate a hosted backend,
-                  proxy Claude traffic, or ask for Anthropic credentials.
+                  Local work runs through the host on your Mac. Blackcrab also
+                  provides account and hosted remote-connection services;
+                  connecting those services involves network requests.
                 </li>
                 <li>
-                  It reads Claude Code session JSONL files under{" "}
-                  <InlineCode>~/.claude/projects</InlineCode>, selected project
-                  paths, git metadata, UI preferences, and files you explicitly
-                  attach.
+                  Agent providers, tools and commands can send data to external
+                  services. Review your provider settings and approval requests
+                  before granting access to sensitive repositories.
                 </li>
                 <li>
-                  Messages are sent to your local <InlineCode>claude</InlineCode>{" "}
-                  CLI subprocess. Network requests come from Claude Code, tools
-                  it runs, opened URLs, or commands you execute locally.
+                  Conversations, project paths, attachments and command output
+                  can contain sensitive information. Treat saved workspace data
+                  and exported files accordingly.
                 </li>
                 <li>
-                  Treat exported Markdown transcripts and Claude session files
-                  as sensitive. They can contain prompts, file paths, command
-                  output, and tool results.
-                </li>
-                <li>
-                  Blackcrab is not a sandbox. It coordinates shells, Claude
-                  subprocesses, file paths, webviews, and git commands on your
-                  local machine.
+                  Blackcrab is not a sandbox. Agents and terminals can use the
+                  permissions of your local user account to work with files,
+                  Git repositories and other developer tools.
                 </li>
               </ul>
               <div className="mt-6 flex flex-wrap gap-3">
@@ -161,18 +150,18 @@ claude auth login --claudeai`}</code>
                   }
                 />
                 <TroubleCard
-                  title="Sessions are missing from the sidebar"
+                  title="Projects or threads are missing"
                   body={
                     <>
-                      Confirm the working directory is correct and that Claude
-                      Code has saved session files under{" "}
-                      <InlineCode>~/.claude/projects</InlineCode>.
+                      Select the environment and project where the thread was created.
+                      Leave existing app data in place while diagnosing a
+                      missing conversation.
                     </>
                   }
                 />
                 <TroubleCard
-                  title="Preview URLs do not render"
-                  body="The preview panel can open HTTP and HTTPS URLs. Some production sites block embedded webviews; use the external browser action when a site refuses to load inside the app."
+                  title="The workspace does not open"
+                  body="Read the startup error, then use the retry or service controls. If it continues to fail, report the exact message and app version. Do not delete workspace data or change cache permissions as a first troubleshooting step."
                 />
                 <TroubleCard
                   title="Updater or download issues"
@@ -199,21 +188,35 @@ claude auth login --claudeai`}</code>
               </div>
             </DocSection>
 
-            <DocSection id="known-limitations" number="05" title="Known limitations">
+            <DocSection id="mobile" number="05" title="Blackcrab Remote for iPhone and iPad">
+              <p className="text-muted leading-relaxed">
+                Blackcrab Remote is currently an invite-only iOS beta distributed
+                through TestFlight. Invited testers can install it from their
+                TestFlight invitation. A public App Store download is not yet available.
+              </p>
+              <p className="mt-4 text-muted leading-relaxed">
+                The mobile app connects to an authorized Blackcrab environment.
+                Keep the host Mac running and use Settings → Sharing &amp; access
+                in the desktop workspace to configure access. Remote workflows
+                and notifications remain under validation during the beta.
+              </p>
+            </DocSection>
+
+            <DocSection id="known-limitations" number="06" title="Known limitations">
               <ul className="space-y-3 text-muted leading-relaxed list-disc pl-5">
                 <li>
                   Blackcrab is pre-1.0 software. Expect behavior and packaging
                   details to change.
                 </li>
                 <li>
-                  Version 0.4.0 is an Apple-silicon Mac release for owner testing.
-                  Manual service lifecycle and upgrade-retention checks follow
-                  publication; full remote validation remains ongoing.
+                  Version 0.4.2 is for Apple-silicon Macs. Full desktop/mobile
+                  remote parity and notifications remain under validation;
+                  this release includes no new iOS build.
                 </li>
                 <li>
-                  The app depends on a working local Claude Code installation and
-                  does not replace Claude Code authentication, billing, or CLI
-                  configuration.
+                  Agent providers have their own setup, authentication and usage
+                  requirements. Blackcrab does not replace those accounts or
+                  subscriptions.
                 </li>
                 <li>
                   Private one-on-one setup support is not part of the current
@@ -238,6 +241,7 @@ const docLinks: Array<[string, string]> = [
   ["Requirements", "#requirements"],
   ["Privacy and security", "#privacy-security"],
   ["Troubleshooting", "#troubleshooting"],
+  ["Blackcrab Remote", "#mobile"],
   ["Known limitations", "#known-limitations"],
 ];
 
