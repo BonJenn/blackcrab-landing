@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
   "title": "Blackcrab 0.4.2: one workspace from launch",
   "dek": "The new workspace opens automatically, with Blackcrab branding and a repaired background-service helper.",
   "category": "Release notes",
-  "displayDate": "November 12, 2026",
+  "displayDate": "November 13, 2026",
   "readTime": "2 min read",
   "tags": [
     "Release",
@@ -48,7 +48,14 @@ export const blogPosts: BlogPost[] = [
       "heading": "Service startup and Blackcrab branding",
       "paragraphs": [
         "Version 0.4.1 could fail because macOS rejected a service helper copied out of the main app bundle. Version 0.4.2 packages a dedicated signed helper and updates an inactive service while retaining its configuration and identity.",
-        "Onboarding, environment selection and account screens now use Blackcrab names and artwork. Existing conversations and workspace data remain on disk."
+        "Onboarding, environment selection, account screens and settings now use Blackcrab names and artwork. The workspace displays the Blackcrab release version, and the pink Appearance theme is named Rose. Existing conversations and workspace data remain on disk."
+      ]
+    },
+    {
+      "heading": "Find drives and drop images into the right conversation",
+      "paragraphs": [
+        "The project folder picker now offers Home, External drives and Computer shortcuts on Macs. External drives opens the selected computer’s mounted volumes directly, including when that computer is remote, so you do not need to know or type the hidden mount path.",
+        "In pane mode, images dropped into a conversation now go to that pane instead of the rightmost one. Keyboard commands continue to follow the focused conversation."
       ]
     },
     {
@@ -465,13 +472,15 @@ export const changelogEntries: ChangelogEntry[] = [
 {
   "version": "v0.4.2",
   "label": "One Mac workspace",
-  "displayDate": "November 12, 2026",
+  "displayDate": "November 13, 2026",
   "summary": "Open directly into the new workspace, with automatic service setup, recovery controls and Blackcrab branding.",
   "changes": [
     "Remove the older Claude/Codex interface and launch the managed workspace automatically.",
     "Keep service controls and signed updates available from the app menu.",
     "Package a dedicated signed service helper and preserve existing workspace identity and data.",
-    "Replace remaining T3 branding in onboarding, environment selection and account screens.",
+    "Use Blackcrab product copy and the correct release version throughout workspace settings.",
+    "Add Home, External drives and Computer shortcuts to the Mac project picker.",
+    "Keep dropped images in their intended conversation pane, with keyboard commands following focus.",
     "Show actionable startup errors and a retry path.",
     "Apple-silicon Mac only; no new iOS, Windows or Linux build."
   ]
