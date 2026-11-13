@@ -52,8 +52,9 @@ It launches the new workspace automatically, retains startup recovery/service
 controls and signed updates, and replaces remaining onboarding/account branding.
 The dedicated signed helper from PR273 remains part of this release.
 The first private 0.4.2 candidate predates this instruction and is superseded.
-A replacement installer is building; keep this website update unpublished until
-that exact installer is verified and public. Do not announce complete parity.
+The replacement installer built and passed package/signature/notarization and
+updater verification. Native UI testing is pending while the build Mac is locked.
+Keep this website update unpublished until that exact installer is public. Do not announce complete parity.
 The active desktop plan is
 /Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/desktop-default-042-plan.json.
 The homepage must describe the new workspace; do not restore the old grid image,
