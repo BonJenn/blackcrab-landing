@@ -62,7 +62,7 @@ export const blogPosts: BlogPost[] = [
       "heading": "Updating your Mac",
       "paragraphs": [
         "Apple-silicon Mac users can update through Blackcrab or download the 0.4.2 DMG. Keep existing app data when installing. Older Intel Mac, Windows and Linux builds remain available on the releases page.",
-        "Full desktop/mobile remote parity is still being validated. This release does not include a new iOS TestFlight build."
+        "Full desktop/mobile remote parity is still being validated. Some background-service diagnostics retain upstream terminology and will be cleaned up in a follow-up. This release does not include a new iOS TestFlight build."
       ]
     }
   ]
