@@ -42,3 +42,14 @@ verified v0.4.1 Mac installer is public. The corrected runtime-marker detection
 is tested; the work-Mac resolution remains unconfirmed until owner testing.
 Do not announce completed parity or a new TestFlight build. Keep the published
 0.4.0 assets and previous-platform downloads intact.
+
+
+## 0.4.2 service startup repair
+
+The 0.4.1 failure is reproduced: copying the signed main app executable into the
+service directory loses its signed Info.plist. Blackcrab PR273 adds a dedicated
+signed helper and a visible desktop entry. Version 0.4.2 is being built as a draft
+for actual runtime validation. Keep this website update local/unpublished until
+its real installer is verified and public. Do not describe overall parity as
+finished or invent native acceptance. The active desktop plan is
+/Volumes/G-DRIVE PRO/Programming/.blackcrab-parity-probes/mac-release-040-v2llrqsa/desktop-patch-042-plan.json.
