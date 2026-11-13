@@ -14,7 +14,27 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current preparation — 0.4.3, not yet published
+## Current published release — 0.4.3
+
+Mac v0.4.3 is PUBLIC from Blackcrab commit
+18055fbc080faa4f6d518c420b19040ce45e3296. Its actual signed/notarized installer,
+embedded helper, payload inventories, updater cryptography and anonymous public
+downloads passed. Website PR16 merged as
+7aebba7bbd55b2deefd3f2012d2ba058cc996115; production deployment
+dpl_Eekh2ZQt8YhrjHtXJMFGnKMyn6xq is READY and verified. Home, release article,
+changelog, releases, docs/mobile anchor and all three platform download routes
+passed anonymously. /download/macos resolves to the public 0.4.3 Apple-silicon
+DMG; Windows/Linux correctly retain their public 0.3.0 installers. TestFlight
+1.0.0 (4) is unchanged. No new user installation or full parity is claimed.
+
+The initial Mac route used cached 0.4.2 metadata, then the existing 300-second
+release fetch revalidated; a full recheck passed. No routing changes were needed.
+Runtime logs for the new deployment reported no error groups. Preserve these
+public releases and historical articles. No build/publication command remains
+active. The app handoff and workspace-043-plan.json hold the next Windows/Linux
+native implementation work. Do not restart superseded release preparations.
+
+## Historical preparation — 0.4.3, before publication
 
 The owner requested the next Mac update. This branch prepares 0.4.3 release copy
 for permission attribution, imported monitor events and pane controls. Do not
