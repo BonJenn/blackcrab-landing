@@ -81,6 +81,10 @@ button {
   height: 100%;
   object-fit: cover;
 }
+
+.site-header .crab-mark img {
+  filter: brightness(0);
+}
 .site-nav {
   display: flex;
   align-items: center;
