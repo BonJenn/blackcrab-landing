@@ -146,3 +146,18 @@ broken. This redesign does not repair the native updater or publish 0.4.4.
 Keep the existing Vercel project, domains and analytics. Check 320px phones,
 tablets and desktop, keyboard pane controls, reduced-motion CSS and no-JS content
 alongside the required download tests, types, scoped lint and production build.
+
+### Redesign publication checkpoint — 2026-11-13 Pacific
+
+PR18 contains the completed redesign (implementation 60f7d5f). Production build,
+TypeScript noEmit, scoped ESLint, three download tests, responsive browser checks
+at 320/390/768/1280/1440px, keyboard pane switching and local production routes
+passed. Existing historical posts, download resolver and analytics are unchanged.
+Vercel rejected the Git deployment with "Account is blocked." No preview was
+created, and PR18 is NOT merged. The team dashboard reports a Hobby Fast Origin
+Transfer fair-use pause from November 13 until December 13, 2026. The existing
+www.blackcrab.app deployment also serves "Deployment Paused"; this branch did not
+change production. Billing/plan changes are not authorized by the redesign brief.
+Once the account pause is resolved, retry the exact PR head preview, inspect it,
+merge only after checks pass, and verify production pages and all download routes.
+Do not substitute another Vercel project or alter the existing domains.
