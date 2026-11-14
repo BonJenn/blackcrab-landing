@@ -18,7 +18,7 @@ export default function DocsPage() {
   return (
     <main className="flex-1 w-full">
       <Nav />
-      <section className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-24">
+      <section id="content" className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-16 items-start">
           <div className="lg:sticky lg:top-20">
             <span className="text-xs font-mono uppercase tracking-wider text-accent">

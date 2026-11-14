@@ -126,3 +126,38 @@ replacement signed installer is public. The new workspace mobile information lin
 lands at /docs#mobile; preserve that anchor and its truthful invite-only TestFlight
 status. The current plan is the sibling workspace-polish-042-plan.json. No new
 mobile build is implied by this Mac release.
+
+## Website redesign — independent of native releases
+
+The design/blackcrab-product-site branch redesigns this existing Next.js site:
+white framing, lavender surfaces, concise model/pane/remote narrative and an
+interactive illustrative workspace. App release work continues separately.
+Do not use public/hero.png (retired interface) on the homepage. WorkspaceDemo is
+an explicitly labeled illustration, not a screenshot or live agent session.
+Claude and Codex are verified in vendor/t3/packages/client-runtime/src/providerClients.ts;
+models and providers are selected per thread. Never imply automatic shared
+context between panes. The desktop is free/open source; paid hosted remote
+access is planned and invitation-only beta. Public self-service is unfinished.
+Preserve Mac 0.4.3 and previous Windows/Linux 0.3.0 routing until verified newer
+installers are public. Do not announce pending TestFlight or desktop builds.
+When verified 0.4.4 installers become public, add a one-time manual replacement
+instruction for 0.4.2/0.4.3 users, keeping app data; their workspace updater is
+broken. This redesign does not repair the native updater or publish 0.4.4.
+Keep the existing Vercel project, domains and analytics. Check 320px phones,
+tablets and desktop, keyboard pane controls, reduced-motion CSS and no-JS content
+alongside the required download tests, types, scoped lint and production build.
+
+### Redesign publication checkpoint — 2026-11-13 Pacific
+
+PR18 contains the completed redesign (implementation 60f7d5f). Production build,
+TypeScript noEmit, scoped ESLint, three download tests, responsive browser checks
+at 320/390/768/1280/1440px, keyboard pane switching and local production routes
+passed. Existing historical posts, download resolver and analytics are unchanged.
+Vercel rejected the Git deployment with "Account is blocked." No preview was
+created, and PR18 is NOT merged. The team dashboard reports a Hobby Fast Origin
+Transfer fair-use pause from November 13 until December 13, 2026. The existing
+www.blackcrab.app deployment also serves "Deployment Paused"; this branch did not
+change production. Billing/plan changes are not authorized by the redesign brief.
+Once the account pause is resolved, retry the exact PR head preview, inspect it,
+merge only after checks pass, and verify production pages and all download routes.
+Do not substitute another Vercel project or alter the existing domains.

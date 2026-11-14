@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <main className="flex-1 w-full">
       <Nav />
-      <article className="mx-auto max-w-6xl px-6 pt-12 pb-20 sm:pt-20">
+      <article id="content" className="mx-auto max-w-6xl px-6 pt-12 pb-20 sm:pt-20">
         <Link
           href="/blog"
           className="inline-flex text-sm text-muted hover:text-foreground transition"

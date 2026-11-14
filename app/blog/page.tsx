@@ -17,14 +17,14 @@ export default function BlogPage() {
   return (
     <main className="flex-1 w-full">
       <Nav />
-      <section className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-24">
+      <section id="content" className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-16 items-center">
           <div className="max-w-2xl">
             <span className="text-xs font-mono uppercase tracking-wider text-accent">
               Blackcrab Devlog
             </span>
             <h1 className="mt-3 text-4xl sm:text-5xl font-semibold tracking-tight leading-tight">
-              Product notes from building a Claude Code workspace.
+              Notes from building Blackcrab.
             </h1>
             <p className="mt-5 text-lg text-muted leading-relaxed">
               A focused blog for design decisions, engineering tradeoffs,
