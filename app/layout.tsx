@@ -33,9 +33,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Blackcrab - A desktop workspace for coding agents",
+  title: "Blackcrab — Different models. One place to work.",
   description:
-    "Manage coding agents, projects, Git, terminals and approvals. Blackcrab 0.4.3 opens directly into one workspace on Apple-silicon Macs.",
+    "Choose your models, work in parallel panes, and keep projects, Git and terminals together. Free, open-source software for Apple-silicon Macs. Remote access in private beta.",
 };
 
 export default function RootLayout({

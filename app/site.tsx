@@ -2,85 +2,65 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const APP_REPO_URL = "https://github.com/BonJenn/blackcrab";
-export const GITHUB_RELEASES_URL = "https://github.com/BonJenn/blackcrab/releases";
+export const GITHUB_RELEASES_URL =
+  "https://github.com/BonJenn/blackcrab/releases";
 export const MAC_DOWNLOAD_URL = "/download/macos";
 export const WINDOWS_DOWNLOAD_URL = "/download/windows";
 export const LINUX_DOWNLOAD_URL = "/download/linux";
-export const PRIVACY_URL = "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
-export const SECURITY_URL = "https://github.com/BonJenn/blackcrab/blob/main/SECURITY.md";
+export const PRIVACY_URL =
+  "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
+export const SECURITY_URL =
+  "https://github.com/BonJenn/blackcrab/blob/main/SECURITY.md";
 export const ISSUES_URL = "https://github.com/BonJenn/blackcrab/issues";
-export const DISCUSSIONS_URL = "https://github.com/BonJenn/blackcrab/discussions";
+export const DISCUSSIONS_URL =
+  "https://github.com/BonJenn/blackcrab/discussions";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-20 bg-black text-white border-b border-white/10">
-      <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-mono text-sm text-white">
-          <CrabMark />
-          <span className="font-semibold tracking-tight">blackcrab</span>
+    <header className="site-header">
+      <a className="skip-link" href="#content">
+        Skip to content
+      </a>
+      <Link href="/" className="wordmark" aria-label="Blackcrab home">
+        <CrabMark />
+        <span>blackcrab</span>
+      </Link>
+      <nav className="site-nav" aria-label="Main navigation">
+        <Link href="/#features" className="nav-features">
+          Features
         </Link>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-white">
-          <Link href="/blog" className="hover:text-white/75 transition-colors">Blog</Link>
-          <Link href="/docs" className="hover:text-white/75 transition-colors">Docs</Link>
-          <Link href="/releases" className="hover:text-white/75 transition-colors">Releases</Link>
-          <a href={DISCUSSIONS_URL} className="hover:text-white/75 transition-colors">Community</a>
-          <a href={APP_REPO_URL} className="hover:text-white/75 transition-colors">GitHub</a>
-        </nav>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/blog"
-            className="md:hidden text-sm font-medium text-white hover:text-white/75 transition-colors"
-          >
-            Blog
-          </Link>
-          <Link
-            href="/docs"
-            className="md:hidden text-sm font-medium text-white hover:text-white/75 transition-colors"
-          >
-            Docs
-          </Link>
-          <Link
-            href="/#download"
-            className="text-sm font-medium rounded-md border border-white/25 bg-white/10 text-white px-3.5 py-1.5 hover:bg-white/15 transition"
-          >
-            Download
-          </Link>
-        </div>
-      </div>
+        <Link href="/docs">Docs</Link>
+        <Link href="/releases" className="nav-releases">
+          Releases
+        </Link>
+        <Link href="/#download" className="nav-download">
+          Get Blackcrab <span aria-hidden="true">↗</span>
+        </Link>
+      </nav>
     </header>
   );
 }
 
 export function Footer() {
   return (
-    <footer className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm text-muted">
-        <div className="flex items-center gap-2 font-mono">
+    <footer className="site-footer">
+      <div className="footer-top">
+        <Link href="/" className="wordmark">
           <CrabMark />
           <span>blackcrab</span>
-        </div>
-        <div className="flex flex-wrap items-center gap-6">
-          <span className="font-mono text-xs">v0.4.3 · Apple-silicon Mac</span>
-          <Link href="/docs" className="hover:text-foreground transition">
-            Docs
-          </Link>
-          <Link href="/blog" className="hover:text-foreground transition">
-            Blog
-          </Link>
-          <Link href="/releases" className="hover:text-foreground transition">
-            Releases
-          </Link>
-          <a href={DISCUSSIONS_URL} className="hover:text-foreground transition">
-            Discussions
-          </a>
-          <a href={APP_REPO_URL} className="hover:text-foreground transition">
-            GitHub
-          </a>
-          <Link href="/changelog" className="hover:text-foreground transition">
-            Changelog
-          </Link>
-          <span>© {new Date().getFullYear()}</span>
-        </div>
+        </Link>
+        <p>Space for the way you work.</p>
+      </div>
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} Blackcrab</span>
+        <nav aria-label="Footer navigation">
+          <Link href="/docs">Docs</Link>
+          <Link href="/blog">Journal</Link>
+          <Link href="/changelog">Changelog</Link>
+          <Link href="/releases">Releases</Link>
+          <a href={DISCUSSIONS_URL}>Community</a>
+          <a href={APP_REPO_URL}>GitHub</a>
+        </nav>
       </div>
     </footer>
   );
@@ -88,10 +68,7 @@ export function Footer() {
 
 function CrabMark() {
   return (
-    <span
-      aria-hidden
-      className="inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-[5px]"
-    >
+    <span aria-hidden className="crab-mark">
       <Image
         src="/blackcrab_logo.png"
         alt=""
