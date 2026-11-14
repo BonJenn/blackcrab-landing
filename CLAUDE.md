@@ -161,3 +161,20 @@ change production. Billing/plan changes are not authorized by the redesign brief
 Once the account pause is resolved, retry the exact PR head preview, inspect it,
 merge only after checks pass, and verify production pages and all download routes.
 Do not substitute another Vercel project or alter the existing domains.
+
+### Redesign published — 2026-11-13 Pacific
+
+The owner upgraded Vercel and explicitly authorized deployment. PR18 merged as
+30a0e74e2c40d0d1f317d47911a03d328f4a5559 after both checks passed on
+9e03f9376742e69cb98dfeca39c94beb59fc70b6. Exact-head preview
+dpl_5i4bkqUcPBwym3RVk2xt4ux4HpRk was READY and passed desktop/mobile visual,
+pane-switching and route checks before merge. Production deployment
+dpl_5HuQvgHWAMZghBadigTv9vfME3DH is READY and serves www.blackcrab.app.
+The earlier account pause is resolved; do not treat it as a current blocker.
+
+Anonymous production home, 0.4.3 article, changelog, releases and docs/mobile
+anchor passed. The apex redirects to www. All three download routes returned
+302: Mac v0.4.3 aarch64 DMG, Windows v0.3.0 x64 setup EXE and Linux v0.3.0 amd64
+AppImage. Runtime error/fatal log groups were empty for the new deployment.
+PR18 is merged and unwatched. No native app or TestFlight release was made by
+this site work. Keep that independent release work and all download truth intact.
