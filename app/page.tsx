@@ -40,7 +40,7 @@ export default function Home() {
                 Download for Mac <Arrow down />
               </DownloadLink>
               <span className="download-note">
-                Apple silicon · Free &amp; open source
+                Mac, Windows &amp; Linux · Free &amp; open source
               </span>
             </div>
           </div>
@@ -271,15 +271,15 @@ export default function Home() {
               >
                 Download for Mac <Arrow down />
               </DownloadLink>
-              <p>v0.4.3 · Apple silicon</p>
+              <p>v0.4.4 · Apple silicon</p>
             </div>
             <div className="download-alternatives">
               <span>Other platforms</span>
               <DownloadLink href={WINDOWS_DOWNLOAD_URL} platform="windows">
-                Windows <span>v0.3.0</span>
+                Windows <span>v0.4.4</span>
               </DownloadLink>
               <DownloadLink href={LINUX_DOWNLOAD_URL} platform="linux">
-                Linux <span>v0.3.0</span>
+                Linux <span>v0.4.4</span>
               </DownloadLink>
               <Link href="/releases">
                 All releases <Arrow />

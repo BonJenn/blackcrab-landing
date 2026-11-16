@@ -25,6 +25,50 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-4-windows-linux",
+  "title": "Blackcrab 0.4.4: the full workspace on Windows and Linux",
+  "dek": "Windows and Linux now get the same workspace and background service as the Mac app. Mac gets a working in-app update button.",
+  "category": "Release notes",
+  "displayDate": "November 15, 2026",
+  "readTime": "2 min read",
+  "tags": [
+    "Release",
+    "Windows",
+    "Linux",
+    "macOS"
+  ],
+  "sections": [
+    {
+      "heading": "Windows and Linux join the Mac",
+      "paragraphs": [
+        "Blackcrab 0.4.4 installs the full workspace on 64-bit Windows and 64-bit Linux, with the same per-user background service the Mac app uses. Agents keep running when you close the window.",
+        "Windows has one installer. Linux has a .deb package and an AppImage."
+      ]
+    },
+    {
+      "heading": "Installing on Windows",
+      "paragraphs": [
+        "The Windows installer is not yet code-signed. On first run Windows shows “Windows protected your PC”. Choose More info, then Run anyway. Some company-managed PCs block unsigned software entirely.",
+        "The in-app browser is not available on Windows yet."
+      ]
+    },
+    {
+      "heading": "Mac: the update button works",
+      "paragraphs": [
+        "The update control inside the workspace now checks, downloads and installs through the signed launcher, and shows real progress.",
+        "If you are on 0.4.2 or 0.4.3, install this version by hand: the update button inside those versions does not work. Download the DMG, quit Blackcrab and replace it in Applications. Your conversations, settings and running background service are kept."
+      ]
+    },
+    {
+      "heading": "Good to know",
+      "paragraphs": [
+        "Windows and Linux builds do not update themselves yet. Install later versions from the download page.",
+        "The Windows and Linux builds were verified on automated test machines. Please report anything that misbehaves on your computer. No new iOS TestFlight build is included."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-3-workspace-fixes",
   "title": "Blackcrab 0.4.3: clearer messages and reachable pane controls",
   "dek": "An Apple-silicon Mac update for permission attribution, imported monitor messages, and split-pane controls.",
@@ -511,6 +555,19 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.4",
+  "label": "Windows and Linux workspace",
+  "displayDate": "November 15, 2026",
+  "summary": "Bring the full workspace and background service to Windows and Linux, and fix the Mac in-app update button.",
+  "changes": [
+    "Install the full workspace and per-user background service on 64-bit Windows and 64-bit Linux (.deb and AppImage).",
+    "Mac: the workspace update control checks, downloads and installs through the signed launcher.",
+    "Mac users on 0.4.2 or 0.4.3 install this version by hand from the DMG; app data is kept.",
+    "The Windows installer is unsigned; choose More info, then Run anyway. Windows has no in-app browser yet.",
+    "Windows and Linux builds do not update themselves yet. TestFlight is unchanged."
+  ]
+},
 {
   "version": "v0.4.3",
   "label": "Mac workspace fixes",

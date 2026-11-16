@@ -97,7 +97,7 @@ export default async function ReleasesPage() {
                 source="releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
               >
-                Windows (previous release)
+                Windows installer
               </DownloadLink>
               <DownloadLink
                 href={LINUX_DOWNLOAD_URL}
@@ -105,7 +105,7 @@ export default async function ReleasesPage() {
                 source="releases"
                 className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition text-center"
               >
-                Linux (previous release)
+                Linux AppImage
               </DownloadLink>
               <a
                 href={GITHUB_RELEASES_URL}
@@ -543,7 +543,7 @@ function EmptyReleases() {
           source="releases"
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
         >
-          Windows (previous release)
+          Windows installer
         </DownloadLink>
         <DownloadLink
           href={LINUX_DOWNLOAD_URL}
@@ -551,7 +551,7 @@ function EmptyReleases() {
           source="releases"
           className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
         >
-          Linux (previous release)
+          Linux AppImage
         </DownloadLink>
         <a
           href={GITHUB_RELEASES_URL}
