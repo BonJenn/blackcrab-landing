@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   DISCUSSIONS_URL,
   Footer,
   ISSUES_URL,
   Nav,
+  PRIVACY_POLICY_URL,
   PRIVACY_URL,
   SECURITY_URL,
 } from "../site";
@@ -112,11 +114,17 @@ export default function DocsPage() {
                 </li>
               </ul>
               <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  href={PRIVACY_POLICY_URL}
+                  className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
+                >
+                  Privacy policy
+                </Link>
                 <a
                   href={PRIVACY_URL}
                   className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40 transition"
                 >
-                  Privacy details
+                  Desktop privacy notes
                 </a>
                 <a
                   href={SECURITY_URL}

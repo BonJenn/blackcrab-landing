@@ -9,6 +9,14 @@ export const WINDOWS_DOWNLOAD_URL = "/download/windows";
 export const LINUX_DOWNLOAD_URL = "/download/linux";
 export const PRIVACY_URL =
   "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
+export const PRIVACY_POLICY_URL = "/privacy-policy";
+export const TERMS_URL = "/terms-of-service";
+export const SECURITY_POLICY_URL = "/security-policy";
+export const SUPPORT_PAGE_URL = "/support";
+export const APP_LICENSE_URL =
+  "https://github.com/BonJenn/blackcrab/blob/main/LICENSE";
+export const SECURITY_ADVISORY_URL =
+  "https://github.com/BonJenn/blackcrab/security/advisories/new";
 export const SECURITY_URL =
   "https://github.com/BonJenn/blackcrab/blob/main/SECURITY.md";
 export const ISSUES_URL = "https://github.com/BonJenn/blackcrab/issues";
@@ -60,6 +68,9 @@ export function Footer() {
           <Link href="/releases">Releases</Link>
           <a href={DISCUSSIONS_URL}>Community</a>
           <a href={APP_REPO_URL}>GitHub</a>
+          <Link href={PRIVACY_POLICY_URL}>Privacy</Link>
+          <Link href={TERMS_URL}>Terms</Link>
+          <Link href={SUPPORT_PAGE_URL}>Support</Link>
         </nav>
       </div>
     </footer>
