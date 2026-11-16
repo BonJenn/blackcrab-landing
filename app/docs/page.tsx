@@ -45,8 +45,10 @@ export default function DocsPage() {
             <DocSection id="getting-started" number="01" title="Getting started">
               <ol className="space-y-4 text-muted leading-relaxed list-decimal pl-5">
                 <li>
-                  Download the Apple-silicon Mac installer, move Blackcrab to
-                  Applications, and open it.
+                  Download the installer for your computer and open Blackcrab.
+                  On a Mac, move it to Applications first. On Windows, the
+                  installer is not yet code-signed: if you see &ldquo;Windows
+                  protected your PC&rdquo;, choose More info, then Run anyway.
                 </li>
                 <li>
                   Blackcrab prepares the background service and opens the new
@@ -73,7 +75,7 @@ export default function DocsPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
                 <RequirementCard
                   title="Released app"
-                  body="Blackcrab 0.4.3 targets Apple-silicon Macs. Previous builds remain available for Intel Macs, Windows and Linux. Complete the setup for the agent provider you choose."
+                  body="Blackcrab 0.4.4 runs on Apple-silicon Macs, 64-bit Windows and 64-bit Linux. A previous build remains available for Intel Macs. Complete the setup for the agent provider you choose."
                 />
                 <RequirementCard
                   title="Local development"
@@ -209,9 +211,19 @@ export default function DocsPage() {
                   details to change.
                 </li>
                 <li>
-                  Version 0.4.3 is for Apple-silicon Macs. Full desktop/mobile
-                  remote parity and notifications remain under validation;
-                  this release includes no new iOS build.
+                  Windows and Linux builds do not update themselves yet;
+                  install later versions from the download page. The Windows
+                  installer is unsigned and Windows has no in-app browser yet.
+                </li>
+                <li>
+                  Mac users on 0.4.2 or 0.4.3 must install 0.4.4 by hand: the
+                  update button inside those versions does not work. Download
+                  the DMG, quit Blackcrab and replace it in Applications. Your
+                  conversations and settings are kept.
+                </li>
+                <li>
+                  Full desktop/mobile remote parity and notifications remain
+                  under validation; this release includes no new iOS build.
                 </li>
                 <li>
                   Agent providers have their own setup, authentication and usage

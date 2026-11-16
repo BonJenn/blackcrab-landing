@@ -14,7 +14,19 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current published release — 0.4.3
+## Current published release — 0.4.4
+
+v0.4.4 is PUBLIC (published 2026-11-16 UTC) from Blackcrab commit
+02afb2ed98d9cffff8fc7c768058cf6803922c8c, for Apple-silicon Mac, Windows x64
+and Linux x64 (.deb and AppImage). The Mac installer is signed/notarized and
+was installed by the owner before publication. Windows/Linux installers passed
+CI install-and-open tests only; the Windows installer is unsigned, neither
+updates itself, and Windows has no in-app browser. All three /download routes
+resolve from the latest GitHub release (300-second revalidation). Site copy
+for 0.4.4 is on branch release/0.4.4-all-platforms. Keep the manual
+replacement instruction for Mac 0.4.2/0.4.3 users. TestFlight is unchanged.
+
+## Previous published release — 0.4.3
 
 Mac v0.4.3 is PUBLIC from Blackcrab commit
 18055fbc080faa4f6d518c420b19040ce45e3296. Its actual signed/notarized installer,
