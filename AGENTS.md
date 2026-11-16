@@ -190,3 +190,16 @@ anchor passed. The apex redirects to www. All three download routes returned
 AppImage. Runtime error/fatal log groups were empty for the new deployment.
 PR18 is merged and unwatched. No native app or TestFlight release was made by
 this site work. Keep that independent release work and all download truth intact.
+
+## Legal and support pages — 2026-11-16
+
+The Blackcrab iOS app opens these exact paths in an in-app web view for Apple
+App Review: /legal, /privacy-policy, /terms-of-service, /security-policy and
+/support. /privacy and /terms redirect (next.config.ts). Keep the paths, keep
+them server-rendered (readable without JavaScript and at 320px), and keep the
+footer Privacy/Terms/Support links. The shared shell is app/legal-page.tsx.
+The support contact channel is public GitHub Issues: blackcrab.app has no mail,
+so never publish an @blackcrab.app address or the owner's personal details. The
+terms name no legal entity or governing law because none has been supplied.
+The in-app account deletion path in the privacy policy and support page
+(Settings → Delete account) must match the shipped iOS app.
