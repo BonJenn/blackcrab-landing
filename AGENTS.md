@@ -14,7 +14,18 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current published release — 0.4.4
+## Current published release — 0.4.5
+
+v0.4.5 is PUBLIC (published 2026-11-17 UTC) from Blackcrab commit
+b3b7cbd63fcb1aaa41c49e22bd271a90e2faafe6, for Apple-silicon Mac, Windows x64
+and Linux x64. It adds model collaboration, IDE mode, sidebar sign-in, self-update
+on Windows and Linux, the Windows in-app browser, and a new background service
+that is upgraded in place on first launch. The owner published it without a Mac
+test ("im not at home now. just publish it"). Windows is still unsigned. All
+three /download routes resolve from the latest GitHub release. Site copy is on
+branch release/0.4.5. TestFlight/App Store work is separate.
+
+## Previous published release — 0.4.4
 
 v0.4.4 is PUBLIC (published 2026-11-16 UTC) from Blackcrab commit
 02afb2ed98d9cffff8fc7c768058cf6803922c8c, for Apple-silicon Mac, Windows x64
