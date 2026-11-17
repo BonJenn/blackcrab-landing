@@ -77,7 +77,7 @@ export default function DocsPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
                 <RequirementCard
                   title="Released app"
-                  body="Blackcrab 0.4.5 runs on Apple-silicon Macs, 64-bit Windows and 64-bit Linux. A previous build remains available for Intel Macs. Complete the setup for the agent provider you choose."
+                  body="Blackcrab 0.4.6 runs on Apple-silicon Macs, 64-bit Windows and 64-bit Linux. A previous build remains available for Intel Macs. Complete the setup for the agent provider you choose."
                 />
                 <RequirementCard
                   title="Local development"
@@ -224,12 +224,12 @@ export default function DocsPage() {
                   Windows installer is unsigned.
                 </li>
                 <li>
-                  The first launch of 0.4.5 updates your background service.
+                  Each update restarts your background service once.
                   Agents that are working at that moment are stopped;
                   conversations and settings are kept.
                 </li>
                 <li>
-                  Mac users on 0.4.2 or 0.4.3 must install 0.4.5 by hand: the
+                  Mac users on 0.4.2 or 0.4.3 must install 0.4.6 by hand: the
                   update button inside those versions does not work. Download
                   the DMG, quit Blackcrab and replace it in Applications. Your
                   conversations and settings are kept.

@@ -14,7 +14,14 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current published release — 0.4.5
+## Current published release — 0.4.6
+
+v0.4.6 is PUBLIC (2026-11-17 UTC) from Blackcrab commit
+f91fcbfa8474e322a344dbe9b661753506b9cf1f, all three platforms. It fixes the
+hidden IDE mode button and the Mac service's tool search path. Published
+without a Mac launch on the owner's instruction. Site copy: branch release/0.4.6.
+
+## Previous published release — 0.4.5
 
 v0.4.5 is PUBLIC (published 2026-11-17 UTC) from Blackcrab commit
 b3b7cbd63fcb1aaa41c49e22bd271a90e2faafe6, for Apple-silicon Mac, Windows x64
