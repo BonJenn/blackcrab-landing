@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import type { DownloadStats } from "../lib/tracking";
 import { getDownloadStats } from "../lib/tracking";
 import { getSql } from "../lib/db";
+import type { GitHubDownloadCounts } from "../lib/githubDownloads";
+import { getGitHubDownloadCounts } from "../lib/githubDownloads";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +26,10 @@ export default async function AdminPage({
   }
 
   const configured = getSql() !== null;
-  const stats = await getDownloadStats();
+  const [stats, github] = await Promise.all([
+    getDownloadStats(),
+    getGitHubDownloadCounts(),
+  ]);
 
   return (
     <main className="min-h-screen bg-white text-[#202022] p-8">
@@ -52,19 +57,27 @@ export default async function AdminPage({
           </Notice>
         )}
 
-        {stats !== null && <Dashboard stats={stats} />}
+        {stats !== null && <Dashboard stats={stats} github={github} />}
       </div>
     </main>
   );
 }
 
-function Dashboard({ stats }: { stats: DownloadStats }) {
+function Dashboard({
+  stats,
+  github,
+}: {
+  stats: DownloadStats;
+  github: GitHubDownloadCounts | null;
+}) {
   const successfulUpdateChecks = countUpdateEvent(stats, "update_check");
   const updateStarts = countUpdateEvent(stats, "update_started");
   const updateCompletions = countUpdateEvent(stats, "update_completed");
   const updateFailures = countUpdateEvent(stats, "update_failed");
   const checkFailures = countUpdateFailures(stats, "check");
-  const installFailures = countUpdateFailures(stats, "install");
+  const installFailures =
+    countUpdateFailures(stats, "install") +
+    countUpdateFailures(stats, "download");
   const hasFailureDetails = stats.update_failures != null;
   const otherFailures = Math.max(
     0,
@@ -80,12 +93,52 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
         <StatCard
           label="Download redirects"
           value={stats.total_download_redirects ?? stats.total}
+          note={
+            stats.download_bot_redirects != null
+              ? `${stats.download_bot_redirects} flagged as bots or link previews since tracking began. All are counted.`
+              : undefined
+          }
         />
         <StatCard
           label="Active installs, 30 days"
           value={stats.active_installs_total ?? 0}
         />
       </div>
+
+      <Section title="Installer downloads on GitHub">
+        {github === null ? (
+          <Notice color="yellow">
+            GitHub download counts could not be loaded. Set{" "}
+            <code className="font-mono">GITHUB_TOKEN</code> if the API is
+            rate limiting this server.
+          </Notice>
+        ) : (
+          <div className="space-y-4">
+            <Table
+              headers={["Platform", "Downloads from GitHub"]}
+              rows={Object.entries(PLATFORMS).map(([key, label]) => [
+                label,
+                String(
+                  github.byPlatform[key as keyof typeof github.byPlatform],
+                ),
+              ])}
+            />
+            <Table
+              headers={["Release", "macOS", "Windows", "Linux"]}
+              rows={github.byRelease.map((r) => [
+                r.tag,
+                String(r.macos),
+                String(r.windows),
+                String(r.linux),
+              ])}
+            />
+            <p className="text-sm text-[#63616b]">
+              GitHub counts every installer download, including direct release
+              links that never pass through blackcrab.app/download.
+            </p>
+          </div>
+        )}
+      </Section>
 
       <Section title="Update health summary">
         {hasFailureDetails ? (
@@ -98,7 +151,10 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
             <StatCard label="Check failures" value={checkFailures} />
             <StatCard label="Install starts" value={updateStarts} />
             <StatCard label="Completed installs" value={updateCompletions} />
-            <StatCard label="Install failures" value={installFailures} />
+            <StatCard
+              label="Download or install failures"
+              value={installFailures}
+            />
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -386,8 +442,9 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
           </p>
           <p className="mt-3">
             Download redirects are counted on the server every time a download
-            link is followed, so repeat clicks and link-preview bots are
-            included. Launch and update events are sent by the desktop app
+            link is followed, including when GitHub could not be reached, so
+            repeat clicks and link-preview bots are included. Bots are flagged
+            from their user agent but never dropped. Launch and update events are sent by the desktop app
             itself, and as of 0.4.6 only versions up to 0.4.1 send them.
           </p>
         </div>
@@ -429,11 +486,20 @@ function TrendChart({
   );
 }
 
-function StatCard({ label, value }: { label: string; value: number }) {
+function StatCard({
+  label,
+  value,
+  note,
+}: {
+  label: string;
+  value: number;
+  note?: string;
+}) {
   return (
     <div className="rounded-xl border border-[#e4e2e8] bg-[#f7f5fa] p-6">
       <p className="text-sm text-[#63616b]">{label}</p>
       <p className="mt-1 text-5xl font-semibold tabular-nums">{value}</p>
+      {note && <p className="mt-2 text-xs text-[#63616b]">{note}</p>}
     </div>
   );
 }

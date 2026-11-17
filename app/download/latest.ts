@@ -12,7 +12,17 @@ async function fetchReleaseData(suffix: string) {
   });
 }
 
-export async function redirectToLatestDownload(platform: DownloadPlatform) {
+export async function redirectToLatestDownload(
+  platform: DownloadPlatform,
+  request?: Request,
+) {
+  const userAgent = request?.headers.get("user-agent") ?? null;
+  // Every redirect is a download attempt, including the ones that fall back to
+  // the releases page because GitHub could not be reached.
+  const fallback = async () => {
+    await trackDownload(platform, "unknown", userAgent);
+    return NextResponse.redirect(RELEASES_FALLBACK, 302);
+  };
   try {
     const latest = await fetchReleaseData("/latest");
     let selected = latest.ok
@@ -23,10 +33,10 @@ export async function redirectToLatestDownload(platform: DownloadPlatform) {
       const history = await fetchReleaseData("?per_page=100");
       if (history.ok) selected = selectReleaseDownload(await history.json() as GitHubRelease[], platform);
     }
-    if (!selected) return NextResponse.redirect(RELEASES_FALLBACK, 302);
-    await trackDownload(platform, selected.version);
+    if (!selected) return await fallback();
+    await trackDownload(platform, selected.version, userAgent);
     return NextResponse.redirect(selected.asset.browser_download_url!, 302);
   } catch {
-    return NextResponse.redirect(RELEASES_FALLBACK, 302);
+    return await fallback();
   }
 }
