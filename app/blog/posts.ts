@@ -25,6 +25,65 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-5-collaboration-ide-mode",
+  "title": "Blackcrab 0.4.5: two models on one task, and IDE mode",
+  "dek": "Pair a second model to review the first, open your code beside the conversation, and let Windows and Linux update themselves.",
+  "category": "Release notes",
+  "displayDate": "November 16, 2026",
+  "readTime": "3 min read",
+  "tags": [
+    "Release",
+    "Models",
+    "Windows",
+    "Linux",
+    "macOS"
+  ],
+  "sections": [
+    {
+      "heading": "Model collaboration",
+      "paragraphs": [
+        "Click the plus beside the model picker and choose a partner model. The lead model does the work, the partner reviews it, and the lead resolves what the review found. All three passes run in the same conversation.",
+        "The reviewer is told not to edit. It runs under the same permission mode as the rest of the conversation, not in a separate read-only sandbox."
+      ]
+    },
+    {
+      "heading": "IDE mode",
+      "paragraphs": [
+        "A new IDE mode button in the chat header opens a code panel beside the conversation, with a file tree and editor. It follows the files your agent changes and refreshes them from disk.",
+        "You can edit and save. A save is refused if the file changed on disk since you opened it, and the previous contents are kept in a recovery copy beside the file. Select lines to attach them to your next message."
+      ]
+    },
+    {
+      "heading": "Sign in from the sidebar",
+      "paragraphs": [
+        "Sign in to Blackcrab Connect is now in the main sidebar, not only at the bottom of Settings."
+      ]
+    },
+    {
+      "heading": "Windows and Linux update themselves",
+      "paragraphs": [
+        "From 0.4.5 on, Windows and Linux are offered new versions inside the app. A Linux .deb installation asks for your administrator password to update.",
+        "Windows users on 0.4.4 need to download and run the 0.4.5 installer once; self-update starts with this version. The in-app browser now works on Windows too."
+      ]
+    },
+    {
+      "heading": "Your background service is updated on first launch",
+      "paragraphs": [
+        "This is the first release since 0.4.0 that changes the background service. The first time 0.4.5 opens, it stops the service, updates it and starts it again. Agents that are working at that moment are stopped. Conversations, settings and sign-ins are kept.",
+        "If you have agents mid-task, let them finish before you update."
+      ]
+    },
+    {
+      "heading": "Good to know",
+      "paragraphs": [
+        "The Windows installer is still not code-signed. On first run Windows shows “Windows protected your PC”; choose More info, then Run anyway.",
+        "Mac users on 0.4.2 or 0.4.3 install by hand: download the DMG, quit Blackcrab and replace it in Applications.",
+        "The Windows and Linux builds were verified on automated test machines. Please report anything that misbehaves on your computer. No new iOS build is part of this release."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-4-windows-linux",
   "title": "Blackcrab 0.4.4: the full workspace on Windows and Linux",
   "dek": "Windows and Linux now get the same workspace and background service as the Mac app. Mac gets a working in-app update button.",
@@ -555,6 +614,21 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.5",
+  "label": "Model collaboration and IDE mode",
+  "displayDate": "November 16, 2026",
+  "summary": "Pair two models on one task, open code beside the conversation, and self-update on Windows and Linux.",
+  "changes": [
+    "Model collaboration: a partner model reviews the lead model's work, and the lead resolves the review.",
+    "IDE mode: a code panel with file tree and editor beside the conversation, with guarded saves.",
+    "Sign in to Blackcrab Connect from the main sidebar.",
+    "Windows and Linux are offered updates inside the app from this version on.",
+    "The in-app browser works on Windows.",
+    "The background service is updated in place on first launch; running agents are stopped once, data is kept.",
+    "The Windows installer is still unsigned; choose More info, then Run anyway."
+  ]
+},
 {
   "version": "v0.4.4",
   "label": "Windows and Linux workspace",
