@@ -200,8 +200,8 @@ export default function DocsPage() {
 
             <DocSection id="mobile" number="05" title="Blackcrab Remote for iPhone and iPad">
               <p className="text-muted leading-relaxed">
-                Blackcrab Remote is currently an invite-only iOS beta distributed
-                through TestFlight. Invited testers can install it from their
+                The Blackcrab iPhone and iPad app is coming soon. It is currently
+                an invite-only iOS beta distributed through TestFlight. Invited testers can install it from their
                 TestFlight invitation. A public App Store download is not yet available.
               </p>
               <p className="mt-4 text-muted leading-relaxed">
