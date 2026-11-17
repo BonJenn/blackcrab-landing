@@ -230,6 +230,10 @@ export async function getDownloadStats(): Promise<DownloadStats | null> {
             'update_failed'
           )
             AND install_hash IS NOT NULL
+            AND NOT (
+              event_type = 'update_failed'
+              AND coalesce(metadata->>'stage', '') = 'check'
+            )
           GROUP BY install_hash, coalesce(to_version, 'none/unknown')
         )
         SELECT
