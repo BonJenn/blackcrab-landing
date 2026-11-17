@@ -35,7 +35,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Blackcrab — Different models. One place to work.",
   description:
-    "Choose your models, work in parallel panes, and keep projects, Git and terminals together. Free, open-source software for Mac, Windows and Linux. Remote access in private beta.",
+    "Choose your models, pair a second model to review the first, work in parallel panes, open an IDE beside the conversation, and use multiple windows. Free, open-source software for Mac, Windows and Linux. iPhone and iPad app coming soon.",
 };
 
 export default function RootLayout({
