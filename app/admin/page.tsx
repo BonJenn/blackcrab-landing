@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import type { DownloadStats } from "../lib/tracking";
 import { getDownloadStats } from "../lib/tracking";
 import { getSql } from "../lib/db";
+import type { GitHubDownloadCounts } from "../lib/githubDownloads";
+import { getGitHubDownloadCounts } from "../lib/githubDownloads";
 
 export const dynamic = "force-dynamic";
 
@@ -24,13 +26,16 @@ export default async function AdminPage({
   }
 
   const configured = getSql() !== null;
-  const stats = await getDownloadStats();
+  const [stats, github] = await Promise.all([
+    getDownloadStats(),
+    getGitHubDownloadCounts(),
+  ]);
 
   return (
-    <main className="min-h-screen bg-black text-white p-8">
+    <main className="min-h-screen bg-white text-[#202022] p-8">
       <div className="mx-auto max-w-4xl space-y-10">
         <header>
-          <p className="text-xs font-mono uppercase tracking-wider text-[#e5663a]">
+          <p className="text-xs font-mono uppercase tracking-wider text-[#665185]">
             Admin
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">
@@ -52,19 +57,27 @@ export default async function AdminPage({
           </Notice>
         )}
 
-        {stats !== null && <Dashboard stats={stats} />}
+        {stats !== null && <Dashboard stats={stats} github={github} />}
       </div>
     </main>
   );
 }
 
-function Dashboard({ stats }: { stats: DownloadStats }) {
+function Dashboard({
+  stats,
+  github,
+}: {
+  stats: DownloadStats;
+  github: GitHubDownloadCounts | null;
+}) {
   const successfulUpdateChecks = countUpdateEvent(stats, "update_check");
   const updateStarts = countUpdateEvent(stats, "update_started");
   const updateCompletions = countUpdateEvent(stats, "update_completed");
   const updateFailures = countUpdateEvent(stats, "update_failed");
   const checkFailures = countUpdateFailures(stats, "check");
-  const installFailures = countUpdateFailures(stats, "install");
+  const installFailures =
+    countUpdateFailures(stats, "install") +
+    countUpdateFailures(stats, "download");
   const hasFailureDetails = stats.update_failures != null;
   const otherFailures = Math.max(
     0,
@@ -80,12 +93,52 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
         <StatCard
           label="Download redirects"
           value={stats.total_download_redirects ?? stats.total}
+          note={
+            stats.download_bot_redirects != null
+              ? `${stats.download_bot_redirects} flagged as bots or link previews since tracking began. All are counted.`
+              : undefined
+          }
         />
         <StatCard
           label="Active installs, 30 days"
           value={stats.active_installs_total ?? 0}
         />
       </div>
+
+      <Section title="Installer downloads on GitHub">
+        {github === null ? (
+          <Notice color="yellow">
+            GitHub download counts could not be loaded. Set{" "}
+            <code className="font-mono">GITHUB_TOKEN</code> if the API is
+            rate limiting this server.
+          </Notice>
+        ) : (
+          <div className="space-y-4">
+            <Table
+              headers={["Platform", "Downloads from GitHub"]}
+              rows={Object.entries(PLATFORMS).map(([key, label]) => [
+                label,
+                String(
+                  github.byPlatform[key as keyof typeof github.byPlatform],
+                ),
+              ])}
+            />
+            <Table
+              headers={["Release", "macOS", "Windows", "Linux"]}
+              rows={github.byRelease.map((r) => [
+                r.tag,
+                String(r.macos),
+                String(r.windows),
+                String(r.linux),
+              ])}
+            />
+            <p className="text-sm text-[#63616b]">
+              GitHub counts every installer download, including direct release
+              links that never pass through blackcrab.app/download.
+            </p>
+          </div>
+        )}
+      </Section>
 
       <Section title="Update health summary">
         {hasFailureDetails ? (
@@ -98,7 +151,10 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
             <StatCard label="Check failures" value={checkFailures} />
             <StatCard label="Install starts" value={updateStarts} />
             <StatCard label="Completed installs" value={updateCompletions} />
-            <StatCard label="Install failures" value={installFailures} />
+            <StatCard
+              label="Download or install failures"
+              value={installFailures}
+            />
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -369,19 +425,27 @@ function Dashboard({ stats }: { stats: DownloadStats }) {
       </Section>
 
       <Section title="Data notes">
-        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-6 text-white/60">
+        <div className="rounded-xl border border-[#e4e2e8] bg-[#f7f5fa] p-4 text-sm leading-6 text-[#55535c]">
           <p>
             Successful checks are emitted only after the desktop updater returns
-            from <code className="font-mono text-white/80">check()</code>.
+            from <code className="font-mono text-[#202022]">check()</code>.
             Failed check attempts are stored as{" "}
-            <code className="font-mono text-white/80">update_failed</code>{" "}
-            events with <code className="font-mono text-white/80">stage</code>{" "}
-            set to <code className="font-mono text-white/80">check</code>.
+            <code className="font-mono text-[#202022]">update_failed</code>{" "}
+            events with <code className="font-mono text-[#202022]">stage</code>{" "}
+            set to <code className="font-mono text-[#202022]">check</code>.
           </p>
           <p className="mt-3">
             Install outcomes are grouped by anonymous install and target
             version, so repeat events from the same install-target pair count
-            once in that table.
+            once in that table. Check-stage failures are excluded from the
+            failed column, so it counts install failures only.
+          </p>
+          <p className="mt-3">
+            Download redirects are counted on the server every time a download
+            link is followed, including when GitHub could not be reached, so
+            repeat clicks and link-preview bots are included. Bots are flagged
+            from their user agent but never dropped. Launch and update events are sent by the desktop app
+            itself, and as of 0.4.6 only versions up to 0.4.1 send them.
           </p>
         </div>
       </Section>
@@ -396,23 +460,23 @@ function TrendChart({
 }) {
   const max = Math.max(...rows.map((r) => r.count), 1);
   return (
-    <div className="rounded-xl border border-white/10 overflow-hidden">
-      <div className="divide-y divide-white/5">
+    <div className="rounded-xl border border-[#e4e2e8] overflow-hidden">
+      <div className="divide-y divide-[#eeecf1]">
         {rows.map((row) => (
           <div key={row.day} className="flex items-center gap-4 px-4 py-2">
-            <span className="w-24 shrink-0 font-mono text-xs text-white/40">
+            <span className="w-24 shrink-0 font-mono text-xs text-[#63616b]">
               {new Date(row.day).toLocaleDateString("en", {
                 month: "short",
                 day: "numeric",
               })}
             </span>
-            <div className="flex-1 h-4 rounded-sm bg-white/5 overflow-hidden">
+            <div className="flex-1 h-4 rounded-sm bg-[#eae5f3] overflow-hidden">
               <div
-                className="h-full rounded-sm bg-[#e5663a]/70"
+                className="h-full rounded-sm bg-[#8363b5]"
                 style={{ width: `${(row.count / max) * 100}%` }}
               />
             </div>
-            <span className="w-8 text-right tabular-nums text-sm text-white/60">
+            <span className="w-8 text-right tabular-nums text-sm text-[#55535c]">
               {row.count}
             </span>
           </div>
@@ -422,11 +486,20 @@ function TrendChart({
   );
 }
 
-function StatCard({ label, value }: { label: string; value: number }) {
+function StatCard({
+  label,
+  value,
+  note,
+}: {
+  label: string;
+  value: number;
+  note?: string;
+}) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.03] p-6">
-      <p className="text-sm text-white/50">{label}</p>
+    <div className="rounded-xl border border-[#e4e2e8] bg-[#f7f5fa] p-6">
+      <p className="text-sm text-[#63616b]">{label}</p>
       <p className="mt-1 text-5xl font-semibold tabular-nums">{value}</p>
+      {note && <p className="mt-2 text-xs text-[#63616b]">{note}</p>}
     </div>
   );
 }
@@ -440,7 +513,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-3 text-sm font-mono uppercase tracking-wider text-white/40">
+      <h2 className="mb-3 text-sm font-mono uppercase tracking-wider text-[#63616b]">
         {title}
       </h2>
       {children}
@@ -458,14 +531,14 @@ function Table({
   accentLastColumn?: boolean;
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/10">
+    <div className="overflow-x-auto rounded-xl border border-[#e4e2e8]">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-white/10 bg-white/[0.03]">
+          <tr className="border-b border-[#e4e2e8] bg-[#f7f5fa]">
             {headers.map((h) => (
               <th
                 key={h}
-                className="px-4 py-3 text-left font-mono text-xs uppercase tracking-wider text-white/40"
+                className="px-4 py-3 text-left font-mono text-xs uppercase tracking-wider text-[#63616b]"
               >
                 {h}
               </th>
@@ -476,15 +549,15 @@ function Table({
           {rows.map((row, i) => (
             <tr
               key={i}
-              className="border-b border-white/5 last:border-0 hover:bg-white/[0.02]"
+              className="border-b border-[#eeecf1] last:border-0 hover:bg-[#faf9fc]"
             >
               {row.map((cell, j) => (
                 <td
                   key={j}
                   className={`max-w-[28rem] break-words px-4 py-3 align-top tabular-nums ${
                     accentLastColumn && j === row.length - 1
-                      ? "text-[#e5663a] font-medium"
-                      : "text-white/80"
+                      ? "text-[#665185] font-medium"
+                      : "text-[#202022]"
                   }`}
                 >
                   {cell}
@@ -507,8 +580,8 @@ function Notice({
 }) {
   const styles =
     color === "yellow"
-      ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-300"
-      : "border-red-500/30 bg-red-500/10 text-red-300";
+      ? "border-yellow-600/40 bg-yellow-50 text-yellow-900"
+      : "border-red-600/40 bg-red-50 text-red-900";
   return (
     <div className={`rounded-lg border p-4 text-sm ${styles}`}>{children}</div>
   );
@@ -516,7 +589,7 @@ function Notice({
 
 function Empty() {
   return (
-    <p className="rounded-xl border border-white/10 px-4 py-6 text-center text-sm text-white/40">
+    <p className="rounded-xl border border-[#e4e2e8] px-4 py-6 text-center text-sm text-[#63616b]">
       No data yet.
     </p>
   );

@@ -84,10 +84,24 @@ export type DownloadStats = {
   update_failures?: UpdateFailureDetail[] | null;
   recent_update_failures?: RecentUpdateFailure[] | null;
   update_outcomes_by_install?: UpdateOutcomeByInstall[] | null;
+  download_bot_redirects?: number | null;
   detail_rollups_available?: boolean;
 };
 
-export async function trackDownload(platform: string, version: string) {
+const BOT_PATTERN =
+  /bot|crawl|spider|slurp|preview|fetch|monitor|curl|wget|python|go-http|java\/|okhttp|headless|facebookexternalhit|slack|discord|telegram|whatsapp|twitter|linkedin|embedly|validator|lighthouse/i;
+
+/** Link-preview and crawler traffic. It is still counted, but flagged. */
+export function looksLikeBot(userAgent: string | null | undefined) {
+  if (!userAgent) return true;
+  return BOT_PATTERN.test(userAgent);
+}
+
+export async function trackDownload(
+  platform: string,
+  version: string,
+  userAgent?: string | null,
+) {
   const sql = getSql();
   if (!sql) return;
 
@@ -102,6 +116,8 @@ export async function trackDownload(platform: string, version: string) {
     platform,
     version,
     source: "download_route",
+    userAgent: userAgent ?? null,
+    metadata: { bot: looksLikeBot(userAgent) },
   });
 }
 
@@ -230,6 +246,10 @@ export async function getDownloadStats(): Promise<DownloadStats | null> {
             'update_failed'
           )
             AND install_hash IS NOT NULL
+            AND NOT (
+              event_type = 'update_failed'
+              AND coalesce(metadata->>'stage', '') = 'check'
+            )
           GROUP BY install_hash, coalesce(to_version, 'none/unknown')
         )
         SELECT
@@ -242,12 +262,19 @@ export async function getDownloadStats(): Promise<DownloadStats | null> {
         GROUP BY 1
         ORDER BY install_targets DESC, to_version
       `,
+      sql`
+        SELECT count(*)::int AS count
+        FROM events
+        WHERE event_type = 'download_redirect'
+          AND metadata->>'bot' = 'true'
+      `,
     ]);
     const [
       updateChecksDetailed,
       updateFailures,
       recentUpdateFailures,
       updateOutcomesByInstall,
+      downloadBots,
     ] = detailResults;
 
     return {
@@ -271,6 +298,9 @@ export async function getDownloadStats(): Promise<DownloadStats | null> {
         "update outcomes by install-target",
         updateOutcomesByInstall,
       ),
+      download_bot_redirects:
+        settledRows<{ count: number }>("download bot count", downloadBots)?.[0]
+          ?.count ?? null,
     };
   } catch (error) {
     console.error("Failed to load aggregate analytics stats", error);
