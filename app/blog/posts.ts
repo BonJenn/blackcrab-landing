@@ -25,6 +25,40 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-6-fixes",
+  "title": "Blackcrab 0.4.6: two fixes for 0.4.5",
+  "dek": "The IDE mode button is no longer hidden, and the Mac background service finds Claude again after updating.",
+  "category": "Release notes",
+  "displayDate": "November 16, 2026",
+  "readTime": "1 min read",
+  "tags": [
+    "Release",
+    "Fixes",
+    "macOS"
+  ],
+  "sections": [
+    {
+      "heading": "IDE mode button",
+      "paragraphs": [
+        "In a single-pane view the IDE mode button introduced in 0.4.5 sat underneath the window's panel buttons. It is now clear of them."
+      ]
+    },
+    {
+      "heading": "Mac: “Claude Agent CLI was not found”",
+      "paragraphs": [
+        "On a Mac, the background service looks for tools such as claude in a fixed list of folders. The 0.4.5 update rebuilt that list and could drop folders, and it never included ~/.local/bin, which is where Claude's own installer puts claude.",
+        "The service now always looks in ~/.local/bin and keeps the folders it already searched when it is updated. If a tool in an unusual folder is still not found, add a link to it in /opt/homebrew/bin or /usr/local/bin."
+      ]
+    },
+    {
+      "heading": "Updating",
+      "paragraphs": [
+        "Mac, and Windows and Linux on 0.4.5, are offered this update inside the app. Updating restarts your background service once, so let running agents finish first. Conversations, settings and sign-ins are kept."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-5-collaboration-ide-mode",
   "title": "Blackcrab 0.4.5: two models on one task, and IDE mode",
   "dek": "Pair a second model to review the first, open your code beside the conversation, and let Windows and Linux update themselves.",
@@ -614,6 +648,17 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.6",
+  "label": "Fixes for 0.4.5",
+  "displayDate": "November 16, 2026",
+  "summary": "Unhide the IDE mode button and make the Mac background service find Claude after updating.",
+  "changes": [
+    "The IDE mode button is no longer covered by the window's panel buttons.",
+    "Mac: the background service always looks in ~/.local/bin and keeps its folders when updated.",
+    "Updating restarts the background service once; data is kept."
+  ]
+},
 {
   "version": "v0.4.5",
   "label": "Model collaboration and IDE mode",
