@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CollabIllustration } from "./CollabIllustration";
 import { DownloadLink } from "./DownloadLink";
 import { Reveal } from "./Reveal";
 import {
@@ -10,6 +11,48 @@ import {
   Nav,
   WINDOWS_DOWNLOAD_URL,
 } from "./site";
+
+const providers: {
+  name: string;
+  maker: string;
+  note: string;
+  logo: string;
+  badge?: string;
+  strip?: boolean;
+  stripLabel?: string;
+}[] = [
+  { name: "Claude", logo: "claude", strip: true, maker: "Anthropic", note: "Claude models, including Claude Code." },
+  { name: "Codex", logo: "openai", strip: true, stripLabel: "OpenAI Codex", maker: "OpenAI", note: "GPT models through Codex." },
+  {
+    name: "Gemini", logo: "gemini", strip: true,
+    maker: "Google",
+    note: "Through Antigravity. Sign in with a Google account, a Gemini API key or Vertex AI.",
+  },
+  {
+    name: "Muse", logo: "muse", strip: true, stripLabel: "Meta Muse",
+    maker: "Meta",
+    note: "Meta’s Muse models through Muse Code, signed in with muse login.",
+  },
+  { name: "Grok", logo: "grok", strip: true, maker: "xAI", note: "Grok models through the Grok agent." },
+  { name: "Cursor", logo: "cursor", strip: true, maker: "Cursor", note: "Models from your Cursor account." },
+  {
+    name: "OpenCode", logo: "opencode", strip: true,
+    maker: "Open source",
+    note: "Point it at hosted models or models running on your machine.",
+  },
+  { name: "Pi", logo: "pi", maker: "Open source", note: "A lightweight coding agent you can enable." },
+  { name: "Kiro", logo: "kiro", maker: "Amazon", note: "Kiro’s agent.", badge: "Early access" },
+  {
+    name: "Local models", logo: "local",
+    maker: "On your machine",
+    note: "Run models locally through OpenCode, or any agent you add that speaks the Agent Client Protocol.",
+  },
+  {
+    name: "Any ACP agent", logo: "acp",
+    maker: "Agent Client Protocol",
+    note: "Add an agent from the ACP Registry, or run your own with a local command.",
+  },
+];
 
 export default function Home() {
   return (
@@ -28,9 +71,9 @@ export default function Home() {
             </div>
             <div className="hero-intro">
               <p>
-                Pick your model. Open a pane.
+                Pick your model. Pair a second
                 <br />
-                Keep the whole project in view.
+                to review it. Open a pane.
               </p>
               <DownloadLink
                 href={MAC_DOWNLOAD_URL}
@@ -67,12 +110,35 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="works-with" aria-label="Works with">
+          <p>Works with</p>
+          <ul>
+            {providers
+              .filter((provider) => provider.strip)
+              .map((provider) => (
+                <li key={provider.name}>
+                  <Image
+                    src={`/providers/${provider.logo}.svg`}
+                    alt=""
+                    width={22}
+                    height={22}
+                    unoptimized
+                  />
+                  <span>{provider.stripLabel ?? provider.name}</span>
+                </li>
+              ))}
+            <li className="works-with-more">
+              <span>and local models</span>
+            </li>
+          </ul>
+        </section>
+
         <nav className="chapter-nav" aria-label="Explore features">
-          <a href="#models">
-            <span>01</span> Multiple models <Arrow />
-          </a>
           <a href="#collaboration">
-            <span>02</span> Collaboration <Arrow />
+            <span>01</span> Collaboration <Arrow />
+          </a>
+          <a href="#models">
+            <span>02</span> Any model <Arrow />
           </a>
           <a href="#panes">
             <span>03</span> Pane mode <Arrow />
@@ -91,115 +157,106 @@ export default function Home() {
         <div id="features" className="features">
           <Reveal>
             <section
-              id="models"
-              className="models-section section-space"
-              aria-labelledby="models-title"
-            >
-              <div className="feature-copy">
-                <p className="eyebrow">01 / Multiple models</p>
-                <h2 id="models-title">
-                  Your task.
-                  <br />
-                  Your choice.
-                </h2>
-                <p>
-                  Claude for one thread. Codex for the next. Choose from your
-                  configured providers and models, all in the same workspace.
-                </p>
-                <p className="fine-print">
-                  Bring your own provider accounts. Their usage and
-                  subscriptions stay separate.
-                </p>
-              </div>
-              <div
-                className="model-composition"
-                aria-label="Choose a provider and model for each thread"
-              >
-                <div className="model-line">
-                  <span className="model-initial">C</span>
-                  <div>
-                    <strong>Claude</strong>
-                    <span>Anthropic</span>
-                  </div>
-                  <span className="model-family">Claude models</span>
-                </div>
-                <div className="model-line">
-                  <span className="model-initial codex-initial">↗</span>
-                  <div>
-                    <strong>Codex</strong>
-                    <span>OpenAI</span>
-                  </div>
-                  <span className="model-family">GPT models</span>
-                </div>
-                <div className="model-foot">
-                  <span>One workspace. Individual threads.</span>
-                  <span aria-hidden="true">↳</span>
-                </div>
-              </div>
-            </section>
-          </Reveal>
-
-          <Reveal>
-            <section
               id="collaboration"
               className="shot-section"
               aria-labelledby="collaboration-title"
             >
               <div className="shot-head">
                 <div className="feature-copy">
-                  <p className="eyebrow">02 / Model collaboration</p>
+                  <p className="eyebrow">01 / Model collaboration</p>
                   <h2 id="collaboration-title">
-                    Two models.
+                    Let one model
                     <br />
-                    One task.
+                    check another.
                   </h2>
                   <p>
                     Click the plus beside the model picker and choose a partner.
-                    The lead model does the work, the partner reviews it, and the
-                    lead resolves what the review found, all in the same
-                    conversation.
+                    The lead model does the work, the partner reviews it, and
+                    the lead resolves what the review found. All three passes
+                    happen in the same conversation, with no copying between
+                    tools.
                   </p>
                   <p className="fine-print">
                     The reviewer is told not to edit. It runs under the same
                     permission mode as the rest of the conversation.
                   </p>
                 </div>
-                <ol className="steps" aria-label="How model collaboration works">
-                  <li>
-                    <span>1</span>
-                    <div>
-                      <strong>Lead works</strong>
-                      <p>The model you chose does the task.</p>
-                    </div>
-                  </li>
-                  <li>
-                    <span>2</span>
-                    <div>
-                      <strong>Partner reviews</strong>
-                      <p>A second model checks the work.</p>
-                    </div>
-                  </li>
-                  <li>
-                    <span>3</span>
-                    <div>
-                      <strong>Lead resolves</strong>
-                      <p>The lead acts on what the review found.</p>
-                    </div>
-                  </li>
-                </ol>
+                <div className="pairings">
+                  <p className="pairings-label">Try pairings like</p>
+                  <ul>
+                    <li>
+                      <span>Claude</span> leads <i aria-hidden="true">·</i>{" "}
+                      <span>Gemini</span> reviews
+                    </li>
+                    <li>
+                      <span>Codex</span> leads <i aria-hidden="true">·</i>{" "}
+                      <span>Muse</span> reviews
+                    </li>
+                    <li>
+                      <span>Your hosted model</span> leads{" "}
+                      <i aria-hidden="true">·</i> <span>a local model</span>{" "}
+                      reviews
+                    </li>
+                  </ul>
+                  <p className="fine-print">
+                    Available pairings depend on the providers you have set up.
+                  </p>
+                </div>
               </div>
-              <figure className="shot-frame">
-                <Image
-                  src="/screenshots/chat-mode-v2.png"
-                  alt="Blackcrab in chat mode: a conversation with tool activity, the model picker with a plus button for a partner model, and a Git and changes summary"
-                  width={2000}
-                  height={1129}
-                  sizes="(max-width: 1800px) 92vw, 1600px"
-                />
-                <figcaption>
-                  Chat mode. The plus beside the model picker adds a partner.
-                </figcaption>
-              </figure>
+              <CollabIllustration />
+            </section>
+          </Reveal>
+
+          <Reveal>
+            <section
+              id="models"
+              className="shot-section"
+              aria-labelledby="models-title"
+            >
+              <div className="shot-head">
+                <div className="feature-copy">
+                  <p className="eyebrow">02 / Any model</p>
+                  <h2 id="models-title">
+                    Claude, Gemini,
+                    <br />
+                    Muse, or your own.
+                  </h2>
+                  <p>
+                    Choose a provider and model for each thread, and mix them in
+                    one workspace. Use hosted models from Anthropic, OpenAI,
+                    Google, Meta and xAI, or run models on your own machine.
+                  </p>
+                </div>
+                <p className="providers-note">
+                  Each provider is a separate tool that you set up and sign in
+                  to on your computer. Usage, billing and terms stay with the
+                  provider. Names and logos belong to their owners and show
+                  compatibility only.
+                </p>
+              </div>
+              <ul className="providers" aria-label="Supported providers">
+                {providers.map((provider) => (
+                  <li key={provider.name} className="provider-card">
+                    <div className="provider-top">
+                      <span className="provider-logo">
+                        <Image
+                          src={`/providers/${provider.logo}.svg`}
+                          alt=""
+                          width={26}
+                          height={26}
+                          unoptimized
+                        />
+                      </span>
+                      <strong>{provider.name}</strong>
+                      {provider.badge ? (
+                        <span className="provider-badge">{provider.badge}</span>
+                      ) : null}
+                    </div>
+                    <span className="provider-maker">{provider.maker}</span>
+                    <p>{provider.note}</p>
+                  </li>
+                ))}
+              </ul>
             </section>
           </Reveal>
 
