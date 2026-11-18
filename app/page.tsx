@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { CollabIllustration } from "./CollabIllustration";
 import { DownloadLink } from "./DownloadLink";
+import { PhoneCarousel } from "./PhoneCarousel";
 import { Reveal } from "./Reveal";
+import { HeroScene, IdeScene, PaneScene, WindowsScene } from "./Scenes";
 import {
   APP_REPO_URL,
   Footer,
@@ -89,14 +91,7 @@ export default function Home() {
           </div>
           <div className="hero-workspace">
             <figure className="shot-frame hero-shot">
-              <Image
-                src="/screenshots/chat-mode-v2.png"
-                alt="Blackcrab's workspace in chat mode: a project sidebar, an agent conversation with tool activity, a model picker and a Git changes summary"
-                width={2000}
-                height={1129}
-                sizes="(max-width: 1200px) 92vw, 1100px"
-                priority
-              />
+              <HeroScene />
               <figcaption>
                 The Blackcrab workspace in chat mode.
               </figcaption>
@@ -283,13 +278,7 @@ export default function Home() {
                 </div>
               </div>
               <figure className="shot-frame">
-                <Image
-                  src="/screenshots/pane-mode-v2.png"
-                  alt="Blackcrab in pane mode: three threads side by side, each with its own composer and a different model selected"
-                  width={2000}
-                  height={1126}
-                  sizes="(max-width: 1800px) 88vw, 1500px"
-                />
+                <PaneScene />
                 <figcaption>
                   Three panes, three models.
                 </figcaption>
@@ -325,13 +314,7 @@ export default function Home() {
                 </ul>
               </div>
               <figure className="shot-frame">
-                <Image
-                  src="/screenshots/ide-mode-v2.png"
-                  alt="Blackcrab in IDE mode: a file tree and code editor on the left and the agent conversation on the right"
-                  width={2000}
-                  height={1126}
-                  sizes="(max-width: 1800px) 92vw, 1600px"
-                />
+                <IdeScene />
                 <figcaption>
                   IDE mode. The code panel sits beside the conversation.
                 </figcaption>
@@ -360,40 +343,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div
-                className="monitors"
-                role="group"
-                aria-label="Two displays side by side, each showing a Blackcrab window"
-              >
-                <figure className="monitor">
-                  <div className="monitor-screen">
-                    <Image
-                      src="/screenshots/pane-mode-v2.png"
-                      alt="Display one: a Blackcrab window in pane mode with three threads side by side"
-                      width={2000}
-                      height={1126}
-                      sizes="(max-width: 800px) 90vw, 620px"
-                    />
-                  </div>
-                  <div className="monitor-neck" aria-hidden="true" />
-                  <div className="monitor-base" aria-hidden="true" />
-                  <figcaption>Display 1 · Pane mode</figcaption>
-                </figure>
-                <figure className="monitor">
-                  <div className="monitor-screen">
-                    <Image
-                      src="/screenshots/ide-mode-v2.png"
-                      alt="Display two: a Blackcrab window in IDE mode with a file tree and editor beside the conversation"
-                      width={2000}
-                      height={1126}
-                      sizes="(max-width: 800px) 90vw, 620px"
-                    />
-                  </div>
-                  <div className="monitor-neck" aria-hidden="true" />
-                  <div className="monitor-base" aria-hidden="true" />
-                  <figcaption>Display 2 · IDE mode</figcaption>
-                </figure>
-              </div>
+              <WindowsScene />
             </section>
           </Reveal>
 
@@ -436,24 +386,7 @@ export default function Home() {
                 </ul>
               </div>
               <figure className="ios-stage">
-                <div className="ios-devices">
-                  {[
-                    ["/ios/iphone-chats.png", "The thread list across two computers"],
-                    ["/ios/iphone-thread.png", "An agent conversation about fixing a flaky test"],
-                    ["/ios/iphone-review.png", "A code diff review of changes against main"],
-                    ["/ios/iphone-live.jpg", "A Live Activity on the Lock Screen waiting for approval"],
-                  ].map(([src, alt]) => (
-                    <div className="ios-device" key={src}>
-                      <Image
-                        src={src}
-                        alt={`Blackcrab on iPhone: ${alt}`}
-                        width={782}
-                        height={1700}
-                        sizes="(max-width: 800px) 44vw, 300px"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <PhoneCarousel />
                 <figcaption>
                   Screenshots from the iPhone app, using demo projects.
                 </figcaption>
