@@ -372,6 +372,17 @@ p {
   color: #70667b;
   margin-right: auto;
 }
+.download-alternatives > .platform-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 0;
+  color: inherit;
+}
+.download-alternatives .platform-soon span {
+  color: #766b80;
+  font-size: 10px;
+}
 .download-alternatives a {
   display: inline-flex;
   align-items: center;

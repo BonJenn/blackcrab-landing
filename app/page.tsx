@@ -8,6 +8,7 @@ import { HeroScene, IdeScene, PaneScene, WindowsScene } from "./Scenes";
 import {
   APP_REPO_URL,
   Footer,
+  IOS_APP_URL,
   LINUX_DOWNLOAD_URL,
   MAC_DOWNLOAD_URL,
   Nav,
@@ -356,7 +357,7 @@ export default function Home() {
               <div className="shot-head">
                 <div className="feature-copy">
                   <p className="eyebrow">
-                    06 / iOS app <span className="beta-label">Coming soon</span>
+                    06 / iOS app <span className="beta-label">Android coming soon</span>
                   </p>
                   <h2 id="ios-title">
                     Your agents,
@@ -364,18 +365,18 @@ export default function Home() {
                     in your pocket.
                   </h2>
                   <p>
-                    Blackcrab for iPhone and iPad is on its way. Watch your
+                    Blackcrab for iPhone and iPad is on the App Store. Watch your
                     agent threads, answer questions, approve changes and review
                     diffs from wherever you are. Your code and provider accounts
                     stay on your computer.
                   </p>
-                  <Link className="text-link" href="/docs#mobile">
-                    About the iOS app <Arrow />
-                  </Link>
+                  <a className="text-link" href={IOS_APP_URL}>
+                    Download on the App Store <Arrow />
+                  </a>
                   <p className="fine-print">
-                    Not yet available on the App Store. Free local and
-                    self-hosted software; paid Blackcrab-hosted remote access is
-                    planned.
+                    Android is coming soon. Free local and self-hosted
+                    software; paid Blackcrab-hosted remote access is planned.{" "}
+                    <Link href="/docs#mobile">About the iOS app</Link>
                   </p>
                 </div>
                 <ul className="ios-points">
@@ -423,6 +424,12 @@ export default function Home() {
               <DownloadLink href={LINUX_DOWNLOAD_URL} platform="linux">
                 Linux <span>v0.4.9</span>
               </DownloadLink>
+              <a href={IOS_APP_URL}>
+                iOS <span>App Store</span>
+              </a>
+              <span className="platform-soon">
+                Android <span>Coming soon</span>
+              </span>
               <Link href="/releases">
                 All releases <Arrow />
               </Link>
