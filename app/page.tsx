@@ -370,9 +370,7 @@ export default function Home() {
                     diffs from wherever you are. Your code and provider accounts
                     stay on your computer.
                   </p>
-                  <a className="text-link" href={IOS_APP_URL}>
-                    Download on the App Store <Arrow />
-                  </a>
+                  <AppStoreBadge />
                   <p className="fine-print">
                     Android is coming soon. Free local and self-hosted
                     software; paid Blackcrab-hosted remote access is planned.{" "}
@@ -424,9 +422,7 @@ export default function Home() {
               <DownloadLink href={LINUX_DOWNLOAD_URL} platform="linux">
                 Linux <span>v0.4.9</span>
               </DownloadLink>
-              <a href={IOS_APP_URL}>
-                iOS <span>App Store</span>
-              </a>
+              <AppStoreBadge small />
               <span className="platform-soon">
                 Android <span>Coming soon</span>
               </span>
@@ -442,6 +438,23 @@ export default function Home() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function AppStoreBadge({ small = false }: { small?: boolean }) {
+  return (
+    <a
+      className={small ? "app-store-badge app-store-badge-small" : "app-store-badge"}
+      href={IOS_APP_URL}
+      aria-label="Download Blackcrab on the App Store"
+    >
+      <img
+        src="/badges/download-on-the-app-store.svg"
+        alt="Download on the App Store"
+        width="120"
+        height="40"
+      />
+    </a>
   );
 }
 

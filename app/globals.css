@@ -2625,3 +2625,21 @@ p {
     transform: translateY(-0.9cqw);
   }
 }
+
+.app-store-badge {
+  display: inline-block;
+  line-height: 0;
+  margin: 6px 0 14px;
+}
+.app-store-badge img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+.download-alternatives a.app-store-badge-small {
+  min-height: 0;
+  margin: 0;
+}
+.download-alternatives a.app-store-badge-small img {
+  height: 36px;
+}
