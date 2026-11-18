@@ -444,8 +444,10 @@ function Dashboard({
             Download redirects are counted on the server every time a download
             link is followed, including when GitHub could not be reached, so
             repeat clicks and link-preview bots are included. Bots are flagged
-            from their user agent but never dropped. Launch and update events are sent by the desktop app
-            itself, and as of 0.4.6 only versions up to 0.4.1 send them.
+            from their user agent but never dropped. Launch and update events
+            are sent by the desktop app itself. Versions 0.4.2 to 0.4.6 sent
+            none, so they do not appear here; 0.4.7 and later send them, and
+            versions up to 0.4.1 still do.
           </p>
         </div>
       </Section>
