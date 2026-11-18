@@ -25,6 +25,45 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-9-resume-and-ide-folders",
+  "title": "Blackcrab 0.4.9: /resume for every agent, and IDE mode that follows the folder",
+  "dek": "Type /resume to reopen an earlier conversation with any provider, and IDE mode follows the agent into other folders.",
+  "category": "Release notes",
+  "displayDate": "November 18, 2026",
+  "readTime": "1 min read",
+  "tags": [
+    "Release",
+    "IDE mode"
+  ],
+  "sections": [
+    {
+      "heading": "/resume works everywhere",
+      "paragraphs": [
+        "At the start of a message, /resume, chosen from the menu or sent on its own, opens the conversation search. It lists your most recent threads and searches all of them. Opening one continues that thread with its own provider.",
+        "The provider's own /resume, which answered “not available in this environment”, is hidden so there is one command that behaves the same for every provider."
+      ]
+    },
+    {
+      "heading": "IDE mode follows the agent",
+      "paragraphs": [
+        "When the agent's latest edits are to files outside the thread's folder, the panel moves to the folder those files share. A note says where the agent is working, with a button to go back to the thread's folder. Unsaved edits stay where they are."
+      ]
+    },
+    {
+      "heading": "Also fixed",
+      "paragraphs": [
+        "Try again and Refresh service status no longer fail with “Private native browser capability was refused” after macOS cleans its temporary folder. The missing marker is recreated, but only when the folder is still yours, private, and holds nothing else."
+      ]
+    },
+    {
+      "heading": "Updating",
+      "paragraphs": [
+        "Mac, and Windows and Linux on 0.4.5 or later, are offered this update inside the app. If a Mac still shows the capability error on 0.4.8, install 0.4.9 from the download page. Conversations, settings and sign-ins are kept."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-8-ide-changes",
   "title": "Blackcrab 0.4.8: watch the agent's edits land in IDE mode",
   "dek": "IDE mode now shows each change green and red as it is written, and moves from file to file with the agent.",
@@ -721,6 +760,17 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.9",
+  "label": "/resume and IDE folders",
+  "displayDate": "November 18, 2026",
+  "summary": "/resume reopens earlier conversations for every provider, and IDE mode follows the agent into other folders.",
+  "changes": [
+    "/resume at the start of a message opens the conversation search for any provider.",
+    "IDE mode moves to the folder the agent is editing, with a button to return to the thread's folder.",
+    "Try again and Refresh service status work again after macOS cleans its temporary folder."
+  ]
+},
 {
   "version": "v0.4.8",
   "label": "Watch edits land in IDE mode",
