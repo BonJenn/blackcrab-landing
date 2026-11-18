@@ -25,6 +25,46 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-8-ide-changes",
+  "title": "Blackcrab 0.4.8: watch the agent's edits land in IDE mode",
+  "dek": "IDE mode now shows each change green and red as it is written, and moves from file to file with the agent.",
+  "category": "Release notes",
+  "displayDate": "November 18, 2026",
+  "readTime": "1 min read",
+  "tags": [
+    "Release",
+    "IDE mode"
+  ],
+  "sections": [
+    {
+      "heading": "Changes you can see",
+      "paragraphs": [
+        "When the agent writes to a file, IDE mode shows what changed for a couple of seconds: added lines in green, removed lines in red, with the changed words marked inside each line. It then settles back into the normal editable file.",
+        "If several files change, they are shown one after another. With “Following agent” on, the panel moves to each file in turn, so you can watch the work move through the project."
+      ]
+    },
+    {
+      "heading": "What to expect",
+      "paragraphs": [
+        "A change appears once it is saved to disk, not while the agent is still producing it. The first edit to a file IDE mode has not opened yet is not highlighted; later edits are. After a highlight the view returns to the top of the file.",
+        "If you would rather not see them, turn off “Highlight changes” in the IDE panel header."
+      ]
+    },
+    {
+      "heading": "Also fixed",
+      "paragraphs": [
+        "Automated test runs of the Linux and Windows builds no longer report usage events, so they stop showing up as real installs on our usage page."
+      ]
+    },
+    {
+      "heading": "Updating",
+      "paragraphs": [
+        "Mac, and Windows and Linux on 0.4.5 or later, are offered this update inside the app. The background service is unchanged from 0.4.6, so this update is not expected to restart it. Conversations, settings and sign-ins are kept."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-7-usage-reporting",
   "title": "Blackcrab 0.4.7: usage reporting is back, with an off switch",
   "dek": "Blackcrab again reports anonymous launches and update results, and you can turn it off in settings.",
@@ -681,6 +721,17 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.8",
+  "label": "Watch edits land in IDE mode",
+  "displayDate": "November 18, 2026",
+  "summary": "IDE mode flashes the agent's additions green and deletions red, and follows it from file to file.",
+  "changes": [
+    "Each change the agent writes is shown for a moment, added lines green and removed lines red, then the editable file returns.",
+    "With Following agent on, the panel moves to each changed file in turn. Turn the highlights off with “Highlight changes” in the IDE panel header.",
+    "Test runs of the Linux and Windows builds no longer count as usage."
+  ]
+},
 {
   "version": "v0.4.7",
   "label": "Usage reporting restored",
