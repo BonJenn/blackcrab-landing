@@ -7,6 +7,8 @@ export const GITHUB_RELEASES_URL =
 export const MAC_DOWNLOAD_URL = "/download/macos";
 export const WINDOWS_DOWNLOAD_URL = "/download/windows";
 export const LINUX_DOWNLOAD_URL = "/download/linux";
+export const IOS_APP_URL =
+  "https://apps.apple.com/us/app/blackcrab/id6780360079";
 export const PRIVACY_URL =
   "https://github.com/BonJenn/blackcrab/blob/main/PRIVACY.md";
 export const PRIVACY_POLICY_URL = "/privacy-policy";

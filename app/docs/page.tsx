@@ -200,15 +200,15 @@ export default function DocsPage() {
 
             <DocSection id="mobile" number="05" title="Blackcrab Remote for iPhone and iPad">
               <p className="text-muted leading-relaxed">
-                The Blackcrab iPhone and iPad app is coming soon. It is currently
-                an invite-only iOS beta distributed through TestFlight. Invited testers can install it from their
-                TestFlight invitation. A public App Store download is not yet available.
+                The Blackcrab iPhone and iPad app is available on the{" "}
+                <a href="https://apps.apple.com/us/app/blackcrab/id6780360079" className="underline">App Store</a>.
+                An Android app is coming soon.
               </p>
               <p className="mt-4 text-muted leading-relaxed">
                 The mobile app connects to an authorized Blackcrab environment.
                 Keep the host Mac running and use Settings → Sharing &amp; access
-                in the desktop workspace to configure access. Remote workflows
-                and notifications remain under validation during the beta.
+                in the desktop workspace to configure access. Some remote
+                workflows and notifications are still being validated.
               </p>
             </DocSection>
 
