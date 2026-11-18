@@ -14,7 +14,18 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current published release — 0.4.7
+## Current published release — 0.4.8
+
+v0.4.8 is PUBLIC (2026-11-18 UTC) from Blackcrab commit
+1f84b436f0fab24c9ea658eeb1adf21d974e4f5c, all three platforms. It adds the IDE
+mode change view (edits flash green and red, the panel follows the agent from
+file to file) and stops CI test runs from reporting usage events. Published
+without a Mac launch on the owner's instruction; the change view was never
+seen in a running app. Its service payload is 0.4.6's. Site copy: branch
+release/0.4.8. Rows that CI test runs already wrote to the usage database are
+still there.
+
+## Previous published release — 0.4.7
 
 v0.4.7 is PUBLIC (2026-11-18 UTC) from Blackcrab commit
 cbbc17a5032bcaa0e67423d6eb9caa85c55d7368, all three platforms. It restores the
