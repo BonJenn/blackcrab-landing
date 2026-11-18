@@ -14,7 +14,16 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
-## Current published release — 0.4.6
+## Current published release — 0.4.7
+
+v0.4.7 is PUBLIC (2026-11-18 UTC) from Blackcrab commit
+cbbc17a5032bcaa0e67423d6eb9caa85c55d7368, all three platforms. It restores the
+anonymous launch and update events that 0.4.2 to 0.4.6 did not send. Published
+without a Mac launch on the owner's instruction. Its workspace and service
+payloads are 0.4.6's. Site copy: branch release/0.4.7. The admin page also
+shows GitHub installer download counts and flags bots (PR #27).
+
+## Previous published release — 0.4.6
 
 v0.4.6 is PUBLIC (2026-11-17 UTC) from Blackcrab commit
 f91fcbfa8474e322a344dbe9b661753506b9cf1f, all three platforms. It fixes the

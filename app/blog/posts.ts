@@ -25,6 +25,39 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-7-usage-reporting",
+  "title": "Blackcrab 0.4.7: usage reporting is back, with an off switch",
+  "dek": "Blackcrab again reports anonymous launches and update results, and you can turn it off in settings.",
+  "category": "Release notes",
+  "displayDate": "November 17, 2026",
+  "readTime": "1 min read",
+  "tags": [
+    "Release",
+    "Privacy"
+  ],
+  "sections": [
+    {
+      "heading": "What was wrong",
+      "paragraphs": [
+        "Since 0.4.2 the app has not reported when it starts or when an update succeeds or fails, so installs of 0.4.2 to 0.4.6 were not counted and update problems went unseen."
+      ]
+    },
+    {
+      "heading": "What Blackcrab sends now",
+      "paragraphs": [
+        "Blackcrab reports that it launched, that it checked for an update, and whether an update started, finished or failed. Each report carries the app version, your operating system and a random install id. It never includes prompts, files, project names or credentials. PRIVACY.md in the repository lists everything.",
+        "To turn it off, clear “Share anonymous usage data” on the workspace settings screen, or set BLACKCRAB_ANALYTICS=off."
+      ]
+    },
+    {
+      "heading": "Updating",
+      "paragraphs": [
+        "Mac, and Windows and Linux on 0.4.5 or 0.4.6, are offered this update inside the app. The workspace and background service are unchanged from 0.4.6, so this update is not expected to restart the service. Conversations, settings and sign-ins are kept."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-6-fixes",
   "title": "Blackcrab 0.4.6: two fixes for 0.4.5",
   "dek": "The IDE mode button is no longer hidden, and the Mac background service finds Claude again after updating.",
@@ -648,6 +681,17 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.7",
+  "label": "Usage reporting restored",
+  "displayDate": "November 17, 2026",
+  "summary": "Anonymous launch and update reports are sent again, with an off switch in settings.",
+  "changes": [
+    "Blackcrab reports app launches, update checks and update results again. Reports hold the version, platform and a random install id, never prompts or files.",
+    "Turn it off with “Share anonymous usage data” in workspace settings, or BLACKCRAB_ANALYTICS=off.",
+    "The workspace and background service are unchanged from 0.4.6."
+  ]
+},
 {
   "version": "v0.4.6",
   "label": "Fixes for 0.4.5",
