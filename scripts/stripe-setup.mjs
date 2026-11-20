@@ -8,6 +8,13 @@
 //   STRIPE_SECRET_KEY=sk_test_... node scripts/stripe-setup.mjs
 //   STRIPE_WEBHOOK_URL=https://www.blackcrab.app/api/stripe/webhook  (optional)
 //   STRIPE_PORTAL_RETURN_URL=https://www.blackcrab.app/account       (optional)
+//   STRIPE_PRODUCT_TAX_CODE=txcd_10103000                            (optional)
+//
+// The product needs a tax code: Managed Payments (Stripe as merchant of record,
+// on by default for some accounts) refuses Checkout without one. The default,
+// txcd_10103000, is "Software as a Service (SaaS) - Personal Use";
+// txcd_10103001 is "... - Business Use". Which one applies is the account
+// owner's call, so check it with your accountant before going live.
 //
 // The secret key is read from the environment and never printed. The webhook
 // signing secret is only returned by Stripe when an endpoint is created, so it
@@ -24,6 +31,7 @@ if (!key || !/^(sk|rk)_(test|live)_/.test(key)) {
 const mode = key.includes("_live_") ? "live" : "sandbox";
 
 const PRODUCT_KEY = "blackcrab_remote";
+const TAX_CODE = process.env.STRIPE_PRODUCT_TAX_CODE ?? "txcd_10103000";
 const PRICES = [
   { lookup_key: "blackcrab_remote_monthly", unit_amount: 500, interval: "month", nickname: "Remote monthly" },
   { lookup_key: "blackcrab_remote_yearly", unit_amount: 4800, interval: "year", nickname: "Remote yearly" },
@@ -69,10 +77,16 @@ async function ensureProduct() {
   // List (not search): search indexing lags and would let a re-run duplicate it.
   const found = await stripe("GET", "/products?active=true&limit=100");
   const match = found.data.find((p) => p.metadata?.blackcrab_key === PRODUCT_KEY);
-  if (match) return match;
+  if (match) {
+    if (match.tax_code !== TAX_CODE) {
+      return stripe("POST", `/products/${match.id}`, { tax_code: TAX_CODE });
+    }
+    return match;
+  }
   return stripe("POST", "/products", {
     name: "Blackcrab Remote",
     description: "Hosted remote access for Blackcrab: reach your desktop agents from the iOS app from anywhere.",
+    tax_code: TAX_CODE,
     metadata: { blackcrab_key: PRODUCT_KEY },
   });
 }
