@@ -412,15 +412,15 @@ export default function Home() {
               >
                 Download for Mac <Arrow down />
               </DownloadLink>
-              <p>v0.4.9 · Apple silicon</p>
+              <p>v0.4.10 · Apple silicon</p>
             </div>
             <div className="download-alternatives">
               <span>Other platforms</span>
               <DownloadLink href={WINDOWS_DOWNLOAD_URL} platform="windows">
-                Windows <span>v0.4.9</span>
+                Windows <span>v0.4.10</span>
               </DownloadLink>
               <DownloadLink href={LINUX_DOWNLOAD_URL} platform="linux">
-                Linux <span>v0.4.9</span>
+                Linux <span>v0.4.10</span>
               </DownloadLink>
               <AppStoreBadge small />
               <span className="platform-soon">

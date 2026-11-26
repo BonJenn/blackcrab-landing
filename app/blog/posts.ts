@@ -25,6 +25,33 @@ export type ChangelogEntry = {
 
 export const blogPosts: BlogPost[] = [
 {
+  "slug": "blackcrab-0-4-10-subagent-panes",
+  "title": "Blackcrab 0.4.10 lets you open subagents in panes",
+  "dek": "Watch a child conversation beside its parent and follow incoming edits in IDE mode.",
+  "category": "Release notes",
+  "displayDate": "November 25, 2026",
+  "readTime": "1 min read",
+  "tags": [
+    "Release",
+    "Pane mode",
+    "IDE mode"
+  ],
+  "sections": [
+    {
+      "heading": "Keep the parent chat in view",
+      "paragraphs": [
+        "Running subagents appear under their parent in the sidebar. Drag a subagent from the sidebar or its chat message into a pane. You can also right-click the message and choose Make a pane or Make a new window."
+      ]
+    },
+    {
+      "heading": "Follow changes across files and machines",
+      "paragraphs": [
+        "IDE mode follows batches of file changes and previews incoming generated code. The chat header now names the machine running the thread."
+      ]
+    }
+  ]
+},
+{
   "slug": "blackcrab-0-4-9-resume-and-ide-folders",
   "title": "Blackcrab 0.4.9: /resume for every agent, and IDE mode that follows the folder",
   "dek": "Type /resume to reopen an earlier conversation with any provider, and IDE mode follows the agent into other folders.",
@@ -760,6 +787,18 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const changelogEntries: ChangelogEntry[] = [
+{
+  "version": "v0.4.10",
+  "label": "Open subagents in panes and follow live edits",
+  "displayDate": "November 25, 2026",
+  "summary": "Watch a child conversation beside its parent and follow incoming edits in IDE mode.",
+  "changes": [
+    "Drag subagents into panes from the sidebar or chat timeline.",
+    "Follow file changes and preview incoming code in IDE mode.",
+    "See the machine name in each chat header.",
+    "Updated signing for managed Mac host executables."
+  ]
+},
 {
   "version": "v0.4.9",
   "label": "/resume and IDE folders",
