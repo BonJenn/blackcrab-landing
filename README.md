@@ -114,6 +114,35 @@ The Neon admin page reports download redirects, update funnel counts, completed
 updates by target version and version path, and active installs by version from
 the latest `app_launch` event per anonymous install in the last 30 days.
 
+## Billing (Blackcrab Remote)
+
+Hosted remote access is $5/month or $48/year with a 14-day trial, charged by
+Stripe Checkout on the web. The desktop app starts checkout; the iOS app only
+signs in and reads the plan, with no purchase path. Everything runs in this
+site's routes and its Postgres database (the same `DATABASE_URL` as analytics).
+
+- `supabase/migrations/003_billing.sql`: `billing_accounts`,
+  `billing_subscriptions`, `stripe_webhook_events`. Apply it to the Neon
+  database like the earlier migrations.
+- `POST /api/billing/checkout` `{interval: "month"|"year"}` returns a Checkout
+  URL. `POST /api/billing/portal` returns a customer portal URL.
+  `GET /api/billing/entitlement` returns `{plan: "free"|"remote", ...}`.
+  All three take the caller's Clerk session token as a bearer token. The
+  entitlement route also accepts `BILLING_ENTITLEMENT_SECRET` plus
+  `?account_id=` for the relay.
+- `POST /api/stripe/webhook` verifies the signature, ignores duplicates, and
+  re-reads the subscription from Stripe before storing it.
+- `scripts/stripe-setup.mjs` creates the product, prices, portal configuration
+  and webhook in whichever Stripe account the key belongs to. Run it once per
+  account (sandbox, then live).
+
+Server env vars (none are printed or committed): `STRIPE_SECRET_KEY`,
+`STRIPE_WEBHOOK_SECRET`, `CLERK_ISSUER`, `BILLING_ENTITLEMENT_SECRET`, and
+optionally `CLERK_AUTHORIZED_PARTIES`, `STRIPE_PORTAL_CONFIGURATION_ID`,
+`BILLING_SITE_URL`. Every route returns 503 until its variables exist, and the
+Stripe key decides sandbox or live: a sandbox subscription never grants access
+in live mode. `npm run test:billing` runs the logic tests.
+
 ## Deployment
 
 Deploy this project on Vercel. The download route uses the public GitHub API and

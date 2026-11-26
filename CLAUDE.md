@@ -14,6 +14,21 @@ app.blackcrab.app. Vercel project: blackcrab-landing, team bonjenns-projects.
 Preserve the existing production project, domains and analytics configuration.
 Do not print environment files or credentials.
 
+## Billing (Blackcrab Remote) — in progress
+
+Paid hosted remote access (Stripe web checkout, $5/month or $48/year, 14-day
+trial; iOS has no purchase path) lives in app/lib/billing, app/api/billing/*,
+app/api/stripe/webhook and supabase/migrations/003_billing.sql. See README.md
+"Billing". Sandbox only so far: Stripe account "Blackcrab sandbox"
+(acct_1UdcgXCyY7aF5alL); its keys are not in this repo or in Vercel. The
+migration is not yet applied to the production database and the Vercel env vars
+(STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, CLERK_ISSUER,
+BILLING_ENTITLEMENT_SECRET) are not set, so every billing route returns 503 in
+production. The Stripe product carries tax code txcd_10103000 (SaaS, personal
+use) because the account has Managed Payments on; the owner has not yet
+confirmed that classification. The site's database is Neon (not Supabase);
+supabase/migrations is only the folder name.
+
 ## Current published release — 0.4.8
 
 v0.4.8 is PUBLIC (2026-11-18 UTC) from Blackcrab commit
